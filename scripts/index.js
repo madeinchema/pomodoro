@@ -1,10 +1,15 @@
 const timerElement = document.querySelector('.timer time');
 const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
+const audioEndSession = document.getElementById('end-session');
+const audioEndBreak = document.getElementById('end-break');
+const muteButton = document.getElementById('mute');
+const volumeSlider = document.getElementById('volume-slider');
+
 
 function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, sessionsToLongBreak = 4) {
 
-  // Initial state
+  // Timer initial state
   this.timerState = 'stopped';
   this.currentSession = 'session';
   this.sessionCounter = {
@@ -15,6 +20,10 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
 
   // Initial countdown time (expressed in seconds)
   this.time = sessionLength * 60;
+
+  // Mute button initial state
+  let muted = false;
+  muteButton.innerText = 'Mute';
 
   /**
    * Session handler
@@ -53,6 +62,7 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
       this.currentSession = 'session';
       this.time = sessionLength * 60;
     }
+
   }
 
   /**
@@ -80,7 +90,7 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
       if (this.time === 0) {
         this.stop();
       }
-    }, 30); // TODO
+    }, 1000); // TODO
   };
 
   /**
@@ -114,6 +124,7 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
     if (option === 'button') {
       this.sessionHandler('stop');
     } else {
+      this.notify();
       this.sessionHandler();
     }
     clearInterval(countdownInterval);
@@ -138,10 +149,56 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
     }
   };
 
+  /**
+   * Notification handler
+   */
+  this.notify = () => {
+
+
+    // Alert with setTimeout in order to fix the 00:01 issue
+    setTimeout(() => {
+      alert('Session ended!');
+    }, 10)
+
+    if (this.currentSession === 'session') {
+      audioEndSession.play();
+    } else if (this.currentSession === 'shortBreak' || this.currentSession === 'longBreak') {
+      audioEndBreak.play();
+    }
+
+  }
+
+  /**
+   * Audio handler method
+   */
+  this.audioHandler = () => {
+    if (muted === true) {
+      muted = false;
+      audioEndSession.muted = false;
+      audioEndBreak.muted = false;
+      muteButton.innerText = 'Mute';
+    } else {
+      muted = true;
+      audioEndSession.muted = true;
+      audioEndBreak.muted = true;
+      muteButton.innerText = 'Unmute';
+    }
+  }
+
 }
 
-const timer = new Timer(1, 2, 3, 4);
+// Timer creation passing settings as parameters
+const timer = new Timer(0.05, 2, 3, 4);
 timer.timerHandler(); // Set initial state of the timerElement
 
+// Timer controls
 startButton.addEventListener('click', timer.start);
 stopButton.addEventListener('click', () => timer.stop('button'));
+
+// Audio controls
+muteButton.addEventListener('click', () => timer.audioHandler());
+volumeSlider.addEventListener('click', (event) => {
+  let volume = event.target.value / 100;
+  audioEndSession.volume = volume;
+  audioEndBreak.volume = volume;
+});
