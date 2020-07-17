@@ -5,71 +5,78 @@ const stopButton = document.getElementById('stop');
 function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, sessionsToLongBreak = 4) {
 
   // Initial state
-  this.state = 'stopped';
+  this.timerState = 'stopped';
+  this.currentSession = 'session';
+  this.sessionCounter = {
+    session: 0,
+    shortBreak: 0,
+    longBreak: 0,
+  };
 
-  // Initial countdown time
-  this.seconds = sessionLength * 60;
+  // Initial countdown time (expressed in seconds)
+  this.time = sessionLength * 60;
+
+  /**
+   * Session handler
+   * Manages sessions and breaks, altering the currentSession and time variables.
+   */
+  this.sessionHandler = (option) => {
+    if (this.currentSession === 'session') {
+      if (option === 'stop') {
+        this.time = sessionLength * 60;
+      } else {
+        this.currentSession = 'shortBreak';
+        this.time = shortBreakLength * 60;
+      }
+    } else if (this.currentSession === 'shortBreak') {
+      if (option === 'stop') {
+        this.time = shortBreakLength * 60;
+      } else {
+        this.currentSession = 'session'
+        this.time = sessionLength * 60;
+      }
+    }
+  }
 
   /**
    * Time display handler
+   * Updates timerElement using the format MM:SS
    */
-  this.timerHandler = (option) => {
-
-    // Reset the timer if the stop button is used
-    if (option === 'stop') {
-      this.seconds = sessionLength * 60;
-      timerElement.innerHTML = this.timerHandler();
-    }
-
-    // Returns time in format MM:SS
-    if (this.seconds % 60 < 10) {
-      return Math.floor(this.seconds / 60) + ':0' + this.seconds % 60;
+  this.timerHandler = () => {
+    if (this.time % 60 < 10) {
+      timerElement.innerHTML = Math.floor(this.time / 60) + ':0' + this.time % 60;
     } else {
-      return Math.floor(this.seconds / 60) + ':' + this.seconds % 60;
+      timerElement.innerHTML = Math.floor(this.time / 60) + ':' + this.time % 60;
     }
-
   };
 
   /**
    * Countdown handler
-   * Updates the timerElement using the timeHandler's returned value
+   * Runs the timer, keeps the timerElement updated, and handles its completion.
    */
   let countdownInterval;
   this.countdown = () => {
     countdownInterval = setInterval(() => {
-      this.seconds--;
-      timerElement.innerHTML = this.timerHandler();
-    }, 1000);
+      this.time--;
+      this.timerHandler();
+
+      if (this.time === 0) {
+        this.stop();
+      }
+    }, 50);
   };
 
   /**
-   * Start handler
-   * Acts as both play/pause depending on the state
+   * Start method
+   * Handles the play/pause behavior of the startButton on the countdown based on timerState
    */
   this.start = () => {
-    if (this.state === 'stopped' || this.state === 'paused') {
+    if (this.timerState === 'stopped' || this.timerState === 'paused') {
       this.countdown();
-      this.stateHandler('active');
+      this.elementStateHandler('active');
     } else {
       this.pause();
-      this.stateHandler('paused');
-    }
-  };
-
-  /**
-   * State handler
-   * Handles state and button texts changes
-   */
-  this.stateHandler = (newState) => {
-    if (newState === 'active') {
-      this.state = 'active';
-      startButton.innerText = 'Pause';
-    } else if (newState === 'paused') {
-      this.state = 'paused';
-      startButton.innerText = 'Resume';
-    } else if (newState === 'stopped') {
-      this.state = 'stopped';
-      startButton.innerText = 'Start';
+      this.elementStateHandler('paused');
     }
   };
 
@@ -79,22 +86,45 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
    */
   this.pause = () => {
     clearInterval(countdownInterval);
-    this.stateHandler('paused');
+    this.elementStateHandler('paused');
   };
 
   /**
    * Stop method
    * Stops the timer, changes the state to 'stopped', and resets the timer using the timeHandler option
    */
-  this.stop = () => {
-    this.timerHandler('stop');
+  this.stop = (option) => {
+    if (option === 'button') {
+      this.sessionHandler('stop');
+    } else {
+      this.sessionHandler();
+    }
     clearInterval(countdownInterval);
-    this.stateHandler('stopped');
+    this.elementStateHandler('stopped');
+    this.timerHandler();
+  };
+
+  /**
+   * Element State Handler
+   * Changes start/pause/resume button texts' and handles timerState accordingly
+   */
+  this.elementStateHandler = (newState) => {
+    if (newState === 'active') {
+      this.timerState = 'active';
+      startButton.innerText = 'Pause';
+    } else if (newState === 'paused') {
+      this.timerState = 'paused';
+      startButton.innerText = 'Resume';
+    } else if (newState === 'stopped') {
+      this.timerState = 'stopped';
+      startButton.innerText = 'Start';
+    }
   };
 
 }
 
-const timer = new Timer;
+const timer = new Timer(1, 2, 15, 4);
+timer.timerHandler(); // Set initial state of the timerElement
 
 startButton.addEventListener('click', timer.start);
-stopButton.addEventListener('click', timer.stop);
+stopButton.addEventListener('click', () => timer.stop('button'));
