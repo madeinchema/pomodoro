@@ -21,20 +21,37 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
    * Manages sessions and breaks, altering the currentSession and time variables.
    */
   this.sessionHandler = (option) => {
+    // Stop resets the timer without changing the session's state.
+    if (option === 'stop') {
+      if (this.currentSession === 'session') {
+        return this.time = sessionLength * 60;
+      } else if (this.currentSession === 'shortBreak') {
+        return this.time = shortBreakLength * 60;
+      } else if (this.currentSession === 'longBreak') {
+        return this.time = longBreakLength * 60;
+      }
+    }
+
+    // Main session state handler
     if (this.currentSession === 'session') {
-      if (option === 'stop') {
-        this.time = sessionLength * 60;
+      this.sessionCounter.session++;
+      console.log(this.sessionCounter.session);
+      console.log(sessionsToLongBreak);
+      if (this.sessionCounter.session % sessionsToLongBreak === 0) {
+        this.currentSession = 'longBreak';
+        this.time = longBreakLength * 60;
       } else {
         this.currentSession = 'shortBreak';
         this.time = shortBreakLength * 60;
       }
     } else if (this.currentSession === 'shortBreak') {
-      if (option === 'stop') {
-        this.time = shortBreakLength * 60;
-      } else {
-        this.currentSession = 'session'
-        this.time = sessionLength * 60;
-      }
+      this.sessionCounter.shortBreak++;
+      this.currentSession = 'session';
+      this.time = sessionLength * 60;
+    } else if (this.currentSession === 'longBreak') {
+      this.sessionCounter.longBreak++;
+      this.currentSession = 'session';
+      this.time = sessionLength * 60;
     }
   }
 
@@ -63,7 +80,7 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
       if (this.time === 0) {
         this.stop();
       }
-    }, 50);
+    }, 30); // TODO
   };
 
   /**
@@ -123,7 +140,7 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
 
 }
 
-const timer = new Timer(1, 2, 15, 4);
+const timer = new Timer(1, 2, 3, 4);
 timer.timerHandler(); // Set initial state of the timerElement
 
 startButton.addEventListener('click', timer.start);
