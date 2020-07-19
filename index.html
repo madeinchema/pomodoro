@@ -12,7 +12,7 @@
   <h1>Pomodoro App</h1>
 
   <div id="task-title">
-    <input type="text" placeholder="Task title">
+    <input id="task-title-input" type="text" placeholder="Task title" value="">
   </div>
 
   <div class="timer-container">
@@ -25,11 +25,27 @@
     </div>
   </div>
 
+  <div id="timer-controls">
+    <h2>Timer settings</h2>
+    <form action="">
+      <label for="work-time">Work time</label>
+      <input id="work-time" type="text" value=""><br>
+      <label for="short-break">Short break</label>
+      <input id="short-break" type="text" value=""><br>
+      <label for="long-break">Long break</label>
+      <input id="long-break" type="text" value=""><br>
+      <label for="long-break-interval">Long break interval</label>
+      <input id="long-break-interval" type="text" value=""><br>
+      <button id="timer-settings">Apply</button>
+    </form>
+  </div>
+
   <div>
+    <h2>Audio controls</h2>
+    <button id="mute"></button>
+    <input id="volume-slider" type="range" min="1" max="100" value="">
     <audio id="end-session" src="assets/audio/end-session.mp3"></audio>
     <audio id="end-break" src="assets/audio/end-break.mp3"></audio>
-    <button id="mute">mute</button>
-    <input id="volume-slider" type="range" min="1" max="100" value="50">
   </div>
 
 </body>

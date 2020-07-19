@@ -1,13 +1,40 @@
+/**
+ * @type {HTMLElement}
+ */
+// Task Title
+const taskTitleInput = document.getElementById('task-title-input');
+
+// Timer element and buttons
 const timerElement = document.querySelector('.timer time');
 const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
+
+// Timer settings button and values
+const applySettingsButton = document.getElementById('timer-settings');
+const workTime = document.getElementById('work-time');
+const shortBreak = document.getElementById('short-break');
+const longBreak = document.getElementById('long-break');
+const longBreakInterval = document.getElementById('long-break-interval');
+
+// Audio controls
 const audioEndSession = document.getElementById('end-session');
 const audioEndBreak = document.getElementById('end-break');
 const muteButton = document.getElementById('mute');
 const volumeSlider = document.getElementById('volume-slider');
 
+/**
+ * Default timer values
+ */
+const defaultSessionLength = 25;
+const defaultShortBreakLength = 5;
+const defaultLongBreakLength = 15;
+const defaultLongBreakInterval = 4;
 
-function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, sessionsToLongBreak = 4) {
+/**
+ * Timer
+ * @constructor
+ */
+function Timer() {
 
   // Timer initial state
   this.timerState = 'stopped';
@@ -19,11 +46,8 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
   };
 
   // Initial countdown time (expressed in seconds)
-  this.time = sessionLength * 60;
+  this.time = parseInt(localStorage.workTime) * 60;
 
-  // Mute button initial state
-  let muted = false;
-  muteButton.innerText = 'Mute';
 
   /**
    * Session handler
@@ -33,35 +57,35 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
     // Stop resets the timer without changing the session's state.
     if (option === 'stop') {
       if (this.currentSession === 'session') {
-        return this.time = sessionLength * 60;
+        return this.time = parseInt(localStorage.workTime) * 60;
       } else if (this.currentSession === 'shortBreak') {
-        return this.time = shortBreakLength * 60;
+        return this.time = parseInt(localStorage.shortBreak) * 60;
       } else if (this.currentSession === 'longBreak') {
-        return this.time = longBreakLength * 60;
+        return this.time = parseInt(localStorage.longBreak) * 60;
       }
     }
 
     // Main session state handler
     if (this.currentSession === 'session') {
       this.sessionCounter.session++;
-      console.log(this.sessionCounter.session);
-      console.log(sessionsToLongBreak);
-      if (this.sessionCounter.session % sessionsToLongBreak === 0) {
+      if (this.sessionCounter.session % parseInt(localStorage.longBreakInterval) === 0) {
         this.currentSession = 'longBreak';
-        this.time = longBreakLength * 60;
+        // this.time = parseInt(localStorage.longBreak) * 60;
       } else {
         this.currentSession = 'shortBreak';
-        this.time = shortBreakLength * 60;
+        // this.time = parseInt(localStorage.shortBreak) * 60;
       }
     } else if (this.currentSession === 'shortBreak') {
       this.sessionCounter.shortBreak++;
       this.currentSession = 'session';
-      this.time = sessionLength * 60;
+      // this.time = parseInt(localStorage.workTime) * 60;
     } else if (this.currentSession === 'longBreak') {
       this.sessionCounter.longBreak++;
       this.currentSession = 'session';
-      this.time = sessionLength * 60;
+      // this.time = parseInt(localStorage.workTime) * 60;
     }
+
+    this.timeHandler('update');
 
   }
 
@@ -69,7 +93,18 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
    * Time display handler
    * Updates timerElement using the format MM:SS
    */
-  this.timerHandler = () => {
+  this.timeHandler = (option) => {
+    if (option === 'update') {
+      if (this.currentSession === 'session') {
+        this.time = parseInt(localStorage.workTime) * 60;
+      } else if (this.currentSession === 'shortBreak') {
+        this.time = parseInt(localStorage.shortBreak) * 60;
+      } else if (this.currentSession === 'longBreak') {
+        this.time = parseInt(localStorage.longBreak) * 60;
+      }
+    }
+
+
     if (this.time % 60 < 10) {
       timerElement.innerHTML = Math.floor(this.time / 60) + ':0' + this.time % 60;
     } else {
@@ -85,12 +120,12 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
   this.countdown = () => {
     countdownInterval = setInterval(() => {
       this.time--;
-      this.timerHandler();
+      this.timeHandler();
 
       if (this.time === 0) {
         this.stop();
       }
-    }, 1000); // TODO
+    }, 30); // TODO Remember to change this value for production
   };
 
   /**
@@ -125,11 +160,11 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
       this.sessionHandler('stop');
     } else {
       this.notify();
-      this.sessionHandler();
+      this.sessionHandler('end');
     }
     clearInterval(countdownInterval);
     this.elementStateHandler('stopped');
-    this.timerHandler();
+    this.timeHandler();
   };
 
   /**
@@ -153,8 +188,6 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
    * Notification handler
    */
   this.notify = () => {
-
-
     // Alert with setTimeout in order to fix the 00:01 issue
     setTimeout(() => {
       alert('Session ended!');
@@ -169,36 +202,138 @@ function Timer(sessionLength = 25, shortBreakLength = 5, longBreakLength = 15, s
   }
 
   /**
-   * Audio handler method
+   * Updates the timer with new settings from localStorage
    */
-  this.audioHandler = () => {
-    if (muted === true) {
-      muted = false;
-      audioEndSession.muted = false;
-      audioEndBreak.muted = false;
-      muteButton.innerText = 'Mute';
-    } else {
-      muted = true;
-      audioEndSession.muted = true;
-      audioEndBreak.muted = true;
-      muteButton.innerText = 'Unmute';
+  this.timerUpdater = (option) => {
+    if (option === 'start') {
+      // Local storage with default values from start for new sessions
+      !localStorage.getItem('workTime') ?
+        localStorage.setItem('workTime', defaultSessionLength.toString()) : '';
+      !localStorage.getItem('shortBreak') ?
+        localStorage.setItem('shortBreak', defaultShortBreakLength.toString()) : '';
+      !localStorage.getItem('longBreak') ?
+        localStorage.setItem('longBreak', defaultLongBreakLength.toString()) : '';
+      !localStorage.getItem('longBreakInterval') ?
+        localStorage.setItem('longBreakInterval', defaultLongBreakInterval.toString()) : '';
+
+      // Starts the user session with the timer using values from localStorage
+      workTime.value = parseInt(localStorage.workTime);
+      shortBreak.value = parseInt(localStorage.shortBreak);
+      longBreak.value = parseInt(localStorage.longBreak);
+      longBreakInterval.value = parseInt(localStorage.longBreakInterval);
     }
+
+    // Update localStorage values to match those of the settings
+    localStorage.setItem('workTime', workTime.value.toString());
+    localStorage.setItem('shortBreak', shortBreak.value.toString());
+    localStorage.setItem('longBreak', longBreak.value.toString());
+    localStorage.setItem('longBreakInterval', longBreakInterval.value.toString());
+
+    this.timeHandler('update');
   }
 
 }
 
-// Timer creation passing settings as parameters
-const timer = new Timer(0.05, 2, 3, 4);
-timer.timerHandler(); // Set initial state of the timerElement
+/**
+ * Creates and Starts a new Timer
+ * @type {Timer}
+ */
+const timer = new Timer();
+timer.timerUpdater('start'); // Set values for the timer
+timer.timeHandler('update'); // Set initial state of the timerElement
 
-// Timer controls
+/**
+ * Task title:
+ * Uses localStorage to save and use the value when the user focuses outside the input field
+ */
+const taskTitleHandler = (event, option) => {
+  // Applies default or localStorage value on start
+  if (option === 'start') {
+    return localStorage.getItem('title') ? taskTitleInput.value = localStorage.getItem('title') : '';
+  }
+
+  localStorage.setItem('title', event.target.value);
+  taskTitleInput.setAttribute('value', localStorage.getItem('title'));
+}
+taskTitleInput.addEventListener('focusout', (event) => taskTitleHandler(event));
+taskTitleHandler('', 'start');
+
+
+/**
+ * Timer controls
+ */
 startButton.addEventListener('click', timer.start);
 stopButton.addEventListener('click', () => timer.stop('button'));
 
-// Audio controls
-muteButton.addEventListener('click', () => timer.audioHandler());
-volumeSlider.addEventListener('click', (event) => {
-  let volume = event.target.value / 100;
-  audioEndSession.volume = volume;
-  audioEndBreak.volume = volume;
+/**
+ * Timer settings; Apply button
+ */
+applySettingsButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  timer.timerUpdater();
 });
+
+/**
+ * Audio controls:
+ * Initial default states, handler functions, invocations at start, and button eventListeners
+ */
+
+/**
+ * Mute button
+ */
+let muted = false;
+const muteButtonHandler = (option) => {
+  // Applies default or localStorage value on start
+  if (option === 'start') {
+    !localStorage.getItem('muted') ?
+      localStorage.setItem('muted', muted.toString()) : '';
+    localStorage.getItem('muted') === 'false' ?
+      muteButton.innerText = 'Mute':
+      muteButton.innerText = 'Unmute';
+    return;
+  }
+
+  // Handles behavior between states
+  if (localStorage.getItem('muted') === 'true') {
+    localStorage.setItem('muted', 'false');
+    audioEndSession.muted = false;
+    audioEndBreak.muted = false;
+    muteButton.innerText = 'Mute';
+  } else {
+    localStorage.setItem('muted', 'true');
+    audioEndSession.muted = true;
+    audioEndBreak.muted = true;
+    muteButton.innerText = 'Unmute';
+  }
+}
+muteButton.addEventListener('click', muteButtonHandler);
+muteButtonHandler('start');
+
+/**
+ * Volume slider
+ */
+let volume = 50;
+
+const volumeHandler = (event, option) => {
+  // Applies volume value from localHost to audio files
+  const applyVolume = () => {
+    audioEndSession.volume = +localStorage.getItem('volume') / 100;
+    audioEndBreak.volume = +localStorage.getItem('volume') / 100;
+  }
+
+  // Applies default or localStorage value on start
+  if (option === 'start') {
+    !localStorage.getItem('volume') ?
+      localStorage.setItem('volume', volume.toString()) :
+      volumeSlider.value = +localStorage.getItem('volume');
+    return applyVolume();
+  }
+
+  // Set localStorage volume and volumeSlider value attribute. Then apply the value to the audio files.
+  localStorage.setItem('volume', event.target.value);
+  volumeSlider.setAttribute('value', localStorage.getItem('volume'));
+  applyVolume();
+}
+
+volumeSlider.addEventListener('click', (event) => volumeHandler(event));
+volumeHandler(null, 'start');
