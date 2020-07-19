@@ -6,6 +6,7 @@ const taskTitleInput = document.getElementById('task-title-input');
 
 // Timer element and buttons
 const timerElement = document.querySelector('.timer time');
+const sessionStatus = document.querySelector('#session-status p');
 const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
 
@@ -97,10 +98,13 @@ function Timer() {
     if (option === 'update') {
       if (this.currentSession === 'session') {
         this.time = parseInt(localStorage.workTime) * 60;
+        sessionStatus.innerHTML = 'Work Time';
       } else if (this.currentSession === 'shortBreak') {
         this.time = parseInt(localStorage.shortBreak) * 60;
+        sessionStatus.innerHTML = 'Short Break';
       } else if (this.currentSession === 'longBreak') {
         this.time = parseInt(localStorage.longBreak) * 60;
+        sessionStatus.innerHTML = 'Long Break';
       }
     }
 
