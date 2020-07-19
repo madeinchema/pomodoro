@@ -211,14 +211,14 @@ function Timer() {
   this.timerUpdater = (option) => {
     if (option === 'start') {
       // Local storage with default values from start for new sessions
-      !localStorage.getItem('workTime') ?
-        localStorage.setItem('workTime', defaultSessionLength.toString()) : '';
-      !localStorage.getItem('shortBreak') ?
-        localStorage.setItem('shortBreak', defaultShortBreakLength.toString()) : '';
-      !localStorage.getItem('longBreak') ?
-        localStorage.setItem('longBreak', defaultLongBreakLength.toString()) : '';
-      !localStorage.getItem('longBreakInterval') ?
-        localStorage.setItem('longBreakInterval', defaultLongBreakInterval.toString()) : '';
+      !localStorage.getItem('workTime') &&
+        localStorage.setItem('workTime', defaultSessionLength.toString());
+      !localStorage.getItem('shortBreak') &&
+        localStorage.setItem('shortBreak', defaultShortBreakLength.toString());
+      !localStorage.getItem('longBreak') &&
+        localStorage.setItem('longBreak', defaultLongBreakLength.toString());
+      !localStorage.getItem('longBreakInterval') &&
+        localStorage.setItem('longBreakInterval', defaultLongBreakInterval.toString());
 
       // Starts the user session with the timer using values from localStorage
       workTime.value = parseInt(localStorage.workTime);
@@ -250,17 +250,11 @@ timer.timeHandler('update'); // Set initial state of the timerElement
  * Task title:
  * Uses localStorage to save and use the value when the user focuses outside the input field
  */
-const taskTitleHandler = (event, option) => {
-  // Applies default or localStorage value on start
-  if (option === 'start') {
-    return localStorage.getItem('title') ? taskTitleInput.value = localStorage.getItem('title') : '';
-  }
-
+const taskTitleHandler = (event) => {
   localStorage.setItem('title', event.target.value);
   taskTitleInput.setAttribute('value', localStorage.getItem('title'));
 }
 taskTitleInput.addEventListener('focusout', (event) => taskTitleHandler(event));
-taskTitleHandler('', 'start');
 
 
 /**
@@ -289,8 +283,8 @@ let muted = false;
 const muteButtonHandler = (option) => {
   // Applies default or localStorage value on start
   if (option === 'start') {
-    !localStorage.getItem('muted') ?
-      localStorage.setItem('muted', muted.toString()) : '';
+    !localStorage.getItem('muted') &&
+      localStorage.setItem('muted', muted.toString());
     localStorage.getItem('muted') === 'false' ?
       muteButton.innerText = 'Mute':
       muteButton.innerText = 'Unmute';
