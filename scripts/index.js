@@ -71,19 +71,15 @@ function Timer() {
       this.sessionCounter.session++;
       if (this.sessionCounter.session % parseInt(localStorage.longBreakInterval) === 0) {
         this.currentSession = 'longBreak';
-        // this.time = parseInt(localStorage.longBreak) * 60;
       } else {
         this.currentSession = 'shortBreak';
-        // this.time = parseInt(localStorage.shortBreak) * 60;
       }
     } else if (this.currentSession === 'shortBreak') {
       this.sessionCounter.shortBreak++;
       this.currentSession = 'session';
-      // this.time = parseInt(localStorage.workTime) * 60;
     } else if (this.currentSession === 'longBreak') {
       this.sessionCounter.longBreak++;
       this.currentSession = 'session';
-      // this.time = parseInt(localStorage.workTime) * 60;
     }
 
     this.timeHandler('update');
