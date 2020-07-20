@@ -45,18 +45,31 @@ function Timer() {
     shortBreak: 0,
     longBreak: 0,
   };
-
-  // Initial countdown time (expressed in seconds)
-  this.time = parseInt(localStorage.workTime) * 60;
+  this.time = parseInt(localStorage.workTime) * 60; // Initial countdown time (expressed in seconds)
+  let countdownInterval;
 
   /**
    * Timer Element Controller
    */
   this.timerController = {
+    // Countdown handler:
+    // Runs the timer, keeps the timerElement updated, and handles its completion.
+    countdown: () => {
+      countdownInterval = setInterval(() => {
+        this.time--;
+        this.timeHandler.format();
+
+        if (this.time === 0) {
+          this.timerController.stop();
+        }
+      }, 30); // TODO Remember to change this value for production
+    },
+
+
     // Start
     start: () => {
       if (this.timerState === 'stopped' || this.timerState === 'paused') {
-        this.countdown();
+        this.timerController.countdown();
         this.timerController.setState('active');
       } else {
         this.timerController.pause();
@@ -184,60 +197,6 @@ function Timer() {
     }
   }
 
-  /**
-   * Countdown handler:
-   * Runs the timer, keeps the timerElement updated, and handles its completion.
-   */
-  let countdownInterval;
-  this.countdown = () => {
-    countdownInterval = setInterval(() => {
-      this.time--;
-      this.timeHandler.format();
-
-      if (this.time === 0) {
-        this.timerController.stop();
-      }
-    }, 30); // TODO Remember to change this value for production
-  };
-
-  // /**
-  //  * Start method:
-  //  * Handles the play/pause behavior of the startButton on the countdown based on timerState
-  //  */
-  // this.start = () => {
-  //   if (this.timerState === 'stopped' || this.timerState === 'paused') {
-  //     this.countdown();
-  //     this.elementStateHandler('active');
-  //   } else {
-  //     this.pause();
-  //     this.elementStateHandler('paused');
-  //   }
-  // };
-  //
-  // /**
-  //  * Pause method:
-  //  * Stops the timer and changes the state to 'paused'
-  //  */
-  // this.pause = () => {
-  //   clearInterval(countdownInterval);
-  //   this.elementStateHandler('paused');
-  // };
-  //
-  // /**
-  //  * Stop method:
-  //  * Stops the timer, changes the state to 'stopped', and resets the timer using the timeHandler option
-  //  */
-  // this.stop = (option) => {
-  //   if (option === 'button') {
-  //     this.sessionHandler.stop();
-  //   } else {
-  //     this.notify();
-  //     this.sessionHandler.next();
-  //   }
-  //   clearInterval(countdownInterval);
-  //   this.elementStateHandler('stopped');
-  //   this.timeHandler.update();
-  // };
 
   /**
    * Notification handler
