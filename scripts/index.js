@@ -89,12 +89,16 @@ function Timer() {
     // Stop method:
     // Stops the timer, changes the state to 'stopped', and resets the timer using the timeHandler option.
     stop: (option) => {
+      // If button is pressed, stop and reset the timer.
       if (option === 'button') {
         this.sessionHandler.stop();
       } else {
-        this.notify();
+        // Otherwise trigger alert notification and switch to next session
+        setTimeout(() => alert('Session ended!'), 50) // Alert notification and "00:01 issue" fix
+        this.currentSession === 'workTime' ? audioEndSession.play() : audioEndBreak.play(); // Audio notification
         this.sessionHandler.next();
       }
+      // Reset timer, update startButton's text and update timer's time.
       clearInterval(countdownInterval);
       this.timerController.setState('stopped');
       this.timeHandler.format();
@@ -228,24 +232,6 @@ function Timer() {
         timerElement.innerHTML = Math.floor(this.time / 60) + ':' + this.time % 60;
       }
     }
-  }
-
-
-  /**
-   * Notification handler
-   */
-  this.notify = () => {
-    // Alert with setTimeout in order to fix the 00:01 issue
-    setTimeout(() => {
-      alert('Session ended!');
-    }, 10)
-
-    if (this.currentSession === 'workTime') {
-      audioEndSession.play();
-    } else if (this.currentSession === 'shortBreak' || this.currentSession === 'longBreak') {
-      audioEndBreak.play();
-    }
-
   }
 
 }
