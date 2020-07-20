@@ -39,7 +39,7 @@ function Timer() {
 
   // Timer initial state
   this.timerState = 'stopped';
-  this.currentSession = 'session';
+  this.currentSession = 'workTime';
   this.sessionCounter = {
     session: 0,
     shortBreak: 0,
@@ -54,52 +54,76 @@ function Timer() {
    * Session handler
    * Manages sessions and breaks, altering the currentSession and time variables.
    */
-  this.sessionHandler = (option) => {
+  this.sessionHandler = {
     // Stop resets the timer without changing the session's state.
-    if (option === 'stop') {
-      if (this.currentSession === 'session') {
-        return this.time = parseInt(localStorage.workTime) * 60;
-      } else if (this.currentSession === 'shortBreak') {
-        return this.time = parseInt(localStorage.shortBreak) * 60;
-      } else if (this.currentSession === 'longBreak') {
-        return this.time = parseInt(localStorage.longBreak) * 60;
-      }
-    }
+    stop: () => {
+      this.currentSession === 'workTime' && this.setTime('workTime');
+      this.currentSession === 'shortBreak' && this.setTime('shortBreak');
+      this.currentSession === 'longBreak' && this.setTime('longBreak');
+      this.timeHandler('update');
+    },
+
 
     // Main session state handler
-    if (this.currentSession === 'session') {
-      this.sessionCounter.session++;
-      if (this.sessionCounter.session % parseInt(localStorage.longBreakInterval) === 0) {
-        this.currentSession = 'longBreak';
-      } else {
-        this.currentSession = 'shortBreak';
+    next: () => {
+      if (this.currentSession === 'workTimes') {
+        this.sessionCounter.session++;
+        this.sessionCounter.session % parseInt(localStorage.longBreakInterval) === 0
+          ? this.sessionHandler.set('longBreak')
+          : this.sessionHandler.set('shortBreak');
+      } else if (this.currentSession === 'shortBreak') {
+        this.sessionCounter.shortBreak++;
+        this.currentSession = 'workTime';
+      } else if (this.currentSession === 'longBreak') {
+        this.sessionCounter.longBreak++;
+        this.currentSession = 'workTime';
       }
-    } else if (this.currentSession === 'shortBreak') {
-      this.sessionCounter.shortBreak++;
-      this.currentSession = 'session';
-    } else if (this.currentSession === 'longBreak') {
-      this.sessionCounter.longBreak++;
-      this.currentSession = 'session';
+      this.timeHandler('update');
+    },
+
+    // Set new session
+    set: (newSessionState) => {
+      if (newSessionState === 'workTime') {
+        this.currentSession = 'workTime';
+      } else if (newSessionState === 'shortBreak') {
+        this.currentSession = 'shortBreak';
+      } else if (newSessionState === 'longBreak') {
+        this.currentSession = 'longBreak';
+      }
     }
 
-    this.timeHandler('update');
 
+  }
+
+  /**
+   * Set time:
+   * Uses values from localStorage
+   */
+  this.setTime = (state) => {
+    if (state === 'workTime') {
+      this.time = parseInt(localStorage.workTime) * 60;
+    } else if (state === 'shortBreak') {
+      return this.time = parseInt(localStorage.shortBreak) * 60;
+    } else if (state === 'longBreak') {
+      return this.time = parseInt(localStorage.longBreak) * 60;
+    }
   }
 
   /**
    * Time display handler
    * Updates timerElement using the format MM:SS
+   * Updates sessionStatus element
    */
   this.timeHandler = (option) => {
     if (option === 'update') {
-      if (this.currentSession === 'session') {
-        this.time = parseInt(localStorage.workTime) * 60;
+      if (this.currentSession === 'workTime') {
+        this.setTime('workTime');
         sessionStatus.innerHTML = 'Work Time';
       } else if (this.currentSession === 'shortBreak') {
-        this.time = parseInt(localStorage.shortBreak) * 60;
+        this.setTime('shortBreak');
         sessionStatus.innerHTML = 'Short Break';
       } else if (this.currentSession === 'longBreak') {
-        this.time = parseInt(localStorage.longBreak) * 60;
+        this.setTime('longBreak');
         sessionStatus.innerHTML = 'Long Break';
       }
     }
@@ -157,10 +181,10 @@ function Timer() {
    */
   this.stop = (option) => {
     if (option === 'button') {
-      this.sessionHandler('stop');
+      this.sessionHandler.stop();
     } else {
       this.notify();
-      this.sessionHandler('end');
+      this.sessionHandler.next();
     }
     clearInterval(countdownInterval);
     this.elementStateHandler('stopped');
@@ -193,7 +217,7 @@ function Timer() {
       alert('Session ended!');
     }, 10)
 
-    if (this.currentSession === 'session') {
+    if (this.currentSession === 'workTime') {
       audioEndSession.play();
     } else if (this.currentSession === 'shortBreak' || this.currentSession === 'longBreak') {
       audioEndBreak.play();
