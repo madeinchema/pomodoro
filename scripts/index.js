@@ -50,23 +50,6 @@ function Timer() {
   this.time = parseInt(localStorage.workTime) * 60;
 
   /**
-   * Element State Handler:
-   * Changes start/pause/resume button texts' and handles timerState accordingly
-   */
-  this.elementStateHandler = (newState) => {
-    if (newState === 'active') {
-      this.timerState = 'active';
-      startButton.innerText = 'Pause';
-    } else if (newState === 'paused') {
-      this.timerState = 'paused';
-      startButton.innerText = 'Resume';
-    } else if (newState === 'stopped') {
-      this.timerState = 'stopped';
-      startButton.innerText = 'Start';
-    }
-  };
-
-  /**
    * Timer Element Controller
    */
   this.timerController = {
@@ -74,17 +57,17 @@ function Timer() {
     start: () => {
       if (this.timerState === 'stopped' || this.timerState === 'paused') {
         this.countdown();
-        this.elementStateHandler('active');
+        this.timerController.setState('active');
       } else {
         this.timerController.pause();
-        this.elementStateHandler('paused');
+        this.timerController.setState('paused');
       }
     },
 
     // Pause
     pause: () => {
       clearInterval(countdownInterval);
-      this.elementStateHandler('paused');
+      this.timerController.setState('paused');
     },
 
     // Stop
@@ -96,12 +79,25 @@ function Timer() {
         this.sessionHandler.next();
       }
       clearInterval(countdownInterval);
-      this.elementStateHandler('stopped');
+      this.timerController.setState('stopped');
       this.timeHandler.format();
+    },
+
+
+    // Element State Handler:
+    // Changes start/pause/resume button texts' and handles timerState accordingly
+    setState: (newState) => {
+      if (newState === 'active') {
+        this.timerState = 'active';
+        startButton.innerText = 'Pause';
+      } else if (newState === 'paused') {
+        this.timerState = 'paused';
+        startButton.innerText = 'Resume';
+      } else if (newState === 'stopped') {
+        this.timerState = 'stopped';
+        startButton.innerText = 'Start';
+      }
     }
-
-
-    // State
 
 
     // Update*
