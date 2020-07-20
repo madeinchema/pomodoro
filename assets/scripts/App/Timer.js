@@ -27,12 +27,11 @@ const volumeSlider = document.getElementById('volume-slider');
  * Default timer values
  */
 const defaultTimerValues = {
-  defaultSessionLength: 25,
-  defaultShortBreakLength: 5,
-  defaultLongBreakLength: 15,
-  defaultLongBreakInterval: 4,
-}
-
+  'workTime': 25,
+  'shortBreak': 5,
+  'longBreak': 15,
+  'longBreakInterval': 4,
+};
 
 /**
  * Timer
@@ -127,26 +126,23 @@ function Timer() {
     // Update method:
     // Updates the timer with new settings from localStorage
     update: (option) => {
-      // Session types' list TODO see if it could be useful somewhere else
-      const sessionTypes = ['workTime', 'shortBreak', 'longBreak', 'longBreakInterval'];
-
+      const sessionNames = Object.keys(defaultTimerValues);
+      const defaultValues = Object.values(defaultTimerValues);
 
       if (option === 'start') {
         // Local storage with default values from start for new sessions
-
-        //
-        for (let i = 0; i < sessionTypes.length; i++) {
-          !localStorage.getItem(sessionTypes[i]) &&
-          localStorage.setItem(sessionTypes[i], defaultTimerValues[Object.keys(defaultTimerValues)[i]].toString());
+        for (let i = 0; i < sessionNames.length; i++) {
+          !localStorage.getItem(sessionNames[i]) &&
+          localStorage.setItem(sessionNames[i], defaultValues[i].toString());
         }
 
         // Starts the user session with the timer using values from localStorage
-        sessionTypes.forEach(item => eval(item).value = parseInt(localStorage.getItem(item)));
+        sessionNames.forEach(item => eval(item).value = parseInt(localStorage.getItem(item)));
       }
 
       // Update localStorage values to match those of the settings and update timer with them
-      sessionTypes.forEach(item => localStorage.setItem(item, eval(item).value.toString()));
-      setTimeout(() => this.timeHandler.format(), 50); // TODO use an asynchronous solution
+      sessionNames.forEach(item => localStorage.setItem(item, eval(item).value.toString()));
+      setTimeout(() => this.timeHandler.format(), 25); // TODO use an asynchronous solution
     }
 
   }
