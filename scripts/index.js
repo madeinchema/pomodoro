@@ -52,19 +52,17 @@ function Timer() {
 
   /**
    * Session handler
-   * Manages sessions and breaks, altering the currentSession and time variables.
    */
   this.sessionHandler = {
-    // Stop resets the timer without changing the session's state.
+    // Resets the current timer iteration without changing the session's state.
     stop: () => {
-      this.currentSession === 'workTime' && this.setTime('workTime');
-      this.currentSession === 'shortBreak' && this.setTime('shortBreak');
-      this.currentSession === 'longBreak' && this.setTime('longBreak');
-      this.timeHandler('update');
+      this.currentSession === 'workTime' && this.timeHandler.set('workTime');
+      this.currentSession === 'shortBreak' && this.timeHandler.set('shortBreak');
+      this.currentSession === 'longBreak' && this.timeHandler.set('longBreak');
+      this.timeHandler.next();
     },
 
-
-    // Main session state handler
+    // Sets the current session to whichever comes next
     next: () => {
       if (this.currentSession === 'workTimes') {
         this.sessionCounter.session++;
@@ -78,10 +76,10 @@ function Timer() {
         this.sessionCounter.longBreak++;
         this.currentSession = 'workTime';
       }
-      this.timeHandler('update');
+      this.timeHandler.next();
     },
 
-    // Set new session
+    // Sets the current session to that of the argument passed
     set: (newSessionState) => {
       if (newSessionState === 'workTime') {
         this.currentSession = 'workTime';
@@ -91,60 +89,56 @@ function Timer() {
         this.currentSession = 'longBreak';
       }
     }
-
-
-  }
-
-  /**
-   * Set time:
-   * Uses values from localStorage
-   */
-  this.setTime = (state) => {
-    if (state === 'workTime') {
-      this.time = parseInt(localStorage.workTime) * 60;
-    } else if (state === 'shortBreak') {
-      return this.time = parseInt(localStorage.shortBreak) * 60;
-    } else if (state === 'longBreak') {
-      return this.time = parseInt(localStorage.longBreak) * 60;
-    }
   }
 
   /**
    * Time display handler
-   * Updates timerElement using the format MM:SS
-   * Updates sessionStatus element
    */
-  this.timeHandler = (option) => {
-    if (option === 'update') {
+  this.timeHandler = {
+    // Update the timer based on the sessionState argument
+    set: (sessionState) => {
+      if (sessionState === 'workTime') {
+        this.time = parseInt(localStorage.workTime) * 60;
+      } else if (sessionState === 'shortBreak') {
+        return this.time = parseInt(localStorage.shortBreak) * 60;
+      } else if (sessionState === 'longBreak') {
+        return this.time = parseInt(localStorage.longBreak) * 60;
+      }
+    },
+
+    // Change currentSession and update the timer and sessionStatus elements accordingly
+    next: () => {
       if (this.currentSession === 'workTime') {
-        this.setTime('workTime');
+        this.timeHandler.set('workTime');
         sessionStatus.innerHTML = 'Work Time';
       } else if (this.currentSession === 'shortBreak') {
-        this.setTime('shortBreak');
+        this.timeHandler.set('shortBreak');
         sessionStatus.innerHTML = 'Short Break';
       } else if (this.currentSession === 'longBreak') {
-        this.setTime('longBreak');
+        this.timeHandler.set('longBreak');
         sessionStatus.innerHTML = 'Long Break';
       }
-    }
+    },
 
-
-    if (this.time % 60 < 10) {
-      timerElement.innerHTML = Math.floor(this.time / 60) + ':0' + this.time % 60;
-    } else {
-      timerElement.innerHTML = Math.floor(this.time / 60) + ':' + this.time % 60;
+    // Update the timer's value to reflect the correct format
+    update: () => {
+      if (this.time % 60 < 10) {
+        timerElement.innerHTML = Math.floor(this.time / 60) + ':0' + this.time % 60;
+      } else {
+        timerElement.innerHTML = Math.floor(this.time / 60) + ':' + this.time % 60;
+      }
     }
-  };
+  }
 
   /**
-   * Countdown handler
+   * Countdown handler:
    * Runs the timer, keeps the timerElement updated, and handles its completion.
    */
   let countdownInterval;
   this.countdown = () => {
     countdownInterval = setInterval(() => {
       this.time--;
-      this.timeHandler();
+      this.timeHandler.update();
 
       if (this.time === 0) {
         this.stop();
@@ -153,7 +147,7 @@ function Timer() {
   };
 
   /**
-   * Start method
+   * Start method:
    * Handles the play/pause behavior of the startButton on the countdown based on timerState
    */
   this.start = () => {
@@ -167,7 +161,7 @@ function Timer() {
   };
 
   /**
-   * Pause method
+   * Pause method:
    * Stops the timer and changes the state to 'paused'
    */
   this.pause = () => {
@@ -176,7 +170,7 @@ function Timer() {
   };
 
   /**
-   * Stop method
+   * Stop method:
    * Stops the timer, changes the state to 'stopped', and resets the timer using the timeHandler option
    */
   this.stop = (option) => {
@@ -188,11 +182,11 @@ function Timer() {
     }
     clearInterval(countdownInterval);
     this.elementStateHandler('stopped');
-    this.timeHandler();
+    this.timeHandler.update();
   };
 
   /**
-   * Element State Handler
+   * Element State Handler:
    * Changes start/pause/resume button texts' and handles timerState accordingly
    */
   this.elementStateHandler = (newState) => {
@@ -253,7 +247,7 @@ function Timer() {
     localStorage.setItem('longBreak', longBreak.value.toString());
     localStorage.setItem('longBreakInterval', longBreakInterval.value.toString());
 
-    this.timeHandler('update');
+    this.timeHandler.next();
   }
 
 }
@@ -264,7 +258,7 @@ function Timer() {
  */
 const timer = new Timer();
 timer.timerUpdater('start'); // Set values for the timer
-timer.timeHandler('update'); // Set initial state of the timerElement
+timer.timeHandler.next(); // Set initial state of the timerElement
 
 /**
  * Task title:
