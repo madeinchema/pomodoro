@@ -26,10 +26,13 @@ const volumeSlider = document.getElementById('volume-slider');
 /**
  * Default timer values
  */
-const defaultSessionLength = 25;
-const defaultShortBreakLength = 5;
-const defaultLongBreakLength = 15;
-const defaultLongBreakInterval = 4;
+const defaultTimerValues = {
+  defaultSessionLength: 25,
+  defaultShortBreakLength: 5,
+  defaultLongBreakLength: 15,
+  defaultLongBreakInterval: 4,
+}
+
 
 /**
  * Timer
@@ -124,31 +127,26 @@ function Timer() {
     // Update method:
     // Updates the timer with new settings from localStorage
     update: (option) => {
+      // Session types' list TODO see if it could be useful somewhere else
+      const sessionTypes = ['workTime', 'shortBreak', 'longBreak', 'longBreakInterval'];
+
+
       if (option === 'start') {
         // Local storage with default values from start for new sessions
-        !localStorage.getItem('workTime') &&
-        localStorage.setItem('workTime', defaultSessionLength.toString());
-        !localStorage.getItem('shortBreak') &&
-        localStorage.setItem('shortBreak', defaultShortBreakLength.toString());
-        !localStorage.getItem('longBreak') &&
-        localStorage.setItem('longBreak', defaultLongBreakLength.toString());
-        !localStorage.getItem('longBreakInterval') &&
-        localStorage.setItem('longBreakInterval', defaultLongBreakInterval.toString());
+
+        //
+        for (let i = 0; i < sessionTypes.length; i++) {
+          !localStorage.getItem(sessionTypes[i]) &&
+          localStorage.setItem(sessionTypes[i], defaultTimerValues[Object.keys(defaultTimerValues)[i]].toString());
+        }
 
         // Starts the user session with the timer using values from localStorage
-        workTime.value = parseInt(localStorage.workTime);
-        shortBreak.value = parseInt(localStorage.shortBreak);
-        longBreak.value = parseInt(localStorage.longBreak);
-        longBreakInterval.value = parseInt(localStorage.longBreakInterval);
+        sessionTypes.forEach(item => eval(item).value = parseInt(localStorage.getItem(item)));
       }
 
-      // Update localStorage values to match those of the settings
-      localStorage.setItem('workTime', workTime.value.toString());
-      localStorage.setItem('shortBreak', shortBreak.value.toString());
-      localStorage.setItem('longBreak', longBreak.value.toString());
-      localStorage.setItem('longBreakInterval', longBreakInterval.value.toString());
-
-      this.timeHandler.format();
+      // Update localStorage values to match those of the settings and update timer with them
+      sessionTypes.forEach(item => localStorage.setItem(item, eval(item).value.toString()));
+      setTimeout(() => this.timeHandler.format(), 50); // TODO use an asynchronous solution
     }
 
   }
@@ -226,15 +224,15 @@ function Timer() {
 
     // Update the timer's value to reflect the correct format
     format: () => {
-      if (this.time % 60 < 10) {
-        timerElement.innerHTML = Math.floor(this.time / 60) + ':0' + this.time % 60;
-      } else {
-        timerElement.innerHTML = Math.floor(this.time / 60) + ':' + this.time % 60;
-      }
+      timerElement.innerHTML =
+        Math.floor(this.time / 60)
+        + (this.time % 60 < 10 ? ':0' : ':')
+        + this.time % 60;
     }
   }
 
 }
+
 
 /**
  * Creates and Starts a new Timer
