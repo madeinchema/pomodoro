@@ -37,7 +37,10 @@ const defaultLongBreakInterval = 4;
  */
 function Timer() {
 
-  // Timer initial state
+  /**
+   * Timer initial state
+   */
+  let countdownInterval;
   this.timerState = 'stopped';
   this.currentSession = 'workTime';
   this.sessionCounter = {
@@ -46,7 +49,6 @@ function Timer() {
     longBreak: 0,
   };
   this.time = parseInt(localStorage.workTime) * 60; // Initial countdown time (expressed in seconds)
-  let countdownInterval;
 
   /**
    * Timer Element Controller
@@ -65,8 +67,8 @@ function Timer() {
       }, 30); // TODO Remember to change this value for production
     },
 
-
-    // Start
+    // Start method:
+    // Handles the play/pause behavior of the startButton on the countdown based on timerState.
     start: () => {
       if (this.timerState === 'stopped' || this.timerState === 'paused') {
         this.timerController.countdown();
@@ -77,13 +79,15 @@ function Timer() {
       }
     },
 
-    // Pause
+    // Pause method:
+    // Stops the timer and changes the state to 'paused'
     pause: () => {
       clearInterval(countdownInterval);
       this.timerController.setState('paused');
     },
 
-    // Stop
+    // Stop method:
+    // Stops the timer, changes the state to 'stopped', and resets the timer using the timeHandler option.
     stop: (option) => {
       if (option === 'button') {
         this.sessionHandler.stop();
@@ -98,7 +102,7 @@ function Timer() {
 
 
     // Element State Handler:
-    // Changes start/pause/resume button texts' and handles timerState accordingly
+    // Changes start/pause/resume button texts' and handles timerState accordingly.
     setState: (newState) => {
       if (newState === 'active') {
         this.timerState = 'active';
@@ -110,10 +114,39 @@ function Timer() {
         this.timerState = 'stopped';
         startButton.innerText = 'Start';
       }
+    },
+
+
+    // Update method:
+    // Updates the timer with new settings from localStorage
+    update: (option) => {
+      if (option === 'start') {
+        // Local storage with default values from start for new sessions
+        !localStorage.getItem('workTime') &&
+        localStorage.setItem('workTime', defaultSessionLength.toString());
+        !localStorage.getItem('shortBreak') &&
+        localStorage.setItem('shortBreak', defaultShortBreakLength.toString());
+        !localStorage.getItem('longBreak') &&
+        localStorage.setItem('longBreak', defaultLongBreakLength.toString());
+        !localStorage.getItem('longBreakInterval') &&
+        localStorage.setItem('longBreakInterval', defaultLongBreakInterval.toString());
+
+        // Starts the user session with the timer using values from localStorage
+        workTime.value = parseInt(localStorage.workTime);
+        shortBreak.value = parseInt(localStorage.shortBreak);
+        longBreak.value = parseInt(localStorage.longBreak);
+        longBreakInterval.value = parseInt(localStorage.longBreakInterval);
+      }
+
+      // Update localStorage values to match those of the settings
+      localStorage.setItem('workTime', workTime.value.toString());
+      localStorage.setItem('shortBreak', shortBreak.value.toString());
+      localStorage.setItem('longBreak', longBreak.value.toString());
+      localStorage.setItem('longBreakInterval', longBreakInterval.value.toString());
+
+      this.timeHandler.format();
     }
 
-
-    // Update*
   }
 
   /**
@@ -215,37 +248,6 @@ function Timer() {
 
   }
 
-  /**
-   * Updates the timer with new settings from localStorage
-   */
-  this.timerUpdater = (option) => {
-    if (option === 'start') {
-      // Local storage with default values from start for new sessions
-      !localStorage.getItem('workTime') &&
-        localStorage.setItem('workTime', defaultSessionLength.toString());
-      !localStorage.getItem('shortBreak') &&
-        localStorage.setItem('shortBreak', defaultShortBreakLength.toString());
-      !localStorage.getItem('longBreak') &&
-        localStorage.setItem('longBreak', defaultLongBreakLength.toString());
-      !localStorage.getItem('longBreakInterval') &&
-        localStorage.setItem('longBreakInterval', defaultLongBreakInterval.toString());
-
-      // Starts the user session with the timer using values from localStorage
-      workTime.value = parseInt(localStorage.workTime);
-      shortBreak.value = parseInt(localStorage.shortBreak);
-      longBreak.value = parseInt(localStorage.longBreak);
-      longBreakInterval.value = parseInt(localStorage.longBreakInterval);
-    }
-
-    // Update localStorage values to match those of the settings
-    localStorage.setItem('workTime', workTime.value.toString());
-    localStorage.setItem('shortBreak', shortBreak.value.toString());
-    localStorage.setItem('longBreak', longBreak.value.toString());
-    localStorage.setItem('longBreakInterval', longBreakInterval.value.toString());
-
-    this.timeHandler.format();
-  }
-
 }
 
 /**
@@ -253,7 +255,7 @@ function Timer() {
  * @type {Timer}
  */
 const timer = new Timer();
-timer.timerUpdater('start'); // Set values for the timer
+timer.timerController.update('start'); // Set values for the timer
 timer.timeHandler.update(); // Set initial state of the timerElement
 
 /**
@@ -278,7 +280,7 @@ stopButton.addEventListener('click', () => timer.timerController.stop('button'))
  */
 applySettingsButton.addEventListener('click', (event) => {
   event.preventDefault();
-  timer.timerUpdater();
+  timer.timerController.update();
 });
 
 /**
