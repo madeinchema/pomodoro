@@ -49,6 +49,63 @@ function Timer() {
   // Initial countdown time (expressed in seconds)
   this.time = parseInt(localStorage.workTime) * 60;
 
+  /**
+   * Element State Handler:
+   * Changes start/pause/resume button texts' and handles timerState accordingly
+   */
+  this.elementStateHandler = (newState) => {
+    if (newState === 'active') {
+      this.timerState = 'active';
+      startButton.innerText = 'Pause';
+    } else if (newState === 'paused') {
+      this.timerState = 'paused';
+      startButton.innerText = 'Resume';
+    } else if (newState === 'stopped') {
+      this.timerState = 'stopped';
+      startButton.innerText = 'Start';
+    }
+  };
+
+  /**
+   * Timer Element Controller
+   */
+  this.timerController = {
+    // Start
+    start: () => {
+      if (this.timerState === 'stopped' || this.timerState === 'paused') {
+        this.countdown();
+        this.elementStateHandler('active');
+      } else {
+        this.timerController.pause();
+        this.elementStateHandler('paused');
+      }
+    },
+
+    // Pause
+    pause: () => {
+      clearInterval(countdownInterval);
+      this.elementStateHandler('paused');
+    },
+
+    // Stop
+    stop: (option) => {
+      if (option === 'button') {
+        this.sessionHandler.stop();
+      } else {
+        this.notify();
+        this.sessionHandler.next();
+      }
+      clearInterval(countdownInterval);
+      this.elementStateHandler('stopped');
+      this.timeHandler.format();
+    }
+
+
+    // State
+
+
+    // Update*
+  }
 
   /**
    * Session handler
@@ -59,12 +116,12 @@ function Timer() {
       this.currentSession === 'workTime' && this.timeHandler.set('workTime');
       this.currentSession === 'shortBreak' && this.timeHandler.set('shortBreak');
       this.currentSession === 'longBreak' && this.timeHandler.set('longBreak');
-      this.timeHandler.next();
+      this.timeHandler.update();
     },
 
     // Sets the current session to whichever comes next
     next: () => {
-      if (this.currentSession === 'workTimes') {
+      if (this.currentSession === 'workTime') {
         this.sessionCounter.session++;
         this.sessionCounter.session % parseInt(localStorage.longBreakInterval) === 0
           ? this.sessionHandler.set('longBreak')
@@ -76,7 +133,7 @@ function Timer() {
         this.sessionCounter.longBreak++;
         this.currentSession = 'workTime';
       }
-      this.timeHandler.next();
+      this.timeHandler.update();
     },
 
     // Sets the current session to that of the argument passed
@@ -88,6 +145,7 @@ function Timer() {
       } else if (newSessionState === 'longBreak') {
         this.currentSession = 'longBreak';
       }
+      this.timeHandler.update();
     }
   }
 
@@ -106,8 +164,8 @@ function Timer() {
       }
     },
 
-    // Change currentSession and update the timer and sessionStatus elements accordingly
-    next: () => {
+    // Updates the timerElement and sessionStatus element based on the currentSession
+    update: () => {
       if (this.currentSession === 'workTime') {
         this.timeHandler.set('workTime');
         sessionStatus.innerHTML = 'Work Time';
@@ -121,7 +179,7 @@ function Timer() {
     },
 
     // Update the timer's value to reflect the correct format
-    update: () => {
+    format: () => {
       if (this.time % 60 < 10) {
         timerElement.innerHTML = Math.floor(this.time / 60) + ':0' + this.time % 60;
       } else {
@@ -138,69 +196,52 @@ function Timer() {
   this.countdown = () => {
     countdownInterval = setInterval(() => {
       this.time--;
-      this.timeHandler.update();
+      this.timeHandler.format();
 
       if (this.time === 0) {
-        this.stop();
+        this.timerController.stop();
       }
     }, 30); // TODO Remember to change this value for production
   };
 
-  /**
-   * Start method:
-   * Handles the play/pause behavior of the startButton on the countdown based on timerState
-   */
-  this.start = () => {
-    if (this.timerState === 'stopped' || this.timerState === 'paused') {
-      this.countdown();
-      this.elementStateHandler('active');
-    } else {
-      this.pause();
-      this.elementStateHandler('paused');
-    }
-  };
-
-  /**
-   * Pause method:
-   * Stops the timer and changes the state to 'paused'
-   */
-  this.pause = () => {
-    clearInterval(countdownInterval);
-    this.elementStateHandler('paused');
-  };
-
-  /**
-   * Stop method:
-   * Stops the timer, changes the state to 'stopped', and resets the timer using the timeHandler option
-   */
-  this.stop = (option) => {
-    if (option === 'button') {
-      this.sessionHandler.stop();
-    } else {
-      this.notify();
-      this.sessionHandler.next();
-    }
-    clearInterval(countdownInterval);
-    this.elementStateHandler('stopped');
-    this.timeHandler.update();
-  };
-
-  /**
-   * Element State Handler:
-   * Changes start/pause/resume button texts' and handles timerState accordingly
-   */
-  this.elementStateHandler = (newState) => {
-    if (newState === 'active') {
-      this.timerState = 'active';
-      startButton.innerText = 'Pause';
-    } else if (newState === 'paused') {
-      this.timerState = 'paused';
-      startButton.innerText = 'Resume';
-    } else if (newState === 'stopped') {
-      this.timerState = 'stopped';
-      startButton.innerText = 'Start';
-    }
-  };
+  // /**
+  //  * Start method:
+  //  * Handles the play/pause behavior of the startButton on the countdown based on timerState
+  //  */
+  // this.start = () => {
+  //   if (this.timerState === 'stopped' || this.timerState === 'paused') {
+  //     this.countdown();
+  //     this.elementStateHandler('active');
+  //   } else {
+  //     this.pause();
+  //     this.elementStateHandler('paused');
+  //   }
+  // };
+  //
+  // /**
+  //  * Pause method:
+  //  * Stops the timer and changes the state to 'paused'
+  //  */
+  // this.pause = () => {
+  //   clearInterval(countdownInterval);
+  //   this.elementStateHandler('paused');
+  // };
+  //
+  // /**
+  //  * Stop method:
+  //  * Stops the timer, changes the state to 'stopped', and resets the timer using the timeHandler option
+  //  */
+  // this.stop = (option) => {
+  //   if (option === 'button') {
+  //     this.sessionHandler.stop();
+  //   } else {
+  //     this.notify();
+  //     this.sessionHandler.next();
+  //   }
+  //   clearInterval(countdownInterval);
+  //   this.elementStateHandler('stopped');
+  //   this.timeHandler.update();
+  // };
 
   /**
    * Notification handler
@@ -247,7 +288,7 @@ function Timer() {
     localStorage.setItem('longBreak', longBreak.value.toString());
     localStorage.setItem('longBreakInterval', longBreakInterval.value.toString());
 
-    this.timeHandler.next();
+    this.timeHandler.format();
   }
 
 }
@@ -258,7 +299,7 @@ function Timer() {
  */
 const timer = new Timer();
 timer.timerUpdater('start'); // Set values for the timer
-timer.timeHandler.next(); // Set initial state of the timerElement
+timer.timeHandler.update(); // Set initial state of the timerElement
 
 /**
  * Task title:
@@ -274,8 +315,8 @@ taskTitleInput.addEventListener('focusout', (event) => taskTitleHandler(event));
 /**
  * Timer controls
  */
-startButton.addEventListener('click', timer.start);
-stopButton.addEventListener('click', () => timer.stop('button'));
+startButton.addEventListener('click', timer.timerController.start);
+stopButton.addEventListener('click', () => timer.timerController.stop('button'));
 
 /**
  * Timer settings; Apply button
