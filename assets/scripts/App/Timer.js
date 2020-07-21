@@ -135,7 +135,6 @@ function Timer() {
           !localStorage.getItem(sessionNames[i]) &&
           localStorage.setItem(sessionNames[i], defaultValues[i].toString());
         }
-
         // Starts the user session with the timer using values from localStorage
         sessionNames.forEach(item => eval(item).value = parseInt(localStorage.getItem(item)));
       }
@@ -220,6 +219,7 @@ function Timer() {
 
     // Update the timer's value to reflect the correct format
     format: () => {
+      this.timeHandler.update();
       timerElement.innerHTML =
         Math.floor(this.time / 60)
         + (this.time % 60 < 10 ? ':0' : ':')
