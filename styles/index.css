@@ -1,0 +1,81 @@
+/* variables */
+:root {
+  --primary: #20C37F;
+  --secondary: #D93838;
+  --marginMobile: 24px;
+}
+
+/* reset */
+html {
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+}
+
+body, p, a, ul, li {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+li {
+  list-style-type: none;
+}
+
+/* base styles */
+body {
+  background: #000000;
+}
+
+a {
+  color: white;
+}
+
+
+/* Header */
+header {
+  padding: 16px var(--marginMobile);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #131313;
+}
+
+#logo {
+
+}
+
+#logo h1{
+  margin: 0;
+}
+
+header nav {
+  font-weight: 600;
+  font-size: 1.2em;
+}
+
+header nav ul {
+  text-decoration: none;
+}
+
+nav * a:hover {
+  text-decoration: underline;
+}
+
+/* Task Title */
+
+
+
+
+/* Timer */
+
+
+
+
+/* Footer */
+
+
+
+
+/*!* Desktop styles *!*/
+/*@media screen and (min-width: 1200px) {*/
+/*}*/
