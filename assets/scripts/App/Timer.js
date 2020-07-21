@@ -1,7 +1,11 @@
 /**
  * @type {HTMLElement}
  */
-// Task Title
+// Page title
+const pageTitleElement = document.querySelector('title');
+const pageTitle = 'Pomodoro App';
+
+// Task title
 const taskTitleInput = document.getElementById('task-title-input');
 
 // Timer element and buttons
@@ -66,7 +70,7 @@ function Timer() {
         if (this.time === 0) {
           this.timerController.stop();
         }
-      }, 30); // TODO Remember to change this value for production
+      }, 1000); // TODO Remember to change this value for production
     },
 
     // Start method:
@@ -142,6 +146,7 @@ function Timer() {
       // Update localStorage values to match those of the settings and update timer with them
       sessionNames.forEach(item => localStorage.setItem(item, eval(item).value.toString()));
       setTimeout(() => this.timeHandler.format(), 25); // TODO use an asynchronous solution
+      this.timeHandler.update();
     }
 
   }
@@ -217,13 +222,17 @@ function Timer() {
       }
     },
 
-    // Update the timer's value to reflect the correct format
+    // Update the timer element and page title to reflect the correct format
     format: () => {
-      this.timeHandler.update();
-      timerElement.innerHTML =
-        Math.floor(this.time / 60)
-        + (this.time % 60 < 10 ? ':0' : ':')
-        + this.time % 60;
+      let formattedTime = () => {
+        return Math.floor(this.time / 60)
+          + (this.time % 60 < 10 ? ':0' : ':')
+          + this.time % 60;
+      };
+      // Update the timer element
+      timerElement.innerHTML = formattedTime();
+      // Update the page title
+      pageTitleElement.innerHTML = formattedTime() + ' ' + pageTitle;
     }
   }
 
