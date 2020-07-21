@@ -72,17 +72,24 @@ main {
 }
 
 section {
-  margin-bottom: var(--marginMobile);
+
+}
+
+.container {
+  background: var(--background-color);
+  border-radius: 12px;
+  padding: 12px;
 }
 
 
 /* Task Title */
 #task-title {
   text-align: center;
+  margin-bottom: var(--marginMobile);
 }
 
 #task-title h4 {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 #task-title p {
@@ -107,8 +114,19 @@ section {
   border: solid 2px rgba(255, 255, 255, 0.1);
 }
 
-
 /* Timer */
+#timer-container {
+  text-align: center;
+}
+
+#timer {
+  font-size: 4em;
+  font-weight: 500;
+}
+
+#session-status h4 {
+  margin: 8px auto;
+}
 
 
 

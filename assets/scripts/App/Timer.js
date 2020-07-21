@@ -12,8 +12,8 @@ const faviconElement = document.getElementById('favicon');
 const taskTitleInput = document.getElementById('task-title-input');
 
 // Timer element and buttons
-const timerElement = document.querySelector('.timer time');
-const sessionStatus = document.querySelector('#session-status p');
+const timerElement = document.querySelector('#timer');
+const sessionStatus = document.querySelector('#session-status h4');
 const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
 
@@ -73,7 +73,7 @@ function Timer() {
         if (this.time === 0) {
           this.timerController.stop();
         }
-      }, 1000); // TODO Remember to change this value for production
+      }, 30); // TODO Remember to change this value for production
     },
 
     // Start method:
