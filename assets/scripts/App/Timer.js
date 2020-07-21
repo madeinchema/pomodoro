@@ -2,8 +2,11 @@
  * @type {HTMLElement}
  */
 // Page title
-const pageTitleElement = document.querySelector('title');
+const pageTitleElement = document.getElementById('page-title');
 const pageTitle = 'Pomodoro App';
+
+// Favicon
+const faviconElement = document.getElementById('favicon');
 
 // Task title
 const taskTitleInput = document.getElementById('task-title-input');
@@ -112,8 +115,8 @@ function Timer() {
 
 
     // Element State Handler:
-    // Changes start/pause/resume button texts' and handles timerState accordingly.
     setState: (newState) => {
+      // Changes start/pause/resume button texts' and handles timerState accordingly
       if (newState === 'active') {
         this.timerState = 'active';
         startButton.innerText = 'Pause';
@@ -124,6 +127,8 @@ function Timer() {
         this.timerState = 'stopped';
         startButton.innerText = 'Start';
       }
+      // Changes favicon depending on currentSession and timerState
+      faviconElement.setAttribute('href', `assets/img/icons/${this.currentSession}-${this.timerState}.png`);
     },
 
 
