@@ -128,7 +128,50 @@ section {
   margin: 8px auto;
 }
 
+#buttons {
+  margin-top: 12px;
+  display: grid;
+  grid-gap: 12px;
 
+}
+
+#buttons button {
+  padding: 8px;
+  font: inherit;
+  color: white;
+  flex-grow: 1;
+  border-radius: 8px;
+  outline: none;
+}
+
+
+#start {
+  border: solid 3px #2D3748;
+  background: transparent;
+}
+
+#start:hover {
+  background: rgba(74, 85, 104, 0.1);
+}
+
+#start:active {
+  background: rgba(74, 85, 104, 0.3);
+}
+
+
+
+#stop {
+  border: solid 3px #742A2A;
+  background: transparent;
+}
+
+#stop:hover {
+  background: rgba(116, 42, 42, 0.2);
+}
+
+#stop:active {
+  background: rgba(116, 42, 42, 0.5);
+}
 
 
 /* Footer */
