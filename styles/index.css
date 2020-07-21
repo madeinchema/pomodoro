@@ -2,6 +2,10 @@
 :root {
   --primary: #20C37F;
   --secondary: #D93838;
+  /*--background-color: #2D3748;*/
+  /*--background-black: #1A202C;*/
+  --background-color: #131313;
+  --background-black: #000000;
   --marginMobile: 24px;
 }
 
@@ -23,7 +27,7 @@ li {
 
 /* base styles */
 body {
-  background: #000000;
+  background: var(--background-black);
 }
 
 a {
@@ -37,7 +41,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #131313;
+  background: var(--background-color);
 }
 
 #logo {
@@ -46,6 +50,7 @@ header {
 
 #logo h1{
   margin: 0;
+  font-size: 1.8em;
 }
 
 header nav {
@@ -61,9 +66,46 @@ nav * a:hover {
   text-decoration: underline;
 }
 
+/* main container */
+main {
+  margin: var(--marginMobile);
+}
+
+section {
+  margin-bottom: var(--marginMobile);
+}
+
+
 /* Task Title */
+#task-title {
+  text-align: center;
+}
 
+#task-title h4 {
+  margin-bottom: 8px;
+}
 
+#task-title p {
+  padding: 12px 0;
+  font-size: 1.8em;
+  font-weight: 600;
+  color: white;
+  background: var(--background-color);
+  border-radius: 12px;
+  border: solid 2px transparent;
+  resize: none;
+  outline: none;
+  width: 100%;
+  /*overflow-y: hidden;*/
+}
+
+#task-title textarea:focus::placeholder {
+  color: transparent;
+}
+
+#task-title textarea:focus {
+  border: solid 2px rgba(255, 255, 255, 0.1);
+}
 
 
 /* Timer */

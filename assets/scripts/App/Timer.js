@@ -256,11 +256,16 @@ timer.timeHandler.update(); // Set initial state of the timerElement
  * Task title:
  * Uses localStorage to save and use the value when the user focuses outside the input field
  */
-const taskTitleHandler = (event) => {
-  localStorage.setItem('title', event.target.value);
-  taskTitleInput.setAttribute('value', localStorage.getItem('title'));
+const taskTitleHandler = (event, option) => {
+  event.target.innerText.length > 60
+    ? taskTitleInput.style.fontSize = "1.5em"
+    : taskTitleInput.style.fontSize = "1.8em";
+  setTimeout(() => localStorage.setItem('title', event.target.innerText), 0);
+
 }
-taskTitleInput.addEventListener('focusout', (event) => taskTitleHandler(event));
+taskTitleInput.addEventListener('keydown', (event) => taskTitleHandler(event));
+!localStorage.getItem('title') && taskTitleInput.focus() // Autofocus on page load
+taskTitleInput.innerText = localStorage.getItem('title'); // Get title on page load
 
 
 /**
