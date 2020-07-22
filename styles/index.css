@@ -2,8 +2,8 @@
 :root {
   --primary: #20C37F;
   --secondary: #D93838;
-  /*--background-color: #2D3748;*/
-  /*--background-black: #1A202C;*/
+  --gray: rgb(74, 85, 104);
+  --gray-dark: rgb(26, 32, 44);
   --background-color: #131313;
   --background-black: #000000;
   --marginMobile: 24px;
@@ -21,22 +21,15 @@ body, p, a, ul, li {
   text-decoration: none;
 }
 
-li {
-  list-style-type: none;
-}
+li {list-style-type: none}
 
 /* Base styles */
 body {
   background: var(--background-color);
 }
 
-a {
-  color: white;
-}
-
-a:hover {
-  text-decoration: underline;
-}
+a {color: white}
+a:hover {text-decoration: underline}
 
 button {
   padding: 8px 24px;
@@ -45,18 +38,14 @@ button {
   flex-grow: 1;
   border-radius: 8px;
   outline: none;
-  border: solid 3px #2D3748;
+  border: solid 3px var(--gray);
   background: transparent;
   cursor: pointer;
 }
+/*button:hover {background: rgba(26, 36, 52, 0.4)}*/
+button:hover {background: rgba(74, 85, 104, 0.25)}
 
-button:hover {
-  background: rgba(74, 85, 104, 0.1);
-}
-
-button:active {
-  background: rgba(74, 85, 104, 0.3);
-}
+button:active {background: rgba(74, 85, 104, 0.5)}
 
 input {
   text-align: center;
@@ -64,23 +53,43 @@ input {
   color: white;
   background: transparent;
   border-radius: 8px;
-  border: solid 3px #2D3748;
+  border: solid 3px var(--gray);
   justify-self: end;
   height: 26px;
   max-width: 64px;
   outline: none;
 }
-
-input:focus {
-  background: black;
-}
-
+input:focus {background: var(--background-black)}
 
 /* Utilities */
-.w-full {
-  width: 100%;
+.w-full {width: 100%}
+.blur {filter: blur(4px)}
+.invisible {display: none}
+.modal {
+  /*display: none; !* Hidden by default *!*/
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  margin: auto auto;
+  left: 0;
+  top: 0;
+  /*width: 100vw; !* Full width *!*/
+  /*height: 100%; !* Full height *!*/
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
+/* Overlay */
+#overlay {
+  position:absolute;
+  background:#000;
+  opacity:.5;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  z-index:1
+}
 
 /* Header */
 header {
@@ -91,28 +100,20 @@ header {
   background: var(--background-color);
 }
 
-#logo {
-
-}
-
-#logo h1{
-  margin: 0;
-  font-size: 1.8em;
-  user-select: none;
-}
-
 header nav {
   font-weight: 600;
   font-size: 1.2em;
 }
 
-header nav ul {
-  text-decoration: none;
+header nav ul {text-decoration: none}
+
+#logo h1 {
+  margin: 0;
+  font-size: 1.8em;
+  user-select: none;
 }
 
-
 /* Main container */
-
 main {
   background-color: var(--background-black);
   padding: var(--marginMobile);
@@ -122,21 +123,11 @@ section {
   background: var(--background-color);
   border-radius: 12px;
   padding: var(--marginMobile);
-  /*margin: var(--marginMobile);*/
 }
-
-.container {
-
-}
-
 
 /* Task title */
-
 .element-title {
-  padding:
-      var(--marginMobile)
-      auto
-      6px;
+  padding: var(--marginMobile) auto 6px;
 }
 
 .element-title h4 {
@@ -148,8 +139,6 @@ section {
   text-align: center;
   margin: 12px 0 24px;
 }
-
-
 
 #task-title p {
   padding: 12px 6px;
@@ -164,15 +153,8 @@ section {
   width: 100%;
   box-sizing: border-box;
 }
-
-
-#task-title p:focus::placeholder {
-  color: transparent;
-}
-
-#task-title p:focus {
-  border: solid 3px rgba(255, 255, 255, 0.1);
-}
+#task-title p:focus::placeholder {color: transparent}
+#task-title p:focus {border: solid 3px rgba(255, 255, 255, 0.1)}
 
 /* Timer */
 #timer-container {
@@ -189,7 +171,6 @@ section {
 }
 
 /* Timer buttons */
-
 #buttons {
   margin-top: 12px;
   display: grid;
@@ -200,19 +181,18 @@ section {
   border: solid 3px #742A2A;
   background: transparent;
 }
-#stop:hover {
-  background: rgba(116, 42, 42, 0.2);
-}
-#stop:active {
-  background: rgba(116, 42, 42, 0.5);
-}
+#stop:hover {background: rgba(116, 42, 42, 0.2)}
+#stop:active {background: rgba(116, 42, 42, 0.5)}
 
 /* Settings */
-.settings-container  {
-
+#settings {
+  background-color: var(--background-color);
+  border: solid 3px var(--gray);
+  margin: var(--marginMobile);
+  padding: var(--marginMobile);
 }
 
-.settings-container h2 {
+#settings h2 {
   text-align: center;
   margin: 0;
 }
@@ -220,7 +200,6 @@ section {
 .settings {
   margin-bottom: 24px;
 }
-
 
 .settings h3 {
   margin: 32px 0 16px;
@@ -233,10 +212,9 @@ section {
   grid-gap: 12px 24px;
 }
 
-.settings-list label{
+.settings-list label {
   width: 100%;
 }
-
 
 #timer-settings {
   margin-top: 24px;
@@ -244,22 +222,17 @@ section {
 
 #mute {
   max-width: 128px;
-
   padding: 8px 12px;
-
   justify-self: end;
 }
 
 #volume-slider {
   justify-self: end;
-  /*margin: 12px 0;*/
   width: 100%;
   max-width: 128px;
 }
 
-
 /* Footer */
-
 footer {
   padding: var(--marginMobile);
   display: flex;

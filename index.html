@@ -13,53 +13,13 @@
 </head>
 <body>
 
-  <header>
+  <div id="overlay" class="invisible"></div>
 
-    <div id="logo">
-      <h1>Pomodoro App</h1>
-    </div>
-
-    <nav>
-      <ul>
-        <li><a href="#">Settings</a></li>
-      </ul>
-    </nav>
-
-  </header>
-
-
-  <main>
-    <div class="element-title">
-      <h4>Working on</h4>
-    </div>
-    <div id="task-title">
-      <p id="task-title-input" type="text" maxlength="60" spellcheck="false" value="" contenteditable="true"></p>
-    </div>
-
-    <section>
-      <div id="timer-container">
-        <div>
-          <h4 id="session-status"></h4>
-        </div>
-        <time id="timer"></time>
-        <div id="buttons">
-          <button id="start">Start</button>
-          <button id="stop">Stop</button>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <h4>Pomodoro App v1</h4>
-    <p><a href="#">@madeinchema</a></p>
-  </footer>
-
-  <section class="settings-container">
+  <section id="settings" class="modal invisible">
     <h2>Settings</h2>
 
     <div id="timer-controls" class="settings">
-        <h3>Timer settings</h3>
+      <h3>Timer settings</h3>
       <form action="">
         <div class="settings-list">
           <label for="work-time">Work time</label>
@@ -88,8 +48,54 @@
       <audio id="end-session" src="assets/audio/end-session.mp3"></audio>
       <audio id="end-break" src="assets/audio/end-break.mp3"></audio>
     </div>
+    <button><a href="#" onclick="toggleSettings()">Close</a></button>
   </section>
 
+  <div id='body-container'>
+
+    <header>
+
+      <div id="logo">
+        <h1>Pomodoro App</h1>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#" onclick="toggleSettings()">Settings</a></li>
+        </ul>
+      </nav>
+
+    </header>
+
+
+    <main>
+      <div class="element-title">
+        <h4>Working on</h4>
+      </div>
+      <div id="task-title">
+        <p id="task-title-input" type="text" maxlength="60" spellcheck="false" value="" contenteditable="true"></p>
+      </div>
+
+      <section>
+        <div id="timer-container">
+          <div>
+            <h4 id="session-status"></h4>
+          </div>
+          <time id="timer"></time>
+          <div id="buttons">
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <h4>Pomodoro App v1</h4>
+      <p><a href="#">@madeinchema</a></p>
+    </footer>
+
+  </div>
 
 </body>
 </html>

@@ -1,6 +1,9 @@
 /**
  * @type {HTMLElement}
  */
+
+const overlay = document.getElementById('overlay');
+
 // Page title
 const pageTitleElement = document.getElementById('page-title');
 const pageTitle = 'Pomodoro App';
@@ -23,6 +26,7 @@ const workTime = document.getElementById('work-time');
 const shortBreak = document.getElementById('short-break');
 const longBreak = document.getElementById('long-break');
 const longBreakInterval = document.getElementById('long-break-interval');
+const settingsModal = document.getElementById('settings');
 
 // Audio controls
 const audioEndSession = document.getElementById('end-session');
@@ -275,12 +279,23 @@ startButton.addEventListener('click', timer.timerController.start);
 stopButton.addEventListener('click', () => timer.timerController.stop('button'));
 
 /**
- * Timer settings; Apply button
+ * Timer settings
  */
+// Apply button
 applySettingsButton.addEventListener('click', (event) => {
   event.preventDefault();
   timer.timerController.update();
 });
+
+// Settings menu
+const toggleSettings = () => {
+  settingsModal.classList.toggle('invisible');
+  overlay.classList.toggle('invisible');
+  // document.getElementById('body-container').classList.toggle('blur');
+}
+
+overlay.addEventListener('click', toggleSettings);
+
 
 /**
  * Audio controls:
