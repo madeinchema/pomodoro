@@ -102,12 +102,23 @@ function Timer() {
     // Stop method:
     // Stops the timer, changes the state to 'stopped', and resets the timer using the timeHandler option.
     stop: (option) => {
-      // If button is pressed, stop and reset the timer.
+      let priorState = this.timerState;
+      // Stop button: If timer wasn't started, ask confirmation and handle accordingly.
       if (option === 'button') {
-        this.sessionHandler.stop();
+        if (priorState !== 'stopped') {
+          let stopConfirmation = confirm('Are you sure you want to stop the timer?');
+          if (stopConfirmation) {
+            this.sessionHandler.stop();
+          } else {
+            return this.timerController.setState('paused');
+          }
+        }
       } else {
         // Otherwise trigger alert notification and switch to next session
-        setTimeout(() => alert('Session ended!'), 50) // Alert notification and "00:01 issue" fix
+        setTimeout(() => {
+          let session = this.currentSession === 'workTime' ? 'Break' : 'Session';
+          alert(`${session} completed!`)
+        }, 50) // Alert notification and "00:01 issue" fix
         this.currentSession === 'workTime' ? audioEndSession.play() : audioEndBreak.play(); // Audio notification
         this.sessionHandler.next();
       }
@@ -369,5 +380,5 @@ const volumeHandler = (event, option) => {
   applyVolume();
 }
 
-volumeSlider.addEventListener('click', (event) => volumeHandler(event));
+volumeSlider.addEventListener('change', (event) => volumeHandler(event));
 volumeHandler(null, 'start');
