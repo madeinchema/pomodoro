@@ -5,4 +5,4 @@
 
 
 
-![Animation of a user using the calculator](https://i.imgur.com/uyvSBqu.gif)
+![Animation of a user using the pomodoro](https://i.imgur.com/9SiufsQ.gif)
