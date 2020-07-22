@@ -15,7 +15,7 @@
 
   <div id="overlay" class="invisible"></div>
 
-  <section id="settings" class="modal invisible">
+  <section id="settings-container" class="modal invisible">
     <h2>Settings</h2>
     <div id="timer-controls" class="settings">
       <h3>Timer settings</h3>
@@ -31,7 +31,7 @@
           <input id="long-break-interval" type="text" value="">
         </div>
         <div>
-          <button id="timer-settings" class="w-full">Apply</button>
+          <button id="timer-settings-apply" class="w-full">Apply</button>
         </div>
       </form>
     </div>
@@ -83,7 +83,7 @@
           <time id="timer"></time>
           <div id="buttons">
             <button id="start">Start</button>
-            <button id="stop">Stop</button>
+            <button id="stop" class="button-red">Stop</button>
           </div>
         </div>
       </section>

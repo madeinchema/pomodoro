@@ -21,12 +21,12 @@ const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
 
 // Timer settings button and values
-const applySettingsButton = document.getElementById('timer-settings');
+const applySettingsButton = document.getElementById('timer-settings-apply');
 const workTime = document.getElementById('work-time');
 const shortBreak = document.getElementById('short-break');
 const longBreak = document.getElementById('long-break');
 const longBreakInterval = document.getElementById('long-break-interval');
-const settingsModal = document.getElementById('settings');
+const settingsModal = document.getElementById('settings-container');
 
 // Audio controls
 const audioEndSession = document.getElementById('end-session');
@@ -291,6 +291,7 @@ applySettingsButton.addEventListener('click', (event) => {
 const toggleSettings = () => {
   settingsModal.classList.toggle('invisible');
   overlay.classList.toggle('invisible');
+
   // Body is not scrollable when the modal is open
   (document.body.style.overflow === 'visible' || document.body.style.overflow === "")
     ? document.body.style.overflow = 'hidden'
