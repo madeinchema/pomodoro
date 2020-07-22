@@ -77,7 +77,7 @@ function Timer() {
         if (this.time === 0) {
           this.timerController.stop();
         }
-      }, 1000); // TODO Remember to change this value for production
+      }, 30); // TODO Remember to change this value for production
     },
 
     // Start method:
@@ -369,5 +369,5 @@ const volumeHandler = (event, option) => {
   applyVolume();
 }
 
-volumeSlider.addEventListener('click', (event) => volumeHandler(event));
+volumeSlider.addEventListener('change', (event) => volumeHandler(event));
 volumeHandler(null, 'start');
