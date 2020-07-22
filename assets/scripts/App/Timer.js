@@ -77,7 +77,7 @@ function Timer() {
         if (this.time === 0) {
           this.timerController.stop();
         }
-      }, 30); // TODO Remember to change this value for production
+      }, 1000); // TODO Remember to change this value for production
     },
 
     // Start method:
