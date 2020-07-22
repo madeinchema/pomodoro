@@ -7,49 +7,96 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title id="page-title">Pomodoro App</title>
   <link id="favicon" rel="icon" type="image/png" href="assets/img/icons/workTime-stopped.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/index.css">
   <script src="assets/scripts/App/Timer.js" defer></script>
 </head>
 <body>
-  <h1>Pomodoro App</h1>
 
-  <div id="task-title">
-    <input id="task-title-input" type="text" placeholder="Task title" value="">
-  </div>
+  <div id="overlay" class="invisible"></div>
 
-  <div class="timer-container">
-    <div class="timer">
-      <time></time>
-      <div id="session-status">
-        <p></p>
+  <div class="container">
+    <section id="settings-container" class="modal invisible">
+      <h2>Settings</h2>
+      <div id="timer-controls" class="settings">
+        <h3>Timer settings</h3>
+        <form action="">
+          <div class="settings-list">
+            <label for="work-time">Work time</label>
+            <input id="work-time" type="text" value="">
+            <label for="short-break">Short break</label>
+            <input id="short-break" type="text" value="">
+            <label for="long-break">Long break</label>
+            <input id="long-break" type="text" value="">
+            <label for="long-break-interval">Long break interval</label>
+            <input id="long-break-interval" type="text" value="">
+          </div>
+          <div>
+            <button id="timer-settings-apply" class="w-full">Apply</button>
+          </div>
+        </form>
       </div>
-    </div>
-    <div id="buttons">
-      <button id="start">Start</button>
-      <button id="stop">Stop</button>
-    </div>
+
+      <div class="settings">
+        <h3>Audio controls</h3>
+        <div class="settings-list">
+          <label for="mute">Mute</label>
+          <button id="mute" class="w-full"></button>
+          <label for="volume-slider">Volume</label>
+          <input id="volume-slider" type="range" min="1" max="100" value="">
+        </div>
+        <audio id="end-session" src="assets/audio/end-session.mp3"></audio>
+        <audio id="end-break" src="assets/audio/end-break.mp3"></audio>
+      </div>
+      <a href="#" onclick="toggleSettings()"><button>Close</button></a>
+    </section>
   </div>
 
-  <div id="timer-controls">
-    <h2>Timer settings</h2>
-    <form action="">
-      <label for="work-time">Work time</label>
-      <input id="work-time" type="text" value=""><br>
-      <label for="short-break">Short break</label>
-      <input id="short-break" type="text" value=""><br>
-      <label for="long-break">Long break</label>
-      <input id="long-break" type="text" value=""><br>
-      <label for="long-break-interval">Long break interval</label>
-      <input id="long-break-interval" type="text" value=""><br>
-      <button id="timer-settings">Apply</button>
-    </form>
-  </div>
 
-  <div>
-    <h2>Audio controls</h2>
-    <button id="mute"></button>
-    <input id="volume-slider" type="range" min="1" max="100" value="">
-    <audio id="end-session" src="assets/audio/end-session.mp3"></audio>
-    <audio id="end-break" src="assets/audio/end-break.mp3"></audio>
+  <div id='body-container'>
+
+    <header>
+
+      <div id="logo">
+        <h1>Pomodoro App</h1>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#" onclick="toggleSettings()">Settings</a></li>
+        </ul>
+      </nav>
+
+    </header>
+
+
+    <main>
+      <div class="element-title">
+        <h4>Working on</h4>
+      </div>
+      <div id="task-title">
+        <p id="task-title-input" type="text" maxlength="60" spellcheck="false" value="" contenteditable="true"></p>
+      </div>
+
+      <section>
+        <div id="timer-container">
+          <div>
+            <h4 id="session-status"></h4>
+          </div>
+          <time id="timer"></time>
+          <div id="buttons">
+            <button id="start">Start</button>
+            <button id="stop" class="button-red">Stop</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <h4>Pomodoro App v1</h4>
+      <p><a href="https://github.com/madeinchema/" target="_blank" >@madeinchema</a></p>
+    </footer>
+
   </div>
 
 </body>

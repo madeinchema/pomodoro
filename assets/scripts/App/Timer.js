@@ -1,6 +1,9 @@
 /**
  * @type {HTMLElement}
  */
+
+const overlay = document.getElementById('overlay');
+
 // Page title
 const pageTitleElement = document.getElementById('page-title');
 const pageTitle = 'Pomodoro App';
@@ -12,17 +15,18 @@ const faviconElement = document.getElementById('favicon');
 const taskTitleInput = document.getElementById('task-title-input');
 
 // Timer element and buttons
-const timerElement = document.querySelector('.timer time');
-const sessionStatus = document.querySelector('#session-status p');
+const timerElement = document.getElementById('timer');
+const sessionStatus = document.getElementById('session-status');
 const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
 
 // Timer settings button and values
-const applySettingsButton = document.getElementById('timer-settings');
+const applySettingsButton = document.getElementById('timer-settings-apply');
 const workTime = document.getElementById('work-time');
 const shortBreak = document.getElementById('short-break');
 const longBreak = document.getElementById('long-break');
 const longBreakInterval = document.getElementById('long-break-interval');
+const settingsModal = document.getElementById('settings-container');
 
 // Audio controls
 const audioEndSession = document.getElementById('end-session');
@@ -73,7 +77,7 @@ function Timer() {
         if (this.time === 0) {
           this.timerController.stop();
         }
-      }, 1000); // TODO Remember to change this value for production
+      }, 30); // TODO Remember to change this value for production
     },
 
     // Start method:
@@ -256,11 +260,16 @@ timer.timeHandler.update(); // Set initial state of the timerElement
  * Task title:
  * Uses localStorage to save and use the value when the user focuses outside the input field
  */
-const taskTitleHandler = (event) => {
-  localStorage.setItem('title', event.target.value);
-  taskTitleInput.setAttribute('value', localStorage.getItem('title'));
+const taskTitleHandler = (event, option) => {
+  event.target.innerText.length > 60
+    ? taskTitleInput.style.fontSize = "1.5em"
+    : taskTitleInput.style.fontSize = "1.8em";
+  setTimeout(() => localStorage.setItem('title', event.target.innerText), 0);
+
 }
-taskTitleInput.addEventListener('focusout', (event) => taskTitleHandler(event));
+taskTitleInput.addEventListener('keydown', (event) => taskTitleHandler(event));
+!localStorage.getItem('title') && taskTitleInput.focus() // Autofocus on page load
+taskTitleInput.innerText = localStorage.getItem('title'); // Get title on page load
 
 
 /**
@@ -270,12 +279,27 @@ startButton.addEventListener('click', timer.timerController.start);
 stopButton.addEventListener('click', () => timer.timerController.stop('button'));
 
 /**
- * Timer settings; Apply button
+ * Timer settings
  */
+// Apply button
 applySettingsButton.addEventListener('click', (event) => {
   event.preventDefault();
   timer.timerController.update();
 });
+
+// Settings menu - Modal window
+const toggleSettings = () => {
+  settingsModal.classList.toggle('invisible');
+  overlay.classList.toggle('invisible');
+
+  // Body is not scrollable when the modal is open
+  (document.body.style.overflow === 'visible' || document.body.style.overflow === "")
+    ? document.body.style.overflow = 'hidden'
+    : document.body.style.overflow = 'visible';
+}
+
+overlay.addEventListener('click', toggleSettings);
+
 
 /**
  * Audio controls:
