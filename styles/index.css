@@ -1,4 +1,4 @@
-/* variables */
+/* Variables */
 :root {
   --primary: #20C37F;
   --secondary: #D93838;
@@ -9,7 +9,7 @@
   --marginMobile: 24px;
 }
 
-/* reset */
+/* Reset */
 html {
   font-family: 'Montserrat', sans-serif;
   color: white;
@@ -25,13 +25,37 @@ li {
   list-style-type: none;
 }
 
-/* base styles */
+/* Base styles */
 body {
   background: var(--background-black);
 }
 
 a {
   color: white;
+}
+
+button {
+  padding: 8px 24px;
+  font: inherit;
+  color: white;
+  flex-grow: 1;
+  border-radius: 8px;
+  outline: none;
+  border: solid 3px #2D3748;
+  background: transparent;
+}
+
+button:hover {
+  background: rgba(74, 85, 104, 0.1);
+}
+
+button:active {
+  background: rgba(74, 85, 104, 0.3);
+}
+
+/* Utilities */
+.w-full {
+  width: 100%;
 }
 
 
@@ -66,9 +90,11 @@ nav * a:hover {
   text-decoration: underline;
 }
 
-/* main container */
+
+/* Main container */
+
 main {
-  margin: var(--marginMobile);
+
 }
 
 section {
@@ -78,22 +104,32 @@ section {
 .container {
   background: var(--background-color);
   border-radius: 12px;
-  padding: 12px;
+  padding: var(--marginMobile);
+  margin: var(--marginMobile);
 }
 
 
-/* Task Title */
+/* Task title */
+
+.element-title h4 {
+  text-align: center;
+  margin:
+      var(--marginMobile)
+      auto
+      6px;
+}
+
 #task-title {
   text-align: center;
-  margin-bottom: var(--marginMobile);
+  margin:
+      12px
+      var(--marginMobile);
 }
 
-#task-title h4 {
-  margin-bottom: 12px;
-}
+
 
 #task-title p {
-  padding: 12px 0;
+  padding: 12px 6px;
   font-size: 1.8em;
   font-weight: 600;
   color: white;
@@ -103,8 +139,9 @@ section {
   resize: none;
   outline: none;
   width: 100%;
-  /*overflow-y: hidden;*/
+  box-sizing: border-box;
 }
+
 
 #task-title textarea:focus::placeholder {
   color: transparent;
@@ -124,9 +161,11 @@ section {
   font-weight: 500;
 }
 
-#session-status h4 {
+#session-status {
   margin: 8px auto;
 }
+
+/* Timer buttons */
 
 #buttons {
   margin-top: 12px;
@@ -134,31 +173,6 @@ section {
   grid-gap: 12px;
 
 }
-
-#buttons button {
-  padding: 8px;
-  font: inherit;
-  color: white;
-  flex-grow: 1;
-  border-radius: 8px;
-  outline: none;
-}
-
-
-#start {
-  border: solid 3px #2D3748;
-  background: transparent;
-}
-
-#start:hover {
-  background: rgba(74, 85, 104, 0.1);
-}
-
-#start:active {
-  background: rgba(74, 85, 104, 0.3);
-}
-
-
 
 #stop {
   border: solid 3px #742A2A;
@@ -171,6 +185,73 @@ section {
 
 #stop:active {
   background: rgba(116, 42, 42, 0.5);
+}
+
+/* Settings */
+.settings-container  {
+
+}
+
+.settings-container h2 {
+  text-align: center;
+  margin: 0;
+}
+
+.settings {
+  margin-bottom: 24px;
+}
+
+
+.settings h3 {
+  margin: 32px 0 16px;
+}
+
+.settings-list {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: center;
+  grid-gap: 12px 24px;
+}
+
+.settings-list label{
+  width: 100%;
+}
+
+.settings-list input {
+  text-align: center;
+  font: inherit;
+  color: white;
+  background: transparent;
+  border-radius: 8px;
+  border: solid 3px #2D3748;
+  justify-self: end;
+  height: 26px;
+  max-width: 64px;
+  outline: none;
+}
+
+.settings form button {
+  font: inherit;
+
+}
+
+#timer-settings {
+  margin-top: 24px;
+}
+
+#mute {
+  max-width: 128px;
+
+  padding: 8px 12px;
+
+  justify-self: end;
+}
+
+#volume-slider {
+  justify-self: end;
+  /*margin: 12px 0;*/
+  width: 100%;
+  max-width: 128px;
 }
 
 

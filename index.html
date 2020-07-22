@@ -29,16 +29,17 @@
 
 
   <main>
-
-    <section id="task-title">
+    <div class="element-title">
       <h4>Working on</h4>
+    </div>
+    <section id="task-title">
       <p id="task-title-input" type="text" maxlength="60" spellcheck="false" value="" contenteditable="true"></p>
     </section>
 
     <div class="container">
       <section id="timer-container">
-        <div id="session-status">
-          <h4></h4>
+        <div>
+          <h4 id="session-status"></h4>
         </div>
         <time id="timer"></time>
         <div id="buttons">
@@ -47,36 +48,43 @@
         </div>
       </section>
     </div>
-
-
-
   </main>
 
+  <div class="settings-container container">
+    <h2>Settings</h2>
 
+    <div id="timer-controls" class="settings">
+        <h3>Timer settings</h3>
+      <form action="">
+        <div class="settings-list">
+          <label for="work-time">Work time</label>
+          <input id="work-time" type="text" value="">
+          <label for="short-break">Short break</label>
+          <input id="short-break" type="text" value="">
+          <label for="long-break">Long break</label>
+          <input id="long-break" type="text" value="">
+          <label for="long-break-interval">Long break interval</label>
+          <input id="long-break-interval" type="text" value="">
+        </div>
+        <div>
+          <button id="timer-settings" class="w-full">Apply</button>
+        </div>
+      </form>
+    </div>
 
-
-  <div id="timer-controls">
-    <h2>Timer settings</h2>
-    <form action="">
-      <label for="work-time">Work time</label>
-      <input id="work-time" type="text" value=""><br>
-      <label for="short-break">Short break</label>
-      <input id="short-break" type="text" value=""><br>
-      <label for="long-break">Long break</label>
-      <input id="long-break" type="text" value=""><br>
-      <label for="long-break-interval">Long break interval</label>
-      <input id="long-break-interval" type="text" value=""><br>
-      <button id="timer-settings">Apply</button>
-    </form>
+    <div class="settings">
+      <h3>Audio controls</h3>
+      <div class="settings-list">
+        <label for="mute">Mute</label>
+        <button id="mute" class="w-full"></button>
+        <label for="volume-slider">Volume</label>
+        <input id="volume-slider" type="range" min="1" max="100" value="">
+      </div>
+      <audio id="end-session" src="assets/audio/end-session.mp3"></audio>
+      <audio id="end-break" src="assets/audio/end-break.mp3"></audio>
+    </div>
   </div>
 
-  <div>
-    <h2>Audio controls</h2>
-    <button id="mute"></button>
-    <input id="volume-slider" type="range" min="1" max="100" value="">
-    <audio id="end-session" src="assets/audio/end-session.mp3"></audio>
-    <audio id="end-break" src="assets/audio/end-break.mp3"></audio>
-  </div>
 
 </body>
 </html>

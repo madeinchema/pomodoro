@@ -12,8 +12,8 @@ const faviconElement = document.getElementById('favicon');
 const taskTitleInput = document.getElementById('task-title-input');
 
 // Timer element and buttons
-const timerElement = document.querySelector('#timer');
-const sessionStatus = document.querySelector('#session-status h4');
+const timerElement = document.getElementById('timer');
+const sessionStatus = document.getElementById('session-status');
 const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
 
