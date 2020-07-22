@@ -15,40 +15,43 @@
 
   <div id="overlay" class="invisible"></div>
 
-  <section id="settings-container" class="modal invisible">
-    <h2>Settings</h2>
-    <div id="timer-controls" class="settings">
-      <h3>Timer settings</h3>
-      <form action="">
-        <div class="settings-list">
-          <label for="work-time">Work time</label>
-          <input id="work-time" type="text" value="">
-          <label for="short-break">Short break</label>
-          <input id="short-break" type="text" value="">
-          <label for="long-break">Long break</label>
-          <input id="long-break" type="text" value="">
-          <label for="long-break-interval">Long break interval</label>
-          <input id="long-break-interval" type="text" value="">
-        </div>
-        <div>
-          <button id="timer-settings-apply" class="w-full">Apply</button>
-        </div>
-      </form>
-    </div>
-
-    <div class="settings">
-      <h3>Audio controls</h3>
-      <div class="settings-list">
-        <label for="mute">Mute</label>
-        <button id="mute" class="w-full"></button>
-        <label for="volume-slider">Volume</label>
-        <input id="volume-slider" type="range" min="1" max="100" value="">
+  <div class="container">
+    <section id="settings-container" class="modal invisible">
+      <h2>Settings</h2>
+      <div id="timer-controls" class="settings">
+        <h3>Timer settings</h3>
+        <form action="">
+          <div class="settings-list">
+            <label for="work-time">Work time</label>
+            <input id="work-time" type="text" value="">
+            <label for="short-break">Short break</label>
+            <input id="short-break" type="text" value="">
+            <label for="long-break">Long break</label>
+            <input id="long-break" type="text" value="">
+            <label for="long-break-interval">Long break interval</label>
+            <input id="long-break-interval" type="text" value="">
+          </div>
+          <div>
+            <button id="timer-settings-apply" class="w-full">Apply</button>
+          </div>
+        </form>
       </div>
-      <audio id="end-session" src="assets/audio/end-session.mp3"></audio>
-      <audio id="end-break" src="assets/audio/end-break.mp3"></audio>
-    </div>
-    <a href="#" onclick="toggleSettings()"><button>Close</button></a>
-  </section>
+
+      <div class="settings">
+        <h3>Audio controls</h3>
+        <div class="settings-list">
+          <label for="mute">Mute</label>
+          <button id="mute" class="w-full"></button>
+          <label for="volume-slider">Volume</label>
+          <input id="volume-slider" type="range" min="1" max="100" value="">
+        </div>
+        <audio id="end-session" src="assets/audio/end-session.mp3"></audio>
+        <audio id="end-break" src="assets/audio/end-break.mp3"></audio>
+      </div>
+      <a href="#" onclick="toggleSettings()"><button>Close</button></a>
+    </section>
+  </div>
+
 
   <div id='body-container'>
 

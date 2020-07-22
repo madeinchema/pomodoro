@@ -257,6 +257,30 @@ footer p {
 }
 
 
-/*!* Desktop styles *!*/
-/*@media screen and (min-width: 1200px) {*/
-/*}*/
+/* Desktop styles */
+@media screen and (min-width: 900px) {
+  main div:first-child, main section{
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  #task-title {
+    margin: 12px auto 24px;
+    max-width: calc(800px + var(--marginMobile) * 2);
+  }
+
+  #timer {
+    font-size: 5em;
+  }
+
+  #settings-container {
+    margin: 0 auto auto -300px;
+  }
+
+  .modal {
+    position: fixed;
+    width: 600px;
+    top: 5%;
+    left: 50%;
+  }
+}
