@@ -25,7 +25,7 @@ li {list-style-type: none}
 
 /* Base styles */
 body {
-  background: var(--background-color);
+  background: var(--background-black);
 }
 
 a {color: white}
@@ -170,7 +170,7 @@ section {
 }
 
 #timer {
-  font-size: 4em;
+  font-size: 5em;
   font-weight: 500;
 }
 
@@ -239,12 +239,10 @@ section {
 
 /* Footer */
 footer {
-  padding: var(--marginMobile);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: var(--background-color);
 }
 
 footer h4 {
@@ -267,10 +265,6 @@ footer p {
   #task-title {
     margin: 12px auto 24px;
     max-width: calc(800px + var(--marginMobile) * 2);
-  }
-
-  #timer {
-    font-size: 5em;
   }
 
   #settings-container {
