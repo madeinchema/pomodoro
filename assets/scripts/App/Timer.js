@@ -261,15 +261,21 @@ timer.timeHandler.update(); // Set initial state of the timerElement
  * Uses localStorage to save and use the value when the user focuses outside the input field
  */
 const taskTitleHandler = (event, option) => {
+
+  if (option === 'start') {
+    return !localStorage.getItem('title') ? localStorage.setItem('title', taskTitleInput.innerText) : ''; // Sets <br> to fix the non-centered cursor
+  }
+
   event.target.innerText.length > 60
     ? taskTitleInput.style.fontSize = "1.5em"
     : taskTitleInput.style.fontSize = "1.8em";
-  setTimeout(() => localStorage.setItem('title', event.target.innerText), 0);
+  setTimeout(() => localStorage.setItem('title', taskTitleInput.innerText), 25);
 
 }
 taskTitleInput.addEventListener('keydown', (event) => taskTitleHandler(event));
-!localStorage.getItem('title') && taskTitleInput.focus() // Autofocus on page load
+taskTitleHandler(null, 'start');
 taskTitleInput.innerText = localStorage.getItem('title'); // Get title on page load
+localStorage.getItem('title') == false && taskTitleInput.focus(); // Autofocus on page load
 
 
 /**
