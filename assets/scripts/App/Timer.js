@@ -287,11 +287,14 @@ applySettingsButton.addEventListener('click', (event) => {
   timer.timerController.update();
 });
 
-// Settings menu
+// Settings menu - Modal window
 const toggleSettings = () => {
   settingsModal.classList.toggle('invisible');
   overlay.classList.toggle('invisible');
-  // document.getElementById('body-container').classList.toggle('blur');
+  // Body is not scrollable when the modal is open
+  (document.body.style.overflow === 'visible' || document.body.style.overflow === "")
+    ? document.body.style.overflow = 'hidden'
+    : document.body.style.overflow = 'visible';
 }
 
 overlay.addEventListener('click', toggleSettings);
