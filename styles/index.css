@@ -53,6 +53,24 @@ button:active {
   background: rgba(74, 85, 104, 0.3);
 }
 
+input {
+  text-align: center;
+  font: inherit;
+  color: white;
+  background: transparent;
+  border-radius: 8px;
+  border: solid 3px #2D3748;
+  justify-self: end;
+  height: 26px;
+  max-width: 64px;
+  outline: none;
+}
+
+input:focus {
+  background: black;
+}
+
+
 /* Utilities */
 .w-full {
   width: 100%;
@@ -98,14 +116,14 @@ main {
 }
 
 section {
-
-}
-
-.container {
   background: var(--background-color);
   border-radius: 12px;
   padding: var(--marginMobile);
   margin: var(--marginMobile);
+}
+
+.container {
+
 }
 
 
@@ -135,7 +153,7 @@ section {
   color: white;
   background: var(--background-color);
   border-radius: 12px;
-  border: solid 2px transparent;
+  border: solid 3px transparent;
   resize: none;
   outline: none;
   width: 100%;
@@ -143,12 +161,12 @@ section {
 }
 
 
-#task-title textarea:focus::placeholder {
+#task-title p:focus::placeholder {
   color: transparent;
 }
 
-#task-title textarea:focus {
-  border: solid 2px rgba(255, 255, 255, 0.1);
+#task-title p:focus {
+  border: solid 3px rgba(255, 255, 255, 0.1);
 }
 
 /* Timer */
@@ -171,18 +189,15 @@ section {
   margin-top: 12px;
   display: grid;
   grid-gap: 12px;
-
 }
 
 #stop {
   border: solid 3px #742A2A;
   background: transparent;
 }
-
 #stop:hover {
   background: rgba(116, 42, 42, 0.2);
 }
-
 #stop:active {
   background: rgba(116, 42, 42, 0.5);
 }
@@ -217,23 +232,6 @@ section {
   width: 100%;
 }
 
-.settings-list input {
-  text-align: center;
-  font: inherit;
-  color: white;
-  background: transparent;
-  border-radius: 8px;
-  border: solid 3px #2D3748;
-  justify-self: end;
-  height: 26px;
-  max-width: 64px;
-  outline: none;
-}
-
-.settings form button {
-  font: inherit;
-
-}
 
 #timer-settings {
   margin-top: 24px;
