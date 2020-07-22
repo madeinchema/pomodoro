@@ -27,11 +27,15 @@ li {
 
 /* Base styles */
 body {
-  background: var(--background-black);
+  background: var(--background-color);
 }
 
 a {
   color: white;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 button {
@@ -43,6 +47,7 @@ button {
   outline: none;
   border: solid 3px #2D3748;
   background: transparent;
+  cursor: pointer;
 }
 
 button:hover {
@@ -93,6 +98,7 @@ header {
 #logo h1{
   margin: 0;
   font-size: 1.8em;
+  user-select: none;
 }
 
 header nav {
@@ -104,22 +110,19 @@ header nav ul {
   text-decoration: none;
 }
 
-nav * a:hover {
-  text-decoration: underline;
-}
-
 
 /* Main container */
 
 main {
-
+  background-color: var(--background-black);
+  padding: var(--marginMobile);
 }
 
 section {
   background: var(--background-color);
   border-radius: 12px;
   padding: var(--marginMobile);
-  margin: var(--marginMobile);
+  /*margin: var(--marginMobile);*/
 }
 
 .container {
@@ -129,19 +132,21 @@ section {
 
 /* Task title */
 
-.element-title h4 {
-  text-align: center;
-  margin:
+.element-title {
+  padding:
       var(--marginMobile)
       auto
       6px;
 }
 
+.element-title h4 {
+  text-align: center;
+  margin: 0;
+}
+
 #task-title {
   text-align: center;
-  margin:
-      12px
-      var(--marginMobile);
+  margin: 12px 0 24px;
 }
 
 
@@ -180,7 +185,7 @@ section {
 }
 
 #session-status {
-  margin: 8px auto;
+  margin: 0 auto 6px;
 }
 
 /* Timer buttons */
@@ -255,7 +260,23 @@ section {
 
 /* Footer */
 
+footer {
+  padding: var(--marginMobile);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--background-color);
+}
 
+footer h4 {
+  margin: 0 0 6px 0;
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.8em;
+}
 
 
 /*!* Desktop styles *!*/
