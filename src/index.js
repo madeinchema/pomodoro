@@ -1,12 +1,16 @@
 /**
  * Timer
  */
-import Timer from './Timer';
+import './Timer';
 
-/**
- * Audio Controls initialization
- */
-import AudioControls from "./components/AudioControls";
-const AudioControlsElement = new AudioControls();
-AudioControlsElement.muteButtonHandler('start');
-AudioControlsElement.volumeHandler(null, 'start');
+// Timer Controls
+import './components/TimerControls';
+
+// Task Title
+import './components/TaskTitle';
+
+// Timer Settings
+import './components/TimerSettings';
+
+// Audio Controls
+import './components/AudioControls';

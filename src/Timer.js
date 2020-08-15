@@ -1,15 +1,19 @@
+import El from './components/Elements';
+
 /**
  * @type {HTMLElement}
  */
 
-const overlay = document.getElementById('overlay');
+// const overlay = document.getElementById('overlay');
 
 // Page title
 const pageTitleElement = document.getElementById('page-title');
 const pageTitle = 'Pomodoro App';
 
-// Favicon
+// Assets
 const faviconElement = document.getElementById('favicon');
+const audioEndSession = document.getElementById('end-session');
+const audioEndBreak = document.getElementById('end-break');
 
 // Task title
 const taskTitleInput = document.getElementById('task-title-input');
@@ -31,20 +35,20 @@ const longBreakInterval = document.getElementById('long-break-interval');
 const settingsModal = document.getElementById('settings-container');
 
 /**
- * Default timer values
- */
-const defaultTimerValues = {
-  'workTime': 25,
-  'shortBreak': 5,
-  'longBreak': 15,
-  'longBreakInterval': 4,
-};
-
-/**
  * Timer
  * @constructor
  */
 function Timer() {
+
+  /**
+   * Default timer values
+   */
+  this.defaultTimerValues = {
+    'workTime': 25,
+    'shortBreak': 5,
+    'longBreak': 15,
+    'longBreakInterval': 4,
+  };
 
   /**
    * Timer initial state
@@ -115,7 +119,7 @@ function Timer() {
           let session = this.currentSession === 'workTime' ? 'Break' : 'Session';
           alert(`${session} completed!`)
         }, 50) // Alert notification and "00:01 issue" fix
-        this.currentSession === 'workTime' ? audioEndSession.play() : audioEndBreak.play(); // Audio notification
+        this.currentSession === 'workTime' ? El.audioEndSession.play() : El.audioEndBreak.play(); // Audio notification
         this.sessionHandler.next();
       }
       // Reset timer, update startButton's text and update timer's time.
@@ -130,24 +134,24 @@ function Timer() {
       // Changes start/pause/resume button texts' and handles timerState accordingly
       if (newState === 'active') {
         this.timerState = 'active';
-        startButton.innerText = 'Pause';
+        El.startButton.innerText = 'Pause';
       } else if (newState === 'paused') {
         this.timerState = 'paused';
-        startButton.innerText = 'Resume';
+        El.startButton.innerText = 'Resume';
       } else if (newState === 'stopped') {
         this.timerState = 'stopped';
-        startButton.innerText = 'Start';
+        El.startButton.innerText = 'Start';
       }
       // Changes favicon depending on currentSession and timerState
-      faviconElement.setAttribute('href', `assets/img/icons/${this.currentSession}-${this.timerState}.png`);
+      El.faviconElement.setAttribute('href', `assets/img/icons/${this.currentSession}-${this.timerState}.png`);
     },
 
 
     // Update method:
     // Updates the timer with new settings from localStorage
     update: (option) => {
-      const sessionNames = Object.keys(defaultTimerValues);
-      const defaultValues = Object.values(defaultTimerValues);
+      const sessionNames = Object.keys(this.defaultTimerValues);
+      const defaultValues = Object.values(this.defaultTimerValues);
 
       if (option === 'start') {
         // Local storage with default values from start for new sessions
@@ -228,13 +232,13 @@ function Timer() {
     update: () => {
       if (this.currentSession === 'workTime') {
         this.timeHandler.set('workTime');
-        sessionStatus.innerHTML = 'Work Time';
+        El.sessionStatus.innerHTML = 'Work Time';
       } else if (this.currentSession === 'shortBreak') {
         this.timeHandler.set('shortBreak');
-        sessionStatus.innerHTML = 'Short Break';
+        El.sessionStatus.innerHTML = 'Short Break';
       } else if (this.currentSession === 'longBreak') {
         this.timeHandler.set('longBreak');
-        sessionStatus.innerHTML = 'Long Break';
+        El.sessionStatus.innerHTML = 'Long Break';
       }
     },
 
@@ -246,71 +250,14 @@ function Timer() {
           + this.time % 60;
       };
       // Update the timer element
-      timerElement.innerHTML = formattedTime();
+      El.timerElement.innerHTML = formattedTime();
       // Update the page title
-      pageTitleElement.innerHTML = formattedTime() + ' ' + pageTitle;
+      El.pageTitleElement.innerHTML = formattedTime() + ' ' + El.pageTitle;
     }
   }
 
 }
 
-
-/**
- * Creates and Starts a new Timer
- * @type {Timer}
- */
-const timer = new Timer();
-timer.timerController.update('start'); // Set values for the timer
-timer.timeHandler.update(); // Set initial state of the timerElement
-
-/**
- * Task title:
- * Uses localStorage to save and use the value when the user focuses outside the input field
- */
-const taskTitleHandler = (event, option) => {
-
-  if (option === 'start') {
-    return !localStorage.getItem('title') ? localStorage.setItem('title', taskTitleInput.innerText) : ''; // Sets <br> to fix the non-centered cursor
-  }
-
-  event.target.innerText.length > 60
-    ? taskTitleInput.style.fontSize = "1.5em"
-    : taskTitleInput.style.fontSize = "1.8em";
-  setTimeout(() => localStorage.setItem('title', taskTitleInput.innerText), 25);
-
-}
-taskTitleInput.addEventListener('keydown', (event) => taskTitleHandler(event));
-taskTitleHandler(null, 'start');
-taskTitleInput.innerText = localStorage.getItem('title'); // Get title on page load
-localStorage.getItem('title') == false && taskTitleInput.focus(); // Autofocus on page load
-
-
-/**
- * Timer controls
- */
-startButton.addEventListener('click', timer.timerController.start);
-stopButton.addEventListener('click', () => timer.timerController.stop('button'));
-
-/**
- * Timer settings
- */
-// Apply button
-applySettingsButton.addEventListener('click', (event) => {
-  event.preventDefault();
-  timer.timerController.update();
-});
-
-// Settings menu - Modal window
-const toggleSettings = () => {
-  settingsModal.classList.toggle('invisible');
-  overlay.classList.toggle('invisible');
-
-  // Body is not scrollable when the modal is open
-  (document.body.style.overflow === 'visible' || document.body.style.overflow === "")
-    ? document.body.style.overflow = 'hidden'
-    : document.body.style.overflow = 'visible';
-}
-
-openSettings.addEventListener('click', toggleSettings);
-closeSettings.addEventListener('click', toggleSettings);
-overlay.addEventListener('click', toggleSettings);
+export const TimerComponent = new Timer();
+TimerComponent.timerController.update('start'); // Set values for the timer
+TimerComponent.timeHandler.update(); // Set initial state of the timerElement

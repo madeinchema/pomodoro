@@ -95,12 +95,91 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./src/Timer.js
 var Timer = __webpack_require__(1);
 
+// EXTERNAL MODULE: ./src/components/Elements.js
+var Elements = __webpack_require__(2);
+
+// CONCATENATED MODULE: ./src/components/TimerControls.js
+
+
+
+/**
+ * Timer controls
+ */
+
+Elements["a" /* default */].startButton.addEventListener('click', Timer["a" /* TimerComponent */].timerController.start);
+Elements["a" /* default */].stopButton.addEventListener('click', () => Timer["a" /* TimerComponent */].timerController.stop('button'));
+
+// CONCATENATED MODULE: ./src/components/TaskTitle.js
+
+
+/**
+ * Task title:
+ * Uses localStorage to save and use the value when the user focuses outside the input field
+ */
+class TaskTitle_TaskTitle {
+  constructor() {
+  }
+
+  taskTitleHandler(event, option) {
+    if (option === 'start') {
+      return !localStorage.getItem('title') ? localStorage.setItem('title', Elements["a" /* default */].taskTitleInput.innerText) : ''; // Sets <br> to fix the non-centered cursor
+    }
+
+    event.target.innerText.length > 60
+      ? Elements["a" /* default */].taskTitleInput.style.fontSize = "1.5em"
+      : Elements["a" /* default */].taskTitleInput.style.fontSize = "1.8em";
+    setTimeout(() => localStorage.setItem('title', Elements["a" /* default */].taskTitleInput.innerText), 25);
+  }
+}
+
+// Initialize component
+const TaskTitleComponent = new TaskTitle_TaskTitle();
+
+Elements["a" /* default */].taskTitleInput.addEventListener('keydown', (event) => TaskTitleComponent.taskTitleHandler(event));
+TaskTitleComponent.taskTitleHandler(null, 'start');
+
+Elements["a" /* default */].taskTitleInput.innerText = localStorage.getItem('title'); // Get title on page load
+localStorage.getItem('title') == false && Elements["a" /* default */].taskTitleInput.focus(); // Autofocus on page load
+
+
+// CONCATENATED MODULE: ./src/components/TimerSettings.js
+
+
+
+/**
+ * Timer settings
+ */
+class TimerSettings_TimerSettings {
+  constructor() {
+  }
+
+  // Settings menu - Modal window
+  toggleSettings() {
+    Elements["a" /* default */].settingsModal.classList.toggle('invisible');
+    Elements["a" /* default */].overlay.classList.toggle('invisible');
+
+    // Body is not scrollable when the modal is open
+    (document.body.style.overflow === 'visible' || document.body.style.overflow === "")
+      ? document.body.style.overflow = 'hidden'
+      : document.body.style.overflow = 'visible';
+  }
+
+}
+
+const TimerSettingsComponent = new TimerSettings_TimerSettings();
+
+
+// Apply button
+Elements["a" /* default */].applySettingsButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  Timer["a" /* TimerComponent */].timerController.update();
+});
+
+Elements["a" /* default */].openSettings.addEventListener('click', TimerSettingsComponent.toggleSettings);
+Elements["a" /* default */].closeSettings.addEventListener('click', TimerSettingsComponent.toggleSettings);
+Elements["a" /* default */].overlay.addEventListener('click', TimerSettingsComponent.toggleSettings);
+
 // CONCATENATED MODULE: ./src/components/AudioControls.js
-// Audio controls
-const audioEndSession = document.getElementById('end-session');
-const audioEndBreak = document.getElementById('end-break');
-const muteButton = document.getElementById('mute');
-const volumeSlider = document.getElementById('volume-slider');
 
 
 /**
@@ -108,13 +187,13 @@ const volumeSlider = document.getElementById('volume-slider');
  * Initial default states, handler functions, invocations at start, and button eventListeners
  */
 
-class AudioControls {
+class AudioControls_AudioControls {
   constructor() {
     this.muted = false;
     this.volume = 50;
 
-    muteButton.addEventListener('click', this.muteButtonHandler);
-    volumeSlider.addEventListener('change', (event) => this.volumeHandler(event));
+    Elements["a" /* default */].muteButton.addEventListener('click', this.muteButtonHandler);
+    Elements["a" /* default */].volumeSlider.addEventListener('change', (event) => this.volumeHandler(event));
   }
 
 
@@ -127,22 +206,22 @@ class AudioControls {
       !localStorage.getItem('muted') &&
       localStorage.setItem('muted', muted.toString());
       localStorage.getItem('muted') === 'false' ?
-        muteButton.innerText = 'Mute':
-        muteButton.innerText = 'Unmute';
+        Elements["a" /* default */].muteButton.innerText = 'Mute':
+        Elements["a" /* default */].muteButton.innerText = 'Unmute';
       return;
     }
 
     // Handles behavior between states
     if (localStorage.getItem('muted') === 'true') {
       localStorage.setItem('muted', 'false');
-      audioEndSession.muted = false;
-      audioEndBreak.muted = false;
-      muteButton.innerText = 'Mute';
+      Elements["a" /* default */].audioEndSession.muted = false;
+      Elements["a" /* default */].audioEndBreak.muted = false;
+      Elements["a" /* default */].muteButton.innerText = 'Mute';
     } else {
       localStorage.setItem('muted', 'true');
-      audioEndSession.muted = true;
-      audioEndBreak.muted = true;
-      muteButton.innerText = 'Unmute';
+      Elements["a" /* default */].audioEndSession.muted = true;
+      Elements["a" /* default */].audioEndBreak.muted = true;
+      Elements["a" /* default */].muteButton.innerText = 'Unmute';
     }
   }
 
@@ -152,25 +231,30 @@ class AudioControls {
   volumeHandler(event, option) {
     // Applies volume value from localHost to audio files
     const applyVolume = () => {
-      audioEndSession.volume = +localStorage.getItem('volume') / 100;
-      audioEndBreak.volume = +localStorage.getItem('volume') / 100;
+      Elements["a" /* default */].audioEndSession.volume = +localStorage.getItem('volume') / 100;
+      Elements["a" /* default */].audioEndBreak.volume = +localStorage.getItem('volume') / 100;
     }
 
     // Applies default or localStorage value on start
     if (option === 'start') {
       !localStorage.getItem('volume') ?
         localStorage.setItem('volume', volume.toString()) :
-        volumeSlider.value = +localStorage.getItem('volume');
+        Elements["a" /* default */].volumeSlider.value = +localStorage.getItem('volume');
       return applyVolume();
     }
 
     // Set localStorage volume and volumeSlider value attribute. Then apply the value to the audio files.
     localStorage.setItem('volume', event.target.value);
-    volumeSlider.setAttribute('value', localStorage.getItem('volume'));
+    Elements["a" /* default */].volumeSlider.setAttribute('value', localStorage.getItem('volume'));
     applyVolume();
   }
 
 }
+
+const AudioControlsComponent = new AudioControls_AudioControls();
+AudioControlsComponent.muteButtonHandler('start');
+AudioControlsComponent.volumeHandler(null, 'start');
+
 
 // CONCATENATED MODULE: ./src/index.js
 /**
@@ -178,31 +262,42 @@ class AudioControls {
  */
 
 
-/**
- * Audio Controls initialization
- */
+// Timer Controls
 
-const AudioControlsElement = new AudioControls();
-AudioControlsElement.muteButtonHandler('start');
-AudioControlsElement.volumeHandler(null, 'start');
+
+// Task Title
+
+
+// Timer Settings
+
+
+// Audio Controls
+
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimerComponent; });
+/* harmony import */ var _components_Elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+
 
 /**
  * @type {HTMLElement}
  */
 
-const overlay = document.getElementById('overlay');
+// const overlay = document.getElementById('overlay');
 
 // Page title
 const pageTitleElement = document.getElementById('page-title');
 const pageTitle = 'Pomodoro App';
 
-// Favicon
+// Assets
 const faviconElement = document.getElementById('favicon');
+const audioEndSession = document.getElementById('end-session');
+const audioEndBreak = document.getElementById('end-break');
 
 // Task title
 const taskTitleInput = document.getElementById('task-title-input');
@@ -224,20 +319,20 @@ const longBreakInterval = document.getElementById('long-break-interval');
 const settingsModal = document.getElementById('settings-container');
 
 /**
- * Default timer values
- */
-const defaultTimerValues = {
-  'workTime': 25,
-  'shortBreak': 5,
-  'longBreak': 15,
-  'longBreakInterval': 4,
-};
-
-/**
  * Timer
  * @constructor
  */
 function Timer() {
+
+  /**
+   * Default timer values
+   */
+  this.defaultTimerValues = {
+    'workTime': 25,
+    'shortBreak': 5,
+    'longBreak': 15,
+    'longBreakInterval': 4,
+  };
 
   /**
    * Timer initial state
@@ -308,7 +403,7 @@ function Timer() {
           let session = this.currentSession === 'workTime' ? 'Break' : 'Session';
           alert(`${session} completed!`)
         }, 50) // Alert notification and "00:01 issue" fix
-        this.currentSession === 'workTime' ? audioEndSession.play() : audioEndBreak.play(); // Audio notification
+        this.currentSession === 'workTime' ? _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].audioEndSession.play() : _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].audioEndBreak.play(); // Audio notification
         this.sessionHandler.next();
       }
       // Reset timer, update startButton's text and update timer's time.
@@ -323,24 +418,24 @@ function Timer() {
       // Changes start/pause/resume button texts' and handles timerState accordingly
       if (newState === 'active') {
         this.timerState = 'active';
-        startButton.innerText = 'Pause';
+        _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].startButton.innerText = 'Pause';
       } else if (newState === 'paused') {
         this.timerState = 'paused';
-        startButton.innerText = 'Resume';
+        _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].startButton.innerText = 'Resume';
       } else if (newState === 'stopped') {
         this.timerState = 'stopped';
-        startButton.innerText = 'Start';
+        _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].startButton.innerText = 'Start';
       }
       // Changes favicon depending on currentSession and timerState
-      faviconElement.setAttribute('href', `assets/img/icons/${this.currentSession}-${this.timerState}.png`);
+      _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].faviconElement.setAttribute('href', `assets/img/icons/${this.currentSession}-${this.timerState}.png`);
     },
 
 
     // Update method:
     // Updates the timer with new settings from localStorage
     update: (option) => {
-      const sessionNames = Object.keys(defaultTimerValues);
-      const defaultValues = Object.values(defaultTimerValues);
+      const sessionNames = Object.keys(this.defaultTimerValues);
+      const defaultValues = Object.values(this.defaultTimerValues);
 
       if (option === 'start') {
         // Local storage with default values from start for new sessions
@@ -421,13 +516,13 @@ function Timer() {
     update: () => {
       if (this.currentSession === 'workTime') {
         this.timeHandler.set('workTime');
-        sessionStatus.innerHTML = 'Work Time';
+        _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].sessionStatus.innerHTML = 'Work Time';
       } else if (this.currentSession === 'shortBreak') {
         this.timeHandler.set('shortBreak');
-        sessionStatus.innerHTML = 'Short Break';
+        _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].sessionStatus.innerHTML = 'Short Break';
       } else if (this.currentSession === 'longBreak') {
         this.timeHandler.set('longBreak');
-        sessionStatus.innerHTML = 'Long Break';
+        _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].sessionStatus.innerHTML = 'Long Break';
       }
     },
 
@@ -439,74 +534,102 @@ function Timer() {
           + this.time % 60;
       };
       // Update the timer element
-      timerElement.innerHTML = formattedTime();
+      _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].timerElement.innerHTML = formattedTime();
       // Update the page title
-      pageTitleElement.innerHTML = formattedTime() + ' ' + pageTitle;
+      _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].pageTitleElement.innerHTML = formattedTime() + ' ' + _components_Elements__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].pageTitle;
     }
   }
 
 }
 
-
-/**
- * Creates and Starts a new Timer
- * @type {Timer}
- */
-const timer = new Timer();
-timer.timerController.update('start'); // Set values for the timer
-timer.timeHandler.update(); // Set initial state of the timerElement
-
-/**
- * Task title:
- * Uses localStorage to save and use the value when the user focuses outside the input field
- */
-const taskTitleHandler = (event, option) => {
-
-  if (option === 'start') {
-    return !localStorage.getItem('title') ? localStorage.setItem('title', taskTitleInput.innerText) : ''; // Sets <br> to fix the non-centered cursor
-  }
-
-  event.target.innerText.length > 60
-    ? taskTitleInput.style.fontSize = "1.5em"
-    : taskTitleInput.style.fontSize = "1.8em";
-  setTimeout(() => localStorage.setItem('title', taskTitleInput.innerText), 25);
-
-}
-taskTitleInput.addEventListener('keydown', (event) => taskTitleHandler(event));
-taskTitleHandler(null, 'start');
-taskTitleInput.innerText = localStorage.getItem('title'); // Get title on page load
-localStorage.getItem('title') == false && taskTitleInput.focus(); // Autofocus on page load
+const TimerComponent = new Timer();
+TimerComponent.timerController.update('start'); // Set values for the timer
+TimerComponent.timeHandler.update(); // Set initial state of the timerElement
 
 
-/**
- * Timer controls
- */
-startButton.addEventListener('click', timer.timerController.start);
-stopButton.addEventListener('click', () => timer.timerController.stop('button'));
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/**
- * Timer settings
- */
-// Apply button
-applySettingsButton.addEventListener('click', (event) => {
-  event.preventDefault();
-  timer.timerController.update();
+"use strict";
+// /**
+//  * @type {HTMLElement}
+//  */
+//
+// const overlay = document.getElementById('overlay');
+//
+// // Page title
+// const pageTitleElement = document.getElementById('page-title');
+// const pageTitle = 'Pomodoro App';
+//
+// // Favicon
+// const faviconElement = document.getElementById('favicon');
+//
+// // Task title
+// const taskTitleInput = document.getElementById('task-title-input');
+//
+// // Timer element and buttons
+// const timerElement = document.getElementById('timer');
+// const sessionStatus = document.getElementById('session-status');
+// const startButton = document.getElementById('start');
+// const stopButton = document.getElementById('stop');
+//
+// // Timer settings button and values
+// const openSettings = document.getElementById('openSettings');
+// const closeSettings = document.getElementById('closeSettings');
+// const applySettingsButton = document.getElementById('timer-settings-apply');
+// const workTime = document.getElementById('work-time');
+// const shortBreak = document.getElementById('short-break');
+// const longBreak = document.getElementById('long-break');
+// const longBreakInterval = document.getElementById('long-break-interval');
+// const settingsModal = document.getElementById('settings-container');
+
+
+//////////////
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  /**
+   * @type {HTMLElement}
+   */
+
+  overlay: document.getElementById('overlay'),
+
+  // Page title
+  pageTitleElement: document.getElementById('page-title'),
+  pageTitle: 'Pomodoro App',
+
+  // Favicon
+  faviconElement: document.getElementById('favicon'),
+
+  // Task title
+  taskTitleInput: document.getElementById('task-title-input'),
+
+  // Timer element and buttons
+  timerElement: document.getElementById('timer'),
+  sessionStatus: document.getElementById('session-status'),
+  startButton: document.getElementById('start'),
+  stopButton: document.getElementById('stop'),
+
+  // Timer settings button and values
+  openSettings: document.getElementById('openSettings'),
+  closeSettings: document.getElementById('closeSettings'),
+  applySettingsButton: document.getElementById('timer-settings-apply'),
+  workTime: document.getElementById('work-time'),
+  shortBreak: document.getElementById('short-break'),
+  longBreak: document.getElementById('long-break'),
+  longBreakInterval: document.getElementById('long-break-interval'),
+  settingsModal: document.getElementById('settings-container'),
+
+  // Audio controls
+  muteButton: document.getElementById('mute'),
+  volumeSlider: document.getElementById('volume-slider'),
+
+  // Audio assets
+  audioEndSession: document.getElementById('end-session'),
+  audioEndBreak: document.getElementById('end-break'),
+
 });
 
-// Settings menu - Modal window
-const toggleSettings = () => {
-  settingsModal.classList.toggle('invisible');
-  overlay.classList.toggle('invisible');
-
-  // Body is not scrollable when the modal is open
-  (document.body.style.overflow === 'visible' || document.body.style.overflow === "")
-    ? document.body.style.overflow = 'hidden'
-    : document.body.style.overflow = 'visible';
-}
-
-openSettings.addEventListener('click', toggleSettings);
-closeSettings.addEventListener('click', toggleSettings);
-overlay.addEventListener('click', toggleSettings);
 
 
 /***/ })
