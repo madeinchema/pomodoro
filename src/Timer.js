@@ -30,12 +30,6 @@ const longBreak = document.getElementById('long-break');
 const longBreakInterval = document.getElementById('long-break-interval');
 const settingsModal = document.getElementById('settings-container');
 
-// Audio controls
-const audioEndSession = document.getElementById('end-session');
-const audioEndBreak = document.getElementById('end-break');
-const muteButton = document.getElementById('mute');
-const volumeSlider = document.getElementById('volume-slider');
-
 /**
  * Default timer values
  */
@@ -320,69 +314,3 @@ const toggleSettings = () => {
 openSettings.addEventListener('click', toggleSettings);
 closeSettings.addEventListener('click', toggleSettings);
 overlay.addEventListener('click', toggleSettings);
-
-
-/**
- * Audio controls:
- * Initial default states, handler functions, invocations at start, and button eventListeners
- */
-
-/**
- * Mute button
- */
-let muted = false;
-const muteButtonHandler = (option) => {
-  // Applies default or localStorage value on start
-  if (option === 'start') {
-    !localStorage.getItem('muted') &&
-      localStorage.setItem('muted', muted.toString());
-    localStorage.getItem('muted') === 'false' ?
-      muteButton.innerText = 'Mute':
-      muteButton.innerText = 'Unmute';
-    return;
-  }
-
-  // Handles behavior between states
-  if (localStorage.getItem('muted') === 'true') {
-    localStorage.setItem('muted', 'false');
-    audioEndSession.muted = false;
-    audioEndBreak.muted = false;
-    muteButton.innerText = 'Mute';
-  } else {
-    localStorage.setItem('muted', 'true');
-    audioEndSession.muted = true;
-    audioEndBreak.muted = true;
-    muteButton.innerText = 'Unmute';
-  }
-}
-muteButton.addEventListener('click', muteButtonHandler);
-muteButtonHandler('start');
-
-/**
- * Volume slider
- */
-let volume = 50;
-
-const volumeHandler = (event, option) => {
-  // Applies volume value from localHost to audio files
-  const applyVolume = () => {
-    audioEndSession.volume = +localStorage.getItem('volume') / 100;
-    audioEndBreak.volume = +localStorage.getItem('volume') / 100;
-  }
-
-  // Applies default or localStorage value on start
-  if (option === 'start') {
-    !localStorage.getItem('volume') ?
-      localStorage.setItem('volume', volume.toString()) :
-      volumeSlider.value = +localStorage.getItem('volume');
-    return applyVolume();
-  }
-
-  // Set localStorage volume and volumeSlider value attribute. Then apply the value to the audio files.
-  localStorage.setItem('volume', event.target.value);
-  volumeSlider.setAttribute('value', localStorage.getItem('volume'));
-  applyVolume();
-}
-
-volumeSlider.addEventListener('change', (event) => volumeHandler(event));
-volumeHandler(null, 'start');
