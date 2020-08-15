@@ -4,7 +4,6 @@ import El from './Elements';
  * Audio controls:
  * Initial default states, handler functions, invocations at start, and button eventListeners
  */
-
 class AudioControls {
   constructor() {
     this.muted = false;
@@ -13,7 +12,6 @@ class AudioControls {
     El.muteButton.addEventListener('click', this.muteButtonHandler);
     El.volumeSlider.addEventListener('change', (event) => this.volumeHandler(event));
   }
-
 
   /**
    * Mute button
@@ -69,7 +67,12 @@ class AudioControls {
 
 }
 
+// Initialize component
 export const AudioControlsComponent = new AudioControls();
+
+// Set mute button value during initialization
 AudioControlsComponent.muteButtonHandler('start');
+
+// Set volume value during initialization
 AudioControlsComponent.volumeHandler(null, 'start');
 

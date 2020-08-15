@@ -4,6 +4,7 @@ import El from './components/Elements';
  * Timer
  * @constructor
  */
+
 function Timer() {
 
   /**
@@ -224,6 +225,11 @@ function Timer() {
 
 }
 
+// Initialize the Timer
 export const TimerComponent = new Timer();
-TimerComponent.timerController.update('start'); // Set values for the timer
-TimerComponent.timeHandler.update(); // Set initial state of the timerElement
+
+// Set values for the timer
+TimerComponent.timerController.update('start');
+
+// Set initial state of the timerElement
+TimerComponent.timeHandler.update();

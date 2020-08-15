@@ -4,6 +4,7 @@ import El from './Elements';
 /**
  * Timer settings
  */
+
 class TimerSettings {
   constructor() {
   }
@@ -21,8 +22,8 @@ class TimerSettings {
 
 }
 
+// Initialize component
 const TimerSettingsComponent = new TimerSettings();
-
 
 // Apply button
 El.applySettingsButton.addEventListener('click', (event) => {
@@ -30,6 +31,11 @@ El.applySettingsButton.addEventListener('click', (event) => {
   TimerComponent.timerController.update();
 });
 
+// Settings menu button
 El.openSettings.addEventListener('click', TimerSettingsComponent.toggleSettings);
+
+// Close settings modal button
 El.closeSettings.addEventListener('click', TimerSettingsComponent.toggleSettings);
+
+// Overlay close settings behavior
 El.overlay.addEventListener('click', TimerSettingsComponent.toggleSettings);

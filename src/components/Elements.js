@@ -2,7 +2,6 @@ export default {
   /**
    * @type {HTMLElement}
    */
-
   overlay: document.getElementById('overlay'),
 
   // Page title
@@ -25,11 +24,11 @@ export default {
   openSettings: document.getElementById('openSettings'),
   closeSettings: document.getElementById('closeSettings'),
   applySettingsButton: document.getElementById('timer-settings-apply'),
+  settingsModal: document.getElementById('settings-container'),
   workTime: document.getElementById('work-time'),
   shortBreak: document.getElementById('short-break'),
   longBreak: document.getElementById('long-break'),
   longBreakInterval: document.getElementById('long-break-interval'),
-  settingsModal: document.getElementById('settings-container'),
 
   // Audio controls
   muteButton: document.getElementById('mute'),
@@ -38,5 +37,4 @@ export default {
   // Audio assets
   audioEndSession: document.getElementById('end-session'),
   audioEndBreak: document.getElementById('end-break'),
-
 }
