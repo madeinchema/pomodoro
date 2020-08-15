@@ -1,40 +1,6 @@
 import El from './components/Elements';
 
 /**
- * @type {HTMLElement}
- */
-
-// const overlay = document.getElementById('overlay');
-
-// Page title
-const pageTitleElement = document.getElementById('page-title');
-const pageTitle = 'Pomodoro App';
-
-// Assets
-const faviconElement = document.getElementById('favicon');
-const audioEndSession = document.getElementById('end-session');
-const audioEndBreak = document.getElementById('end-break');
-
-// Task title
-const taskTitleInput = document.getElementById('task-title-input');
-
-// Timer element and buttons
-const timerElement = document.getElementById('timer');
-const sessionStatus = document.getElementById('session-status');
-const startButton = document.getElementById('start');
-const stopButton = document.getElementById('stop');
-
-// Timer settings button and values
-const openSettings = document.getElementById('openSettings');
-const closeSettings = document.getElementById('closeSettings');
-const applySettingsButton = document.getElementById('timer-settings-apply');
-const workTime = document.getElementById('work-time');
-const shortBreak = document.getElementById('short-break');
-const longBreak = document.getElementById('long-break');
-const longBreakInterval = document.getElementById('long-break-interval');
-const settingsModal = document.getElementById('settings-container');
-
-/**
  * Timer
  * @constructor
  */
@@ -160,11 +126,11 @@ function Timer() {
           localStorage.setItem(sessionNames[i], defaultValues[i].toString());
         }
         // Starts the user session with the timer using values from localStorage
-        sessionNames.forEach(item => eval(item).value = parseInt(localStorage.getItem(item)));
+        sessionNames.forEach(item => El[item].value = parseInt(localStorage.getItem(item)));
       }
 
       // Update localStorage values to match those of the settings and update timer with them
-      sessionNames.forEach(item => localStorage.setItem(item, eval(item).value.toString()));
+      sessionNames.forEach(item => localStorage.setItem(item, El[item].value.toString()));
       setTimeout(() => this.timeHandler.format(), 25); // TODO use an asynchronous solution
       this.timeHandler.update();
     }

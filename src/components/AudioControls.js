@@ -22,7 +22,7 @@ class AudioControls {
     // Applies default or localStorage value on start
     if (option === 'start') {
       !localStorage.getItem('muted') &&
-      localStorage.setItem('muted', muted.toString());
+      localStorage.setItem('muted', this.muted.toString());
       localStorage.getItem('muted') === 'false' ?
         El.muteButton.innerText = 'Mute':
         El.muteButton.innerText = 'Unmute';
@@ -56,7 +56,7 @@ class AudioControls {
     // Applies default or localStorage value on start
     if (option === 'start') {
       !localStorage.getItem('volume') ?
-        localStorage.setItem('volume', volume.toString()) :
+        localStorage.setItem('volume', this.volume.toString()) :
         El.volumeSlider.value = +localStorage.getItem('volume');
       return applyVolume();
     }
