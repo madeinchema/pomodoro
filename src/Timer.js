@@ -21,6 +21,8 @@ const startButton = document.getElementById('start');
 const stopButton = document.getElementById('stop');
 
 // Timer settings button and values
+const openSettings = document.getElementById('openSettings');
+const closeSettings = document.getElementById('closeSettings');
 const applySettingsButton = document.getElementById('timer-settings-apply');
 const workTime = document.getElementById('work-time');
 const shortBreak = document.getElementById('short-break');
@@ -315,6 +317,8 @@ const toggleSettings = () => {
     : document.body.style.overflow = 'visible';
 }
 
+openSettings.addEventListener('click', toggleSettings);
+closeSettings.addEventListener('click', toggleSettings);
 overlay.addEventListener('click', toggleSettings);
 
 
