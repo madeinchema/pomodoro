@@ -8,8 +8,9 @@
   <title id="page-title">Pomodoro App</title>
   <link id="favicon" rel="icon" type="image/png" href="assets/img/icons/workTime-stopped.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles/index.css">
-  <script src="assets/scripts/App/Timer.js" defer></script>
+  <link rel="stylesheet" href="assets/styles/index.css">
+  <script src="assets/scripts/bundle.js" defer></script>
+<!--  <script src="../src/Timer.js" defer></script>-->
 </head>
 <body>
 
@@ -48,7 +49,7 @@
         <audio id="end-session" src="assets/audio/end-session.mp3"></audio>
         <audio id="end-break" src="assets/audio/end-break.mp3"></audio>
       </div>
-      <a href="#" onclick="toggleSettings()"><button>Close</button></a>
+      <a href="#" id="closeSettings"><button>Close</button></a>
     </section>
   </div>
 
@@ -63,7 +64,7 @@
 
       <nav>
         <ul>
-          <li><a href="#" onclick="toggleSettings()">Settings</a></li>
+          <li><a id="openSettings" href="#">Settings</a></li>
         </ul>
       </nav>
 
