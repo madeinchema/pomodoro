@@ -1,4 +1,4 @@
-import {TimerComponent} from '../Timer';
+import { TimerComponent } from './Timer';
 import El from './Elements';
 
 /**
@@ -9,4 +9,6 @@ import El from './Elements';
 El.startButton.addEventListener('click', TimerComponent.timerController.start);
 
 // Stop
-El.stopButton.addEventListener('click', () => TimerComponent.timerController.stop('button'));
+El.stopButton.addEventListener('click', () =>
+  TimerComponent.timerController.stop('button')
+);

@@ -1,24 +1,20 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
 
   entry: './src/app.js',
 
-  watch: true,
-  watchOptions: {
-    aggregateTimeout: 300,
-    poll: 1000,
-    ignored: /node_modules/,
-  },
+  // output: {
+  //   path: path.resolve(__dirname, 'dist/scripts'),
+  //   filename: 'bundle.js',
+  //   // publicPath: '/'
+  // },
 
-  devServer: {
-    contentBase: path.resolve(__dirname),
-    // publicPath: '/',
-    watchContentBase: true,
-    hot: true,
-    open: true,
-    inline: true,
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname),
+    publicPath: '',
   },
 
   module: {

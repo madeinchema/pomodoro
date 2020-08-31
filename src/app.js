@@ -1,7 +1,10 @@
+// Import Styles
+import './styles/app.scss';
+
 /**
  * Timer
  */
-import './Timer';
+import './components/Timer';
 
 // Timer Controls
 import './components/TimerControls';

@@ -1,4 +1,4 @@
-import El from './components/Elements';
+import El from './Elements';
 
 /**
  * Timer
@@ -6,15 +6,14 @@ import El from './components/Elements';
  */
 
 function Timer() {
-
   /**
    * Default timer values
    */
   this.defaultTimerValues = {
-    'workTime': 25,
-    'shortBreak': 5,
-    'longBreak': 15,
-    'longBreakInterval': 4,
+    workTime: 25,
+    shortBreak: 5,
+    longBreak: 15,
+    longBreakInterval: 4,
   };
 
   /**
@@ -69,11 +68,13 @@ function Timer() {
     // Stop method:
     // Stops the timer, changes the state to 'stopped', and resets the timer using the timeHandler option.
     stop: (option) => {
-      let priorState = this.timerState;
+      const priorState = this.timerState;
       // Stop button: If timer wasn't started, ask confirmation and handle accordingly.
       if (option === 'button') {
         if (priorState !== 'stopped') {
-          let stopConfirmation = confirm('Are you sure you want to stop the timer?');
+          const stopConfirmation = confirm(
+            'Are you sure you want to stop the timer?'
+          );
           if (stopConfirmation) {
             this.sessionHandler.stop();
           } else {
@@ -83,10 +84,13 @@ function Timer() {
       } else {
         // Otherwise trigger alert notification and switch to next session
         setTimeout(() => {
-          let session = this.currentSession === 'workTime' ? 'Break' : 'Session';
-          alert(`${session} completed!`)
-        }, 50) // Alert notification and "00:01 issue" fix
-        this.currentSession === 'workTime' ? El.audioEndSession.play() : El.audioEndBreak.play(); // Audio notification
+          const session =
+            this.currentSession === 'workTime' ? 'Break' : 'Session';
+          alert(`${session} completed!`);
+        }, 50); // Alert notification and "00:01 issue" fix
+        this.currentSession === 'workTime'
+          ? El.audioEndSession.play()
+          : El.audioEndBreak.play(); // Audio notification
         this.sessionHandler.next();
       }
       // Reset timer, update startButton's text and update timer's time.
@@ -94,7 +98,6 @@ function Timer() {
       this.timerController.setState('stopped');
       this.timeHandler.format();
     },
-
 
     // Element State Handler:
     setState: (newState) => {
@@ -110,9 +113,11 @@ function Timer() {
         El.startButton.innerText = 'Start';
       }
       // Changes favicon depending on currentSession and timerState
-      El.faviconElement.setAttribute('href', `assets/img/icons/${this.currentSession}-${this.timerState}.png`);
+      El.faviconElement.setAttribute(
+        'href',
+        `assets/img/icons/${this.currentSession}-${this.timerState}.png`
+      );
     },
-
 
     // Update method:
     // Updates the timer with new settings from localStorage
@@ -124,19 +129,22 @@ function Timer() {
         // Local storage with default values from start for new sessions
         for (let i = 0; i < sessionNames.length; i++) {
           !localStorage.getItem(sessionNames[i]) &&
-          localStorage.setItem(sessionNames[i], defaultValues[i].toString());
+            localStorage.setItem(sessionNames[i], defaultValues[i].toString());
         }
         // Starts the user session with the timer using values from localStorage
-        sessionNames.forEach(item => El[item].value = parseInt(localStorage.getItem(item)));
+        sessionNames.forEach(
+          (item) => (El[item].value = parseInt(localStorage.getItem(item)))
+        );
       }
 
       // Update localStorage values to match those of the settings and update timer with them
-      sessionNames.forEach(item => localStorage.setItem(item, El[item].value.toString()));
+      sessionNames.forEach((item) =>
+        localStorage.setItem(item, El[item].value.toString())
+      );
       setTimeout(() => this.timeHandler.format(), 25); // TODO use an asynchronous solution
       this.timeHandler.update();
-    }
-
-  }
+    },
+  };
 
   /**
    * Session handler
@@ -145,7 +153,8 @@ function Timer() {
     // Resets the current timer iteration without changing the session's state.
     stop: () => {
       this.currentSession === 'workTime' && this.timeHandler.set('workTime');
-      this.currentSession === 'shortBreak' && this.timeHandler.set('shortBreak');
+      this.currentSession === 'shortBreak' &&
+        this.timeHandler.set('shortBreak');
       this.currentSession === 'longBreak' && this.timeHandler.set('longBreak');
       this.timeHandler.update();
     },
@@ -154,7 +163,9 @@ function Timer() {
     next: () => {
       if (this.currentSession === 'workTime') {
         this.sessionCounter.session++;
-        this.sessionCounter.session % parseInt(localStorage.longBreakInterval) === 0
+        this.sessionCounter.session %
+          parseInt(localStorage.longBreakInterval) ===
+        0
           ? this.sessionHandler.set('longBreak')
           : this.sessionHandler.set('shortBreak');
       } else if (this.currentSession === 'shortBreak') {
@@ -177,8 +188,8 @@ function Timer() {
         this.currentSession = 'longBreak';
       }
       this.timeHandler.update();
-    }
-  }
+    },
+  };
 
   /**
    * Time display handler
@@ -189,9 +200,9 @@ function Timer() {
       if (sessionState === 'workTime') {
         this.time = parseInt(localStorage.workTime) * 60;
       } else if (sessionState === 'shortBreak') {
-        return this.time = parseInt(localStorage.shortBreak) * 60;
+        return (this.time = parseInt(localStorage.shortBreak) * 60);
       } else if (sessionState === 'longBreak') {
-        return this.time = parseInt(localStorage.longBreak) * 60;
+        return (this.time = parseInt(localStorage.longBreak) * 60);
       }
     },
 
@@ -199,30 +210,31 @@ function Timer() {
     update: () => {
       if (this.currentSession === 'workTime') {
         this.timeHandler.set('workTime');
-        El.sessionStatus.innerHTML = 'Work Time';
+        El.sessionStatus.innerText = 'Work Time';
       } else if (this.currentSession === 'shortBreak') {
         this.timeHandler.set('shortBreak');
-        El.sessionStatus.innerHTML = 'Short Break';
+        El.sessionStatus.innerText = 'Short Break';
       } else if (this.currentSession === 'longBreak') {
         this.timeHandler.set('longBreak');
-        El.sessionStatus.innerHTML = 'Long Break';
+        El.sessionStatus.innerText = 'Long Break';
       }
     },
 
     // Update the timer element and page title to reflect the correct format
     format: () => {
-      let formattedTime = () => {
-        return Math.floor(this.time / 60)
-          + (this.time % 60 < 10 ? ':0' : ':')
-          + this.time % 60;
+      const formattedTime = () => {
+        return (
+          Math.floor(this.time / 60) +
+          (this.time % 60 < 10 ? ':0' : ':') +
+          (this.time % 60)
+        );
       };
       // Update the timer element
-      El.timerElement.innerHTML = formattedTime();
+      El.timerElement.innerText = formattedTime();
       // Update the page title
-      El.pageTitleElement.innerHTML = formattedTime() + ' ' + El.pageTitle;
-    }
-  }
-
+      El.pageTitleElement.innerText = `${formattedTime()} ${El.pageTitle}`;
+    },
+  };
 }
 
 // Initialize the Timer
