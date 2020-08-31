@@ -21,15 +21,23 @@ body, p, a, ul, li {
   text-decoration: none;
 }
 
-li {list-style-type: none}
+li {
+  list-style-type: none
+}
 
 /* Base styles */
 body {
   background: var(--background-black);
 }
 
-a {color: white}
-a:hover {text-decoration: underline}
+a {
+  color: white;
+
+  &:hover {
+    text-decoration: underline
+  }
+
+}
 
 button {
   padding: 8px 24px;
@@ -42,17 +50,28 @@ button {
   border: solid 3px var(--gray);
   background: transparent;
   cursor: pointer;
-}
-button:hover {background: rgba(74, 85, 104, 0.25)}
 
-button:active {background: rgba(74, 85, 104, 0.5)}
+  &:hover {
+    background: rgba(74, 85, 104, 0.25)
+  }
+
+  &:active {
+    background: rgba(74, 85, 104, 0.5)
+  }
+}
 
 .button-red {
   border: solid 3px #742A2A;
   background: transparent;
+
+  &:hover {
+    background: rgba(116, 42, 42, 0.2)
+  }
+
+  &:active {
+    background: rgba(116, 42, 42, 0.5)
+  }
 }
-.button-red:hover {background: rgba(116, 42, 42, 0.2)}
-.button-red:active {background: rgba(116, 42, 42, 0.5)}
 
 input {
   text-align: center;
@@ -65,12 +84,21 @@ input {
   height: 26px;
   max-width: 64px;
   outline: none;
+
+  &:focus {
+    background: var(--background-black)
+  }
 }
-input:focus {background: var(--background-black)}
+
 
 /* Utilities */
-.w-full {width: 100%}
-.invisible {display: none}
+.w-full {
+  width: 100%
+}
+
+.invisible {
+  display: none
+}
 
 .modal {
   /*display: none; !* Hidden by default *!*/
@@ -88,14 +116,14 @@ input:focus {background: var(--background-black)}
 
 /* Overlay */
 #overlay {
-  position:absolute;
-  background:#000;
-  opacity:.5;
-  left:0;
-  right:0;
-  top:0;
-  bottom:0;
-  z-index:1;
+  position: absolute;
+  background: #000;
+  opacity: .5;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
   height: 100vh;
 }
 
@@ -106,19 +134,24 @@ header {
   justify-content: space-between;
   align-items: center;
   background: var(--background-color);
+
+  & nav {
+    font-weight: 600;
+    font-size: 1.2em;
+  }
+
+  & nav ul {
+    text-decoration: none
+  }
 }
 
-header nav {
-  font-weight: 600;
-  font-size: 1.2em;
-}
 
-header nav ul {text-decoration: none}
-
-#logo h1 {
-  margin: 0;
-  font-size: 1.8em;
-  user-select: none;
+#logo {
+  h1 {
+    margin: 0;
+    font-size: 1.8em;
+    user-select: none;
+  }
 }
 
 /* Main container */
@@ -136,33 +169,40 @@ section {
 /* Task title */
 .element-title {
   padding: var(--marginMobile) auto 6px;
-}
 
-.element-title h4 {
-  text-align: center;
-  margin: 0;
+  h4 {
+    text-align: center;
+    margin: 0;
+  }
 }
 
 #task-title {
   text-align: center;
   margin: 12px 0 24px;
-}
 
-#task-title p {
-  padding: 12px 6px;
-  font-size: 1.8em;
-  font-weight: 600;
-  color: white;
-  background: var(--background-color);
-  border-radius: 12px;
-  border: solid 3px transparent;
-  resize: none;
-  outline: none;
-  width: 100%;
-  box-sizing: border-box;
+  p {
+    padding: 12px 6px;
+    font-size: 1.8em;
+    font-weight: 600;
+    color: white;
+    background: var(--background-color);
+    border-radius: 12px;
+    border: solid 3px transparent;
+    resize: none;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+      border: solid 3px rgba(255, 255, 255, 0.1)
+    }
+
+    &:focus::placeholder {
+      color: transparent
+    }
+  }
+
 }
-#task-title p:focus::placeholder {color: transparent}
-#task-title p:focus {border: solid 3px rgba(255, 255, 255, 0.1)}
 
 /* Timer */
 #timer-container {
@@ -186,7 +226,6 @@ section {
 }
 
 
-
 /* Settings */
 #settings-container {
   background-color: var(--background-color);
@@ -194,30 +233,32 @@ section {
   margin: var(--marginMobile);
   padding: var(--marginMobile);
 
-}
+  h2 {
+    text-align: center;
+    margin: 0;
+  }
 
-#settings-container h2 {
-  text-align: center;
-  margin: 0;
 }
 
 .settings {
   margin-bottom: 24px;
+
+  h3 {
+    margin: 32px 0 16px;
+  }
+
 }
 
-.settings h3 {
-  margin: 32px 0 16px;
-}
 
 .settings-list {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   align-items: center;
   grid-gap: 12px 24px;
-}
 
-.settings-list label {
-  width: 100%;
+  label {
+    width: 100%;
+  }
 }
 
 #timer-settings-apply {
@@ -243,21 +284,22 @@ footer {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-}
 
-footer h4 {
-  margin: 0 0 6px 0;
-}
+  h4 {
+    margin: 0 0 6px 0;
+  }
 
-footer p {
-  margin: 0;
-  font-size: 0.8em;
+  p {
+    margin: 0;
+    font-size: 0.8em;
+  }
+
 }
 
 
 /* Desktop styles */
 @media screen and (min-width: 900px) {
-  main div:first-child, main section{
+  main div:first-child, main section {
     max-width: 800px;
     margin: 0 auto;
   }
