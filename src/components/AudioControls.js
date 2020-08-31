@@ -10,7 +10,9 @@ class AudioControls {
     this.volume = 50;
 
     El.muteButton.addEventListener('click', this.muteButtonHandler);
-    El.volumeSlider.addEventListener('change', (event) => this.volumeHandler(event));
+    El.volumeSlider.addEventListener('change', (event) =>
+      this.volumeHandler(event)
+    );
   }
 
   /**
@@ -20,10 +22,10 @@ class AudioControls {
     // Applies default or localStorage value on start
     if (option === 'start') {
       !localStorage.getItem('muted') &&
-      localStorage.setItem('muted', this.muted.toString());
-      localStorage.getItem('muted') === 'false' ?
-        El.muteButton.innerText = 'Mute':
-        El.muteButton.innerText = 'Unmute';
+        localStorage.setItem('muted', this.muted.toString());
+      localStorage.getItem('muted') === 'false'
+        ? (El.muteButton.innerText = 'Mute')
+        : (El.muteButton.innerText = 'Unmute');
       return;
     }
 
@@ -49,13 +51,13 @@ class AudioControls {
     const applyVolume = () => {
       El.audioEndSession.volume = +localStorage.getItem('volume') / 100;
       El.audioEndBreak.volume = +localStorage.getItem('volume') / 100;
-    }
+    };
 
     // Applies default or localStorage value on start
     if (option === 'start') {
-      !localStorage.getItem('volume') ?
-        localStorage.setItem('volume', this.volume.toString()) :
-        El.volumeSlider.value = +localStorage.getItem('volume');
+      !localStorage.getItem('volume')
+        ? localStorage.setItem('volume', this.volume.toString())
+        : (El.volumeSlider.value = +localStorage.getItem('volume'));
       return applyVolume();
     }
 
@@ -64,7 +66,6 @@ class AudioControls {
     El.volumeSlider.setAttribute('value', localStorage.getItem('volume'));
     applyVolume();
   }
-
 }
 
 // Initialize component
@@ -75,4 +76,3 @@ AudioControlsComponent.muteButtonHandler('start');
 
 // Set volume value during initialization
 AudioControlsComponent.volumeHandler(null, 'start');
-

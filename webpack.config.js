@@ -1,20 +1,37 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
+  mode: 'development',
 
-  entry: './src/index.js',
+  entry: './src/app.js',
 
-  output: {
-    path: path.resolve(__dirname, 'dist/assets/scripts'),
-    filename: 'bundle.js',
-    // publicPath: '/'
+  watch: true,
+
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: 1000,
+    ignored: /node_modules/,
   },
+
+  devtool: 'source-maps',
 
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    publicPath: '/assets/scripts/',
-
+    contentBase: path.resolve(__dirname),
+    watchContentBase: true,
+    hot: true,
+    open: true,
+    inline: true,
   },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Webpack starter project',
+      template: path.resolve('./index.html'),
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 
   module: {
     rules: [
@@ -24,19 +41,18 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env']
-          }
-        }
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
-      }
-    ]
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
   },
 
   optimization: {
-    minimize: false
+    minimize: false,
   },
-
 };

@@ -34,7 +34,7 @@ export default {
   muteButton: document.getElementById('mute'),
   volumeSlider: document.getElementById('volume-slider'),
 
-  // Audio assets
+  // Audio public
   audioEndSession: document.getElementById('end-session'),
   audioEndBreak: document.getElementById('end-break'),
-}
+};
