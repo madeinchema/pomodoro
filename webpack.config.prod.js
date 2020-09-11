@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
@@ -19,6 +20,10 @@ module.exports = {
   },
 
   plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Pomodoro App',
+      template: path.resolve('./index.html'),
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
