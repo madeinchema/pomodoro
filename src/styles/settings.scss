@@ -1,0 +1,47 @@
+/* Settings */
+#settings-container {
+  background-color: var(--backgroundColor);
+  border: solid 3px var(--gray);
+  margin: var(--marginMobile);
+  padding: var(--marginMobile);
+
+  h2 {
+    text-align: center;
+    margin: 0;
+  }
+}
+
+.settings {
+  margin-bottom: 24px;
+
+  h3 {
+    margin: 32px 0 16px;
+  }
+}
+
+.settings-list {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: center;
+  grid-gap: 12px 24px;
+
+  label {
+    width: 100%;
+  }
+}
+
+#timer-settings-apply {
+  margin-top: 24px;
+}
+
+#mute {
+  max-width: 128px;
+  padding: 8px 12px;
+  justify-self: end;
+}
+
+#volume-slider {
+  justify-self: end;
+  width: 100%;
+  max-width: 128px;
+}
