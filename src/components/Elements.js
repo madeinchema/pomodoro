@@ -1,6 +1,7 @@
 /**
  * @type {HTMLElement}
  */
+export const appRoot = document.getElementById('app-root');
 export const overlay = document.getElementById('overlay');
 
 // Page title
@@ -30,6 +31,7 @@ export const workTime = document.getElementById('work-time');
 export const shortBreak = document.getElementById('short-break');
 export const longBreak = document.getElementById('long-break');
 export const longBreakInterval = document.getElementById('long-break-interval');
+export const switchTheme = document.getElementById('switchTheme');
 
 // Audio controls
 export const muteButton = document.getElementById('mute');
