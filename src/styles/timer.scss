@@ -1,0 +1,60 @@
+/* Timer */
+#timer-container {
+  text-align: center;
+}
+
+#timer {
+  font-size: 4em;
+  font-weight: 700;
+}
+
+#session-status {
+  margin: 0 auto 6px;
+  color: var(--textColorLight)
+}
+
+/* Timer buttons */
+#buttons {
+  display: flex;
+  margin-top: 12px;
+  grid-gap: 12px;
+
+  & button {
+    padding: 12px 24px;
+    font: inherit;
+    font-weight: 600;
+    color: var(--color-basic-100);
+    flex-grow: 1;
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    background: var(--buttonColor);
+
+    cursor: pointer;
+    width: 100%;
+    transition: all .1s ease-out;
+    opacity: .9;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+      box-shadow: var(--shadowMid);
+    }
+
+    &:active {
+      transform: translateY(2px);
+      box-shadow: var(--shadowLow);
+    }
+  }
+
+  & .button-red {
+    background: var(--secondary-darker);
+  }
+
+  & .button-green {
+    background: var(--primary-darker);
+  }
+}
+
+
+
