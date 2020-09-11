@@ -61,12 +61,12 @@ function themeSwitch() {
     appRoot.className = '';
     localStorage.setItem('theme', 'light-theme');
     appRoot.classList.add(localStorage.getItem('theme'));
-    switchTheme.textContent = 'Light';
+    switchTheme.textContent = 'Dark';
   } else if (localStorage.getItem('theme') === 'light-theme') {
     appRoot.className = '';
     localStorage.setItem('theme', 'dark-theme');
     appRoot.classList.add(localStorage.getItem('theme'));
-    switchTheme.textContent = 'Dark';
+    switchTheme.textContent = 'Light';
   }
 }
 
