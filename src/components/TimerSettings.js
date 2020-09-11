@@ -1,31 +1,42 @@
 import { TimerComponent } from './Timer';
 import {
+  appRoot,
   settingsModal,
   overlay,
   applySettingsButton,
   openSettings,
   closeSettings,
+  switchTheme,
 } from './Elements';
 
 /**
  * Timer settings
  */
 class TimerSettings {
+  constructor() {
+    // Theming initialization
+    if (localStorage.getItem('theme')) {
+      appRoot.classList.add(localStorage.getItem('theme'));
+      switchTheme.textContent = 'Light';
+    } else {
+      localStorage.setItem('theme', 'dark-theme');
+      appRoot.classList.add(localStorage.getItem('theme'));
+      switchTheme.textContent = 'Dark';
+    }
+  }
+
   // Settings menu - Modal window
   toggleSettings() {
     settingsModal.classList.toggle('invisible');
     overlay.classList.toggle('invisible');
-
-    // Body is not scrollable when the modal is open
-    document.body.style.overflow === 'visible' ||
-    document.body.style.overflow === ''
-      ? (document.body.style.overflow = 'hidden')
-      : (document.body.style.overflow = 'visible');
+    document.body.style.overflow === 'visible'
+      ? (document.body.style.overflow = 'visible')
+      : (document.body.style.overflow = 'hidden');
   }
 }
 
 // Initialize component
-const TimerSettingsComponent = new TimerSettings();
+export const TimerSettingsComponent = new TimerSettings();
 
 // Apply button
 applySettingsButton.addEventListener('click', (event) => {
@@ -43,25 +54,19 @@ closeSettings.addEventListener('click', TimerSettingsComponent.toggleSettings);
 overlay.addEventListener('click', TimerSettingsComponent.toggleSettings);
 
 // Theme switcher
-const appRoot = document.getElementById('app-root');
-const switchTheme = document.getElementById('switchTheme');
-
-if (localStorage.getItem('theme')) {
-  appRoot.classList.add(localStorage.getItem('theme'));
-} else {
-  localStorage.setItem('theme', 'dark-theme');
-  appRoot.classList.add(localStorage.getItem('theme'));
-}
-
 function themeSwitch() {
+  console.log('themeSwitch');
+
   if (localStorage.getItem('theme') === 'dark-theme') {
     appRoot.className = '';
     localStorage.setItem('theme', 'light-theme');
     appRoot.classList.add(localStorage.getItem('theme'));
+    switchTheme.textContent = 'Light';
   } else if (localStorage.getItem('theme') === 'light-theme') {
     appRoot.className = '';
     localStorage.setItem('theme', 'dark-theme');
     appRoot.classList.add(localStorage.getItem('theme'));
+    switchTheme.textContent = 'Dark';
   }
 }
 
