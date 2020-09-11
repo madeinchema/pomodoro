@@ -1,9 +1,10 @@
 /* Header */
 header {
   backdrop-filter: blur(4px);
-  padding: 16px var(--marginMobile);
+  padding: 12px var(--marginMobile);
   display: flex;
   justify-content: space-between;
+  align-content: center;
   align-items: center;
   background: var(--backgroundColorAccent);
   box-shadow: var(--shadowHigh);
@@ -15,26 +16,54 @@ header {
 
   & nav ul {
     text-decoration: none;
-    display: flex;
-    & li {
-      margin-left: 1em;
+
+    & li a {
+      display: flex;
+      align-content: center;
+      transition: all .2s ease-out;
+
+      &:hover,
+      &:focus {
+        transform: rotate(-30deg);
+      }
+    }
+    & li a svg {
+      height: 1.75rem;
+      fill: var(--textColorLight);
+    }
+    & li a svg:hover {
+      height: 1.75rem;
+      fill: var(--textColor);
     }
   }
 }
 
 #logo {
-  h1 {
-    display: flex;
+  display: flex;
 
+  & h1 {
+    align-self: center;
     margin: 0;
-    font-size: 1.8em;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 800;
     user-select: none;
-
-    & svg {
-      align-self: center;
-      height: 28px;
-      margin-right: .25rem;
-    }
   }
+  & svg {
+    align-self: center;
+    height: 2rem;
+    width: 2rem;
+    margin-right: .5rem;
+  }
+}
+
+
+
+/* Desktop styles */
+@media screen and (min-width: 900px) {
+
+}
+
+/* Tablet styles */
+@media screen and (min-width: 600px) {
+
 }
