@@ -1,4 +1,4 @@
-import El from './Elements';
+import { taskTitleInput } from './Elements';
 
 /**
  * Task title:
@@ -12,18 +12,18 @@ class TaskTitle {
     if (option === 'start') {
       // Sets <br> to fix the non-centered cursor
       return !localStorage.getItem('title')
-        ? localStorage.setItem('title', El.taskTitleInput.innerText)
+        ? localStorage.setItem('title', taskTitleInput.innerText)
         : '';
     }
 
     // Handles font size
     event.target.innerText.length > 60
-      ? (El.taskTitleInput.style.fontSize = '1.5em')
-      : (El.taskTitleInput.style.fontSize = '1.8em');
+      ? (taskTitleInput.style.fontSize = '1.5em')
+      : (taskTitleInput.style.fontSize = '1.8em');
 
     // Saves input value to localStorage
     setTimeout(
-      () => localStorage.setItem('title', El.taskTitleInput.innerText),
+      () => localStorage.setItem('title', taskTitleInput.innerText),
       25
     );
   }
@@ -34,12 +34,12 @@ const TaskTitleComponent = new TaskTitle();
 TaskTitleComponent.taskTitleHandler(null, 'start');
 
 // Listen for keystrokes and add behavior
-El.taskTitleInput.addEventListener('keydown', (event) =>
+taskTitleInput.addEventListener('keydown', (event) =>
   TaskTitleComponent.taskTitleHandler(event)
 );
 
 // Initialize with title from localStorage
-El.taskTitleInput.innerText = localStorage.getItem('title');
+taskTitleInput.innerText = localStorage.getItem('title');
 
 // Initialize with autofocus on task title
-localStorage.getItem('title') == false && El.taskTitleInput.focus();
+localStorage.getItem('title') == false && taskTitleInput.focus();
