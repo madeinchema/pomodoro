@@ -39,20 +39,21 @@ header {
 }
 
 #logo {
-  display: flex;
-
-  & h1 {
-    align-self: center;
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 800;
-    user-select: none;
-  }
-  & svg {
-    align-self: center;
-    height: 2rem;
-    width: 2rem;
-    margin-right: .5rem;
+  a {
+    display: flex;
+    & h1 {
+      align-self: center;
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 800;
+      user-select: none;
+    }
+    & svg {
+      align-self: center;
+      height: 2rem;
+      width: 2rem;
+      margin-right: .5rem;
+    }
   }
 }
 
