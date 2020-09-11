@@ -1,0 +1,40 @@
+/* Header */
+header {
+  backdrop-filter: blur(4px);
+  padding: 16px var(--marginMobile);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--backgroundColorAccent);
+  box-shadow: var(--shadowHigh);
+
+  & nav {
+    font-weight: 600;
+    font-size: 1.2em;
+  }
+
+  & nav ul {
+    text-decoration: none;
+    display: flex;
+    & li {
+      margin-left: 1em;
+    }
+  }
+}
+
+#logo {
+  h1 {
+    display: flex;
+
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 700;
+    user-select: none;
+
+    & svg {
+      align-self: center;
+      height: 28px;
+      margin-right: .25rem;
+    }
+  }
+}
