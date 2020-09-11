@@ -1,9 +1,36 @@
+/* Modal */
+.modal {
+  /*display: none; !* Hidden by default *!*/
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  overflow: auto; /* Enable scroll if needed */
+  max-width: 100%;
+  width: 1000px;
+  max-height: calc(100vh - calc(var(--marginMobile) * 4 + 6px));
+  border: solid 3px var(--backgroundColor);
+}
+
+/* Overlay */
+#overlay {
+  position: absolute;
+  background: #000;
+  opacity: .5;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  height: 100vh;
+}
+
 /* Settings */
 #settings-container {
-  background-color: var(--backgroundColor);
-  border: solid 3px var(--gray);
-  margin: var(--marginMobile);
-  padding: var(--marginMobile);
+  background-color: var(--backgroundColorAccent);
+
+  margin-top: var(--marginMobile);
+  padding: calc(var(--marginMobile) / 2);
 
   h2 {
     text-align: center;
@@ -28,20 +55,49 @@
   label {
     width: 100%;
   }
+
+  input {
+    color: var(--textColor);
+    font-weight: 600;
+    background-color: var(--backgroundColor);
+    border-radius: 4px;
+  }
+
+  & button {
+    max-width: 128px;
+    padding: 8px 12px;
+    justify-self: end;
+  }
 }
 
 #timer-settings-apply {
   margin-top: 24px;
 }
 
-#mute {
-  max-width: 128px;
-  padding: 8px 12px;
-  justify-self: end;
-}
 
 #volume-slider {
   justify-self: end;
   width: 100%;
   max-width: 128px;
 }
+
+
+
+/* Desktop styles */
+@media screen and (min-width: 900px) {
+
+}
+
+/* Tablet styles */
+@media screen and (min-width: 600px) {
+  #settings-container {
+    padding: calc(var(--marginMobile));
+    margin: 0 auto auto -300px;
+  }
+
+  .modal {
+    position: fixed;
+    width: 600px;
+    top: 5%;
+    left: 50%;
+  }}
