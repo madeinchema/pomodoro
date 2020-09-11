@@ -1,4 +1,9 @@
-import El from './Elements';
+import {
+  muteButton,
+  volumeSlider,
+  audioEndBreak,
+  audioEndSession,
+} from './Elements';
 
 /**
  * Audio controls:
@@ -9,8 +14,8 @@ class AudioControls {
     this.muted = false;
     this.volume = 50;
 
-    El.muteButton.addEventListener('click', this.muteButtonHandler);
-    El.volumeSlider.addEventListener('change', (event) =>
+    muteButton.addEventListener('click', this.muteButtonHandler);
+    volumeSlider.addEventListener('change', (event) =>
       this.volumeHandler(event)
     );
   }
@@ -24,22 +29,22 @@ class AudioControls {
       !localStorage.getItem('muted') &&
         localStorage.setItem('muted', this.muted.toString());
       localStorage.getItem('muted') === 'false'
-        ? (El.muteButton.innerText = 'Mute')
-        : (El.muteButton.innerText = 'Unmute');
+        ? (muteButton.innerText = 'Mute')
+        : (muteButton.innerText = 'Unmute');
       return;
     }
 
     // Handles behavior between states
     if (localStorage.getItem('muted') === 'true') {
       localStorage.setItem('muted', 'false');
-      El.audioEndSession.muted = false;
-      El.audioEndBreak.muted = false;
-      El.muteButton.innerText = 'Mute';
+      audioEndSession.muted = false;
+      audioEndBreak.muted = false;
+      muteButton.innerText = 'Mute';
     } else {
       localStorage.setItem('muted', 'true');
-      El.audioEndSession.muted = true;
-      El.audioEndBreak.muted = true;
-      El.muteButton.innerText = 'Unmute';
+      audioEndSession.muted = true;
+      audioEndBreak.muted = true;
+      muteButton.innerText = 'Unmute';
     }
   }
 
@@ -49,27 +54,28 @@ class AudioControls {
   volumeHandler(event, option) {
     // Applies volume value from localHost to audio files
     const applyVolume = () => {
-      El.audioEndSession.volume = +localStorage.getItem('volume') / 100;
-      El.audioEndBreak.volume = +localStorage.getItem('volume') / 100;
+      audioEndSession.volume = +localStorage.getItem('volume') / 100;
+      audioEndBreak.volume = +localStorage.getItem('volume') / 100;
     };
 
     // Applies default or localStorage value on start
     if (option === 'start') {
       !localStorage.getItem('volume')
         ? localStorage.setItem('volume', this.volume.toString())
-        : (El.volumeSlider.value = +localStorage.getItem('volume'));
+        : (volumeSlider.value = +localStorage.getItem('volume'));
       return applyVolume();
     }
 
     // Set localStorage volume and volumeSlider value attribute. Then apply the value to the audio files.
     localStorage.setItem('volume', event.target.value);
-    El.volumeSlider.setAttribute('value', localStorage.getItem('volume'));
+    volumeSlider.setAttribute('value', localStorage.getItem('volume'));
     applyVolume();
   }
 }
 
 // Initialize component
-export const AudioControlsComponent = new AudioControls();
+const AudioControlsComponent = new AudioControls();
+export default AudioControlsComponent;
 
 // Set mute button value during initialization
 AudioControlsComponent.muteButtonHandler('start');
