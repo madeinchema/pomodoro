@@ -1,18 +1,22 @@
-/* Variables */
-:root {
-  --primary: #20C37F;
-  --secondary: #D93838;
-  --gray: rgb(74, 85, 104);
-  --gray-dark: rgb(26, 32, 44);
-  --background-color: #131313;
-  --background-black: #000000;
-  --marginMobile: 24px;
-}
+@import 'theming';
+@import 'header';
+@import 'task-title';
+@import 'timer';
+@import 'settings';
 
 /* Reset */
-html {
-  font-family: 'Montserrat', sans-serif;
-  color: white;
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--textColor);
+  transition:
+    background-color 0.25s ease,
+    color 0.75s ease,
+    box-shadow 0.25s ease;
 }
 
 body, p, a, ul, li {
@@ -26,67 +30,46 @@ li {
 }
 
 /* Base styles */
+html {
+  height: 100%;
+}
+
 body {
-  background: var(--background-black);
+  background-color: var(--backgroundColor);
 }
 
 a {
-  color: white;
-
+  color: var(--textColor);
   &:hover {
     text-decoration: underline
   }
-
 }
 
 button {
-  padding: 8px 24px;
+  padding: 12px 24px;
   font: inherit;
   font-weight: 600;
-  color: white;
+  color: var(--color-basic-100);
+  background-color: var(--color-basic-700);
   flex-grow: 1;
   border-radius: 8px;
   outline: none;
-  border: solid 3px var(--gray);
-  background: transparent;
+  border: none;
+
   cursor: pointer;
+  width: 100%;
+  transition: all .1s ease-out;
+  opacity: .9;
 
-  &:hover {
-    background: rgba(74, 85, 104, 0.25)
-  }
-
-  &:active {
-    background: rgba(74, 85, 104, 0.5)
-  }
-}
-
-.button-red {
-  border: solid 3px #742A2A;
-  background: transparent;
-
-  &:hover {
-    background: rgba(116, 42, 42, 0.2)
-  }
-
-  &:active {
-    background: rgba(116, 42, 42, 0.5)
-  }
-}
-
-input {
-  text-align: center;
-  font: inherit;
-  color: white;
-  background: transparent;
-  border-radius: 8px;
-  border: solid 3px var(--gray);
-  justify-self: end;
-  height: 26px;
-  max-width: 64px;
-  outline: none;
-
+  &:hover,
   &:focus {
-    background: var(--background-black)
+    opacity: 1;
+    box-shadow: var(--shadowMid);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: var(--shadowLow);
   }
 }
 
@@ -100,181 +83,32 @@ input {
   display: none
 }
 
-.modal {
-  /*display: none; !* Hidden by default *!*/
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  overflow: auto; /* Enable scroll if needed */
-
-  /* Full width, spans the entire window horizontally */
-  width: 100%;
-  max-width: calc(100vw - calc(var(--marginMobile) * 4 + 6px));
-  max-height: calc(100vh - calc(var(--marginMobile) * 4 + 6px));
-}
-
-/* Overlay */
-#overlay {
-  position: absolute;
-  background: #000;
-  opacity: .5;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 1;
-  height: 100vh;
-}
-
-/* Header */
-header {
-  padding: 16px var(--marginMobile);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--background-color);
-
-  & nav {
-    font-weight: 600;
-    font-size: 1.2em;
-  }
-
-  & nav ul {
-    text-decoration: none
-  }
-}
-
-
-#logo {
-  h1 {
-    margin: 0;
-    font-size: 1.8em;
-    user-select: none;
-  }
-}
-
 /* Main container */
 main {
-  background-color: var(--background-black);
   padding: var(--marginMobile);
 }
 
 section {
-  background: var(--background-color);
+  background: var(--backgroundColorAccent);
   border-radius: 12px;
   padding: var(--marginMobile);
+  box-shadow: var(--shadowHigh);
 }
 
-/* Task title */
-.element-title {
-  padding: var(--marginMobile) auto 6px;
-
-  h4 {
-    text-align: center;
-    margin: 0;
-  }
-}
-
-#task-title {
+input {
   text-align: center;
-  margin: 12px 0 24px;
-
-  p {
-    padding: 12px 6px;
-    font-size: 1.8em;
-    font-weight: 600;
-    color: white;
-    background: var(--background-color);
-    border-radius: 12px;
-    border: solid 3px transparent;
-    resize: none;
-    outline: none;
-    width: 100%;
-    box-sizing: border-box;
-
-    &:focus {
-      border: solid 3px rgba(255, 255, 255, 0.1)
-    }
-
-    &:focus::placeholder {
-      color: transparent
-    }
-  }
-
-}
-
-/* Timer */
-#timer-container {
-  text-align: center;
-}
-
-#timer {
-  font-size: 5em;
-  font-weight: 500;
-}
-
-#session-status {
-  margin: 0 auto 6px;
-}
-
-/* Timer buttons */
-#buttons {
-  margin-top: 12px;
-  display: grid;
-  grid-gap: 12px;
-}
-
-
-/* Settings */
-#settings-container {
-  background-color: var(--background-color);
+  font: inherit;
+  background: transparent;
+  border-radius: 8px;
   border: solid 3px var(--gray);
-  margin: var(--marginMobile);
-  padding: var(--marginMobile);
-
-  h2 {
-    text-align: center;
-    margin: 0;
-  }
-
-}
-
-.settings {
-  margin-bottom: 24px;
-
-  h3 {
-    margin: 32px 0 16px;
-  }
-
-}
-
-
-.settings-list {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  align-items: center;
-  grid-gap: 12px 24px;
-
-  label {
-    width: 100%;
-  }
-}
-
-#timer-settings-apply {
-  margin-top: 24px;
-}
-
-#mute {
-  max-width: 128px;
-  padding: 8px 12px;
   justify-self: end;
-}
+  height: 2rem;
+  max-width: 64px;
+  outline: none;
 
-#volume-slider {
-  justify-self: end;
-  width: 100%;
-  max-width: 128px;
+  &:focus {
+    background: var(--background-black)
+  }
 }
 
 
@@ -284,21 +118,39 @@ footer {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  a {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    opacity: .75;
+    transition: opacity .1s ease-out;
+    &:hover {
+      opacity: 1;
+      text-decoration: none;
+    }
+    & span {
+      font-weight: 400;
+      font-size: .85rem;
+      letter-spacing: .05rem;
+      align-self: center;
+    }
+    & svg {
+      align-self: center;
+      transform: scale(0.8);
+      fill: currentColor;
+      filter: var(--svgColor);
+      display: block;
+      margin-right: .5rem;
+      &:hover {
 
-  h4 {
-    margin: 0 0 6px 0;
+      }
+    }
   }
-
-  p {
-    margin: 0;
-    font-size: 0.8em;
-  }
-
 }
 
 
-/* Desktop styles */
-@media screen and (min-width: 900px) {
+/* Tablet styles */
+@media screen and (min-width: 600px) {
   main div:first-child, main section {
     max-width: 800px;
     margin: 0 auto;
@@ -309,14 +161,20 @@ footer {
     max-width: calc(800px + var(--marginMobile) * 2);
   }
 
-  #settings-container {
-    margin: 0 auto auto -300px;
-  }
-
-  .modal {
-    position: fixed;
-    width: 600px;
-    top: 5%;
-    left: 50%;
+  #timer {
+    font-size: 5em;
   }
 }
+
+
+
+/* Desktop styles */
+@media screen and (min-width: 900px) {
+
+}
+
+/* Tablet styles */
+@media screen and (min-width: 600px) {
+
+}
+
