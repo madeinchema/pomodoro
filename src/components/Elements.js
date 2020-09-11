@@ -1,40 +1,40 @@
-export default {
-  /**
-   * @type {HTMLElement}
-   */
-  overlay: document.getElementById('overlay'),
+/**
+ * @type {HTMLElement}
+ */
+export const overlay = document.getElementById('overlay');
 
-  // Page title
-  pageTitleElement: document.getElementById('page-title'),
-  pageTitle: 'Pomodoro App',
+// Page title
+export const pageTitleElement = document.getElementById('page-title');
+export const pageTitle = 'Pomodoro App';
 
-  // Favicon
-  faviconElement: document.getElementById('favicon'),
+// Favicon
+export const faviconElement = document.getElementById('favicon');
 
-  // Task title
-  taskTitleInput: document.getElementById('task-title-input'),
+// Task title
+export const taskTitleInput = document.getElementById('task-title-input');
 
-  // Timer element and buttons
-  timerElement: document.getElementById('timer'),
-  sessionStatus: document.getElementById('session-status'),
-  startButton: document.getElementById('start'),
-  stopButton: document.getElementById('stop'),
+// Timer element and buttons
+export const timerElement = document.getElementById('timer');
+export const sessionStatus = document.getElementById('session-status');
+export const startButton = document.getElementById('start');
+export const stopButton = document.getElementById('stop');
 
-  // Timer settings button and values
-  openSettings: document.getElementById('openSettings'),
-  closeSettings: document.getElementById('closeSettings'),
-  applySettingsButton: document.getElementById('timer-settings-apply'),
-  settingsModal: document.getElementById('settings-container'),
-  workTime: document.getElementById('work-time'),
-  shortBreak: document.getElementById('short-break'),
-  longBreak: document.getElementById('long-break'),
-  longBreakInterval: document.getElementById('long-break-interval'),
+// Timer settings button and values
+export const openSettings = document.getElementById('openSettings');
+export const closeSettings = document.getElementById('closeSettings');
+export const applySettingsButton = document.getElementById(
+  'timer-settings-apply'
+);
+export const settingsModal = document.getElementById('settings-container');
+export const workTime = document.getElementById('work-time');
+export const shortBreak = document.getElementById('short-break');
+export const longBreak = document.getElementById('long-break');
+export const longBreakInterval = document.getElementById('long-break-interval');
 
-  // Audio controls
-  muteButton: document.getElementById('mute'),
-  volumeSlider: document.getElementById('volume-slider'),
+// Audio controls
+export const muteButton = document.getElementById('mute');
+export const volumeSlider = document.getElementById('volume-slider');
 
-  // Audio public
-  audioEndSession: document.getElementById('end-session'),
-  audioEndBreak: document.getElementById('end-break'),
-};
+// Audio public
+export const audioEndSession = document.getElementById('end-session');
+export const audioEndBreak = document.getElementById('end-break');
