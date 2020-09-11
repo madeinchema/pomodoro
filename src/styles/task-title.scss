@@ -1,0 +1,56 @@
+/* Task title */
+.element-title {
+  padding: var(--marginMobile) auto 6px;
+
+  h4 {
+    margin: 0;
+    font-weight: 700;
+    color: var(--textColorLight);
+    text-align: center;
+  }
+}
+
+#task-title {
+  text-align: center;
+  margin: 12px 0 24px;
+
+  p {
+    padding: 12px 6px;
+    font-size: 1.8em;
+    font-weight: 600;
+    background: var(--backgroundColorAccent);
+    border-radius: 12px;
+    border: solid 3px transparent;
+    resize: none;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: var(--shadowHigh);
+
+    &:focus {
+      border: solid 3px var(--inverted);
+      box-shadow: var(--shadowMid);
+      transition: .1s ease-in;
+    }
+
+    &:focus::placeholder {
+      color: transparent
+    }
+  }
+}
+
+input {
+  text-align: center;
+  font: inherit;
+  background: transparent;
+  border-radius: 8px;
+  border: solid 3px var(--gray);
+  justify-self: end;
+  height: 26px;
+  max-width: 64px;
+  outline: none;
+
+  &:focus {
+    background: var(--background-black)
+  }
+}
