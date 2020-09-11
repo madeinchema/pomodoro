@@ -7,13 +7,13 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title id="page-title">Pomodoro App</title>
   <link id="favicon" rel="icon" type="image/png" href="src/public/img/icons/workTime-stopped.png"/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./dist/main.css">
 <!--  <script src="bundle.js" defer></script>-->
   <script src="./dist/bundle.js" defer></script>
 <!--  <script src="../src/Timer.js" defer></script>-->
 </head>
-<body>
+<body id="app-root" class="dark-theme">
 
   <div id="overlay" class="invisible"></div>
 
@@ -65,7 +65,12 @@
 
       <nav>
         <ul>
-          <li><a id="openSettings" href="#">Settings</a></li>
+          <li>
+            <a id="switchTheme" href="#">Switch Theme</a>
+          </li>
+          <li>
+            <a id="openSettings" href="#">Settings</a>
+          </li>
         </ul>
       </nav>
 
