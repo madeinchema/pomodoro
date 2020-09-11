@@ -1,0 +1,46 @@
+/* Variables */
+:root {
+  --marginMobile: 1.5em;
+  --primary: #20C37F;
+  --primary-darker: #00997a;
+  --secondary: #D93838;
+  --secondary-darker: #C53030;
+  --color-basic-100: #ffffff;
+  --color-basic-200: #f7f9fc;
+  --color-basic-300: #edf1f7;
+  --color-basic-400: #e4e9f2;
+  --color-basic-500: #c5cee0;
+  --color-basic-600: #8f9bb3;
+  --color-basic-700: #2e3a59;
+  --color-basic-800: #222b45;
+  --color-basic-900: #192038;
+  --color-basic-1000: #151a30;
+  --color-basic-1100: #101426;
+}
+
+/* Themes */
+.light-theme {
+  --backgroundColor: var(--color-basic-400);
+  --backgroundColorAccent: var(--color-basic-200);
+  --textColor: var(--color-basic-900);
+  --textColorLight: var(--color-basic-700);
+  --buttonColor: var(--color-basic-1100);
+  --inverted: var(--color-basic-800);
+  --lightGray: var(--color-basic-500);
+  --shadowHigh: 0 8px 16px rgba(26, 32, 44, .1);
+  --shadowMid: 0 6px 12px rgba(26, 32, 44, .15);
+  --shadowLow: 0 3px 6px rgba(26, 32, 44, .2);
+}
+
+.dark-theme {
+  --backgroundColor: var(--color-basic-1100);
+  --backgroundColorAccent: var(--color-basic-900);
+  --textColor: var(--color-basic-300);
+  --textColorLight: var(--color-basic-500);
+  --buttonColor: var(--color-basic-700);
+  --inverted: var(--color-basic-300);
+  --lightGray: var(--color-basic-500);
+  --shadowHigh: 0 8px 16px rgba(0, 0, 0, .2);
+  --shadowMid: 0 6px 12px rgba(0, 0, 5, .25);
+  --shadowLow: 0 3px 6px rgba(0, 0, 0, .3);
+}

@@ -1,0 +1,43 @@
+/* Timer */
+#timer-container {
+  text-align: center;
+}
+
+#timer {
+  font-size: 4em;
+  font-weight: 700;
+}
+
+#session-status {
+  margin: 0 auto 6px;
+  color: var(--textColorLight)
+}
+
+/* Timer buttons */
+#buttons {
+  display: flex;
+  margin-top: 12px;
+  grid-gap: calc(var(--marginMobile) / 2);
+
+  & .button-red {
+    background: var(--secondary-darker);
+  }
+
+  & .button-green {
+    background: var(--primary-darker);
+  }
+}
+
+
+/* Desktop styles */
+@media screen and (min-width: 900px) {
+
+}
+
+/* Tablet styles */
+@media screen and (min-width: 600px) {
+  #buttons {
+    grid-gap: var(--marginMobile);
+  }
+
+}

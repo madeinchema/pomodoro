@@ -1,4 +1,17 @@
-import El from './Elements';
+import {
+  startButton,
+  sessionStatus,
+  pageTitleElement,
+  faviconElement,
+  audioEndSession,
+  audioEndBreak,
+  pageTitle,
+  timerElement,
+  longBreak,
+  shortBreak,
+  workTime,
+} from './Elements';
+import * as Elements from './Elements';
 
 /**
  * Timer
@@ -27,7 +40,7 @@ function Timer() {
     shortBreak: 0,
     longBreak: 0,
   };
-  this.time = parseInt(localStorage.workTime) * 60; // Initial countdown time (expressed in seconds)
+  this.time = parseInt(localStorage.workTime, 10) * 60; // Initial countdown time (expressed in seconds)
 
   /**
    * Timer Element Controller
@@ -88,9 +101,11 @@ function Timer() {
             this.currentSession === 'workTime' ? 'Break' : 'Session';
           alert(`${session} completed!`);
         }, 50); // Alert notification and "00:01 issue" fix
-        this.currentSession === 'workTime'
-          ? El.audioEndSession.play()
-          : El.audioEndBreak.play(); // Audio notification
+        if (this.currentSession === 'workTime') {
+          audioEndSession.play();
+        } else {
+          audioEndBreak.play(); // Audio notification
+        }
         this.sessionHandler.next();
       }
       // Reset timer, update startButton's text and update timer's time.
@@ -104,16 +119,16 @@ function Timer() {
       // Changes start/pause/resume button texts' and handles timerState accordingly
       if (newState === 'active') {
         this.timerState = 'active';
-        El.startButton.innerText = 'Pause';
+        startButton.innerText = 'Pause';
       } else if (newState === 'paused') {
         this.timerState = 'paused';
-        El.startButton.innerText = 'Resume';
+        startButton.innerText = 'Resume';
       } else if (newState === 'stopped') {
         this.timerState = 'stopped';
-        El.startButton.innerText = 'Start';
+        startButton.innerText = 'Start';
       }
       // Changes favicon depending on currentSession and timerState
-      El.faviconElement.setAttribute(
+      faviconElement.setAttribute(
         'href',
         `assets/img/icons/${this.currentSession}-${this.timerState}.png`
       );
@@ -124,22 +139,32 @@ function Timer() {
     update: (option) => {
       const sessionNames = Object.keys(this.defaultTimerValues);
       const defaultValues = Object.values(this.defaultTimerValues);
-
       if (option === 'start') {
         // Local storage with default values from start for new sessions
-        for (let i = 0; i < sessionNames.length; i++) {
-          !localStorage.getItem(sessionNames[i]) &&
-            localStorage.setItem(sessionNames[i], defaultValues[i].toString());
+        for (let i = 0; i < sessionNames.length; i += 1) {
+          localStorage.setItem(
+            sessionNames[i].toString(),
+            defaultValues[i].toString()
+          );
         }
         // Starts the user session with the timer using values from localStorage
+        sessionNames.forEach((item) => {
+          Elements.timerElement.value = parseInt(
+            localStorage.getItem(item.toString()),
+            10
+          );
+        });
+
+        // Update the settings' inputs
         sessionNames.forEach(
-          (item) => (El[item].value = parseInt(localStorage.getItem(item)))
+          (item) =>
+            (Elements[item].value = localStorage.getItem(item.toString()))
         );
       }
 
       // Update localStorage values to match those of the settings and update timer with them
       sessionNames.forEach((item) =>
-        localStorage.setItem(item, El[item].value.toString())
+        localStorage.setItem(item.toString(), Elements[item].value.toString())
       );
       setTimeout(() => this.timeHandler.format(), 25); // TODO use an asynchronous solution
       this.timeHandler.update();
@@ -160,11 +185,12 @@ function Timer() {
     },
 
     // Sets the current session to whichever comes next
+    // TODO improve
     next: () => {
       if (this.currentSession === 'workTime') {
         this.sessionCounter.session++;
         this.sessionCounter.session %
-          parseInt(localStorage.longBreakInterval) ===
+          parseInt(localStorage.longBreakInterval, 10) ===
         0
           ? this.sessionHandler.set('longBreak')
           : this.sessionHandler.set('shortBreak');
@@ -197,26 +223,26 @@ function Timer() {
   this.timeHandler = {
     // Update the timer based on the sessionState argument
     set: (sessionState) => {
-      if (sessionState === 'workTime') {
-        this.time = parseInt(localStorage.workTime) * 60;
-      } else if (sessionState === 'shortBreak') {
-        return (this.time = parseInt(localStorage.shortBreak) * 60);
-      } else if (sessionState === 'longBreak') {
-        return (this.time = parseInt(localStorage.longBreak) * 60);
-      }
+      if (sessionState === 'workTime')
+        this.time = parseInt(localStorage.workTime, 10) * 60;
+      if (sessionState === 'shortBreak')
+        this.time = parseInt(localStorage.getItem('shortBreak'), 10) * 60;
+      if (sessionState === 'longBreak')
+        this.time = parseInt(localStorage.getItem('longBreak'), 10) * 60;
+      return this.time;
     },
 
     // Updates the timerElement and sessionStatus element based on the currentSession
     update: () => {
       if (this.currentSession === 'workTime') {
         this.timeHandler.set('workTime');
-        El.sessionStatus.innerText = 'Work Time';
+        sessionStatus.innerText = 'Work Time';
       } else if (this.currentSession === 'shortBreak') {
         this.timeHandler.set('shortBreak');
-        El.sessionStatus.innerText = 'Short Break';
+        sessionStatus.innerText = 'Short Break';
       } else if (this.currentSession === 'longBreak') {
         this.timeHandler.set('longBreak');
-        El.sessionStatus.innerText = 'Long Break';
+        sessionStatus.innerText = 'Long Break';
       }
     },
 
@@ -230,9 +256,9 @@ function Timer() {
         );
       };
       // Update the timer element
-      El.timerElement.innerText = formattedTime();
+      timerElement.innerText = formattedTime();
       // Update the page title
-      El.pageTitleElement.innerText = `${formattedTime()} ${El.pageTitle}`;
+      pageTitleElement.innerText = `${formattedTime()} ${pageTitle}`;
     },
   };
 }
