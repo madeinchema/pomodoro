@@ -31,9 +31,7 @@ class TimerSettings {
   toggleSettings() {
     settingsModal.classList.toggle('invisible');
     overlay.classList.toggle('invisible');
-    document.body.style.overflow === 'visible'
-      ? (document.body.style.overflow = 'visible')
-      : (document.body.style.overflow = 'hidden');
+    appRoot.classList.toggle('no-overflow');
   }
 }
 
