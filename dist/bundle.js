@@ -287,7 +287,7 @@ function Timer() {
       } // Changes favicon depending on currentSession and timerState
 
 
-      faviconElement.setAttribute('href', "../src/public/img/icons/".concat(_this.timerState, ".svg"));
+      faviconElement.setAttribute('href', "../dist/public/img/icons/".concat(_this.timerState, ".svg"));
     },
     // Update method:
     // Updates the timer with new settings from localStorage
@@ -532,12 +532,12 @@ overlay.addEventListener('click', TimerSettingsComponent.toggleSettings); // The
 
 function themeSwitch() {
   if (localStorage.getItem('theme') === 'dark-theme') {
-    appRoot.className = '';
+    appRoot.classList.remove('dark-theme');
     localStorage.setItem('theme', 'light-theme');
     appRoot.classList.add(localStorage.getItem('theme'));
     switchTheme.textContent = 'Dark';
   } else if (localStorage.getItem('theme') === 'light-theme') {
-    appRoot.className = '';
+    appRoot.classList.remove('light-theme');
     localStorage.setItem('theme', 'dark-theme');
     appRoot.classList.add(localStorage.getItem('theme'));
     switchTheme.textContent = 'Light';
