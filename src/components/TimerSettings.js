@@ -31,9 +31,7 @@ class TimerSettings {
   toggleSettings() {
     settingsModal.classList.toggle('invisible');
     overlay.classList.toggle('invisible');
-    document.body.style.overflow === 'visible'
-      ? (document.body.style.overflow = 'visible')
-      : (document.body.style.overflow = 'hidden');
+    appRoot.classList.toggle('no-overflow');
   }
 }
 
@@ -58,12 +56,12 @@ overlay.addEventListener('click', TimerSettingsComponent.toggleSettings);
 // Theme switcher
 function themeSwitch() {
   if (localStorage.getItem('theme') === 'dark-theme') {
-    appRoot.className = '';
+    appRoot.classList.remove('dark-theme');
     localStorage.setItem('theme', 'light-theme');
     appRoot.classList.add(localStorage.getItem('theme'));
     switchTheme.textContent = 'Dark';
   } else if (localStorage.getItem('theme') === 'light-theme') {
-    appRoot.className = '';
+    appRoot.classList.remove('light-theme');
     localStorage.setItem('theme', 'dark-theme');
     appRoot.classList.add(localStorage.getItem('theme'));
     switchTheme.textContent = 'Light';
