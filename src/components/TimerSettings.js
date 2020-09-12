@@ -15,14 +15,16 @@ import {
 class TimerSettings {
   constructor() {
     // Theming initialization
-    if (localStorage.getItem('theme')) {
-      appRoot.classList.add(localStorage.getItem('theme'));
-      switchTheme.textContent = 'Light';
-    } else {
-      localStorage.setItem('theme', 'dark-theme');
-      appRoot.classList.add(localStorage.getItem('theme'));
-      switchTheme.textContent = 'Dark';
+    if (
+      localStorage.getItem('theme') === null ||
+      localStorage.getItem('theme') === ''
+    ) {
+      localStorage.setItem('theme', appRoot.classList[0].toString());
     }
+    appRoot.className = '';
+    appRoot.classList.add(localStorage.getItem('theme'));
+    switchTheme.textContent =
+      localStorage.getItem('theme') === 'dark-theme' ? 'Light' : 'Dark';
   }
 
   // Settings menu - Modal window
@@ -55,8 +57,6 @@ overlay.addEventListener('click', TimerSettingsComponent.toggleSettings);
 
 // Theme switcher
 function themeSwitch() {
-  console.log('themeSwitch');
-
   if (localStorage.getItem('theme') === 'dark-theme') {
     appRoot.className = '';
     localStorage.setItem('theme', 'light-theme');
