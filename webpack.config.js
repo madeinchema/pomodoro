@@ -18,7 +18,7 @@ module.exports = {
   devtool: 'source-maps',
 
   devServer: {
-    contentBase: path.resolve(__dirname),
+    contentBase: path.join(__dirname, 'src'),
     watchContentBase: true,
     hot: true,
     open: true,

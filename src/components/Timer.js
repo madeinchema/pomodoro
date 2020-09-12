@@ -130,7 +130,7 @@ function Timer() {
       // Changes favicon depending on currentSession and timerState
       faviconElement.setAttribute(
         'href',
-        `../src/public/img/icons/${this.timerState}.svg`
+        `public/img/icons/${this.timerState}.svg`
       );
     },
 

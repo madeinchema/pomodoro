@@ -1,6 +1,7 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = function (env, argv) {
@@ -22,6 +23,14 @@ module.exports = function (env, argv) {
     },
 
     plugins: [
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, 'src/public'),
+            to: path.resolve(__dirname, 'dist/public'),
+          },
+        ],
+      }),
       new CleanWebpackPlugin({
         cleanAfterEveryBuildPatterns: ['dist'],
       }),
