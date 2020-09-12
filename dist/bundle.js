@@ -287,7 +287,7 @@ function Timer() {
       } // Changes favicon depending on currentSession and timerState
 
 
-      faviconElement.setAttribute('href', "assets/img/icons/".concat(_this.currentSession, "-").concat(_this.timerState, ".png"));
+      faviconElement.setAttribute('href', "../src/public/img/icons/".concat(_this.currentSession, "-").concat(_this.timerState, ".png"));
     },
     // Update method:
     // Updates the timer with new settings from localStorage

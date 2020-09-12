@@ -35,6 +35,10 @@ module.exports = function (env, argv) {
       }),
     ],
 
+    optimization: {
+      minimize: false,
+    },
+
     module: {
       rules: [
         {
@@ -61,13 +65,12 @@ module.exports = function (env, argv) {
                 name: '[name].[ext]',
               },
             },
+            {
+              loader: 'image-webpack-loader',
+            },
           ],
         },
       ],
-    },
-
-    optimization: {
-      minimize: false,
     },
   };
 };
