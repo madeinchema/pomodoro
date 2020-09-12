@@ -287,7 +287,7 @@ function Timer() {
       } // Changes favicon depending on currentSession and timerState
 
 
-      faviconElement.setAttribute('href', "../src/public/img/icons/".concat(_this.currentSession, "-").concat(_this.timerState, ".png"));
+      faviconElement.setAttribute('href', "../src/public/img/icons/".concat(_this.timerState, ".svg"));
     },
     // Update method:
     // Updates the timer with new settings from localStorage
@@ -494,14 +494,13 @@ var TimerSettings_TimerSettings = /*#__PURE__*/function () {
     TimerSettings_classCallCheck(this, TimerSettings);
 
     // Theming initialization
-    if (localStorage.getItem('theme')) {
-      appRoot.classList.add(localStorage.getItem('theme'));
-      switchTheme.textContent = 'Light';
-    } else {
-      localStorage.setItem('theme', 'dark-theme');
-      appRoot.classList.add(localStorage.getItem('theme'));
-      switchTheme.textContent = 'Dark';
+    if (localStorage.getItem('theme') === null || localStorage.getItem('theme') === '') {
+      localStorage.setItem('theme', appRoot.classList[0].toString());
     }
+
+    appRoot.className = '';
+    appRoot.classList.add(localStorage.getItem('theme'));
+    switchTheme.textContent = localStorage.getItem('theme') === 'dark-theme' ? 'Light' : 'Dark';
   } // Settings menu - Modal window
 
 
@@ -532,8 +531,6 @@ closeSettings.addEventListener('click', TimerSettingsComponent.toggleSettings); 
 overlay.addEventListener('click', TimerSettingsComponent.toggleSettings); // Theme switcher
 
 function themeSwitch() {
-  console.log('themeSwitch');
-
   if (localStorage.getItem('theme') === 'dark-theme') {
     appRoot.className = '';
     localStorage.setItem('theme', 'light-theme');
