@@ -6,14 +6,11 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title id="page-title">Pomodoro App</title>
-  <link id="favicon" rel="icon" type="image/png" href="src/public/img/icons/workTime-stopped.png"/>
+  <link id="favicon" rel="icon" type="image/png" href="../src/public/img/icons/logo.svg"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./dist/main.css">
-<!--  <script src="bundle.js" defer></script>-->
-  <script src="./dist/bundle.js" defer></script>
-<!--  <script src="../src/Timer.js" defer></script>-->
+  <script src="app.js"></script>
 </head>
-<body id="app-root">
+<body id="app-root" class="dark-theme">
 
   <div id="overlay" class="invisible"></div>
 
@@ -47,8 +44,8 @@
           <label for="volume-slider">Volume</label>
           <input id="volume-slider" type="range" min="1" max="100" value="">
         </div>
-        <audio id="end-session" src="src/public/audio/end-session.mp3"></audio>
-        <audio id="end-break" src="src/public/audio/end-break.mp3"></audio>
+        <audio id="end-session" src="public/audio/end-session.mp3"></audio>
+        <audio id="end-break" src="public/audio/end-break.mp3"></audio>
       </div>
 
       <div class="settings">

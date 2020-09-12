@@ -61,6 +61,9 @@
     font-weight: 600;
     background-color: var(--backgroundColor);
     border-radius: 4px;
+    &:focus {
+      background-color: var(--backgroundColor);
+    }
   }
 
   & button {
