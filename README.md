@@ -8,17 +8,15 @@
   </a>  
 </h3>  
 
-<div align="center">ES6 | Webpack | SCSS | Prettier</div>  
+<h4 align="center">ES6 | Webpack | SCSS | Prettier</h4>  
 
-  <h3 align="center">  
+<h3 align="center">  
   <a href="https://pomodoro.madeinchema.vercel.app/">Live preview</a>
 </h3>  
-
 
 | Tablet & Desktop |  
 |---|  
 | ![](https://i.imgur.com/fcV3nMW.jpg) |  
-
 
 Light Mode (Mobile)        |  Dark Mode (Mobile)  
 :-------------------------:|:-------------------------:  
