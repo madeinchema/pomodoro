@@ -15,9 +15,10 @@
 
 /* Timer buttons */
 #buttons {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   margin-top: 12px;
-  grid-gap: calc(var(--marginMobile) / 2);
+  gap: calc(var(--marginMobile) / 2);
 
   & .button-red {
     background: var(--secondary-darker);
@@ -37,6 +38,7 @@
 /* Tablet styles */
 @media screen and (min-width: 600px) {
   #buttons {
+    grid-template-columns: 1fr 1fr;
     gap: var(--marginMobile);
   }
 
