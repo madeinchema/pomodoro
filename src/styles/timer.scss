@@ -17,7 +17,7 @@
 #buttons {
   display: flex;
   margin-top: 12px;
-  grid-gap: calc(var(--marginMobile) / 2);
+  gap: var(--marginMobile);
 
   & .button-red {
     background: var(--secondary-darker);
