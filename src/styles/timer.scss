@@ -37,7 +37,7 @@
 /* Tablet styles */
 @media screen and (min-width: 600px) {
   #buttons {
-    grid-gap: var(--marginMobile);
+    gap: var(--marginMobile);
   }
 
 }
