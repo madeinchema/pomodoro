@@ -1,4 +1,4 @@
-![Simple Calculator Logo](https://i.imgur.com/MF1evys.png)
+![Simple Calculator Logo](https://i.imgur.com/vdIhkVL.png)
 # Pomodoro App
 
 ### [Live preview](https://pomodoro.madeinchema.vercel.app/)
